@@ -132,7 +132,7 @@
   .chat-bubble {
     &.own {
       background: $color-primary;
-      color: white;
+      color: #fff;
     }
     
     &.other {
@@ -378,9 +378,9 @@
 // Print styles for light theme
 @media print {
   .bp5-light {
-    --bp-background-color: white;
-    --bp-background-color-secondary: white;
-    --bp-text-color: black;
+    --bp-background-color: #fff;
+    --bp-background-color-secondary: #fff;
+    --bp-text-color: #000;
     --bp-text-color-muted: #666;
     --bp-border-color: #ccc;
     
@@ -397,7 +397,7 @@
       
       &.own {
         background: #f0f0f0 !important;
-        color: black !important;
+        color: #000 !important;
       }
     }
   }

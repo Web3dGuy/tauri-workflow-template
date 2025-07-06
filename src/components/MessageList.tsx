@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useMemo } from 'react';
 import { Message, User, TypingIndicator as TypingIndicatorType } from '../types/chat';
 import { MessageItem } from './MessageItem';
 import { TypingIndicator } from './TypingIndicator';
-import { ScrollableContent } from './ScrollableContent';
+import { ScrollableContent, ScrollableContentRef } from './ScrollableContent';
 import './MessageList.scss';
 
 interface MessageListProps {
@@ -34,15 +34,33 @@ export const MessageList: React.FC<MessageListProps> = ({
   onLoadMore,
   className = ''
 }) => {
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollableRef = useRef<ScrollableContentRef>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const wasAtBottomRef = useRef<boolean>(true);
 
-  // Auto-scroll to bottom when new messages arrive
+  // Check if user was at bottom before new messages
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (scrollableRef.current) {
+      wasAtBottomRef.current = scrollableRef.current.isAtBottom();
+    }
+  }, [messages.length]);
+
+  // Auto-scroll to bottom when new messages arrive (only if user was already at bottom)
+  useEffect(() => {
+    if (scrollableRef.current && wasAtBottomRef.current) {
+      // Small delay to ensure DOM is updated
+      setTimeout(() => {
+        scrollableRef.current?.scrollToBottom(true);
+      }, 50);
     }
   }, [messages.length, typingIndicators.length]);
+
+  // Update perfect-scrollbar when content changes
+  useEffect(() => {
+    if (scrollableRef.current) {
+      scrollableRef.current.update();
+    }
+  }, [messages, typingIndicators]);
 
   // Group messages by sender and time proximity
   const groupedMessages = useMemo(() => {
@@ -114,7 +132,10 @@ export const MessageList: React.FC<MessageListProps> = ({
 
   return (
     <div className={`message-list ${className}`} ref={containerRef}>
-      <ScrollableContent className="message-list__scroll-container">
+      <ScrollableContent 
+        ref={scrollableRef}
+        className="message-list__scroll-container"
+      >
         {isLoading && renderLoadingIndicator()}
         
         <div className="message-list__messages">
@@ -150,9 +171,6 @@ export const MessageList: React.FC<MessageListProps> = ({
           {typingUsers.length > 0 && (
             <TypingIndicator users={typingUsers} />
           )}
-
-          {/* Scroll anchor */}
-          <div ref={messagesEndRef} />
         </div>
       </ScrollableContent>
     </div>

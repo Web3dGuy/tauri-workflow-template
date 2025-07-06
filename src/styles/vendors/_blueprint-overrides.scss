@@ -321,4 +321,89 @@
     @include button-base;
     @include button-variant(var(--bp-background-color-secondary), var(--bp-text-color));
   }
-} 
+}
+
+// ==========================================================================
+// VENDOR OVERRIDES
+// ==========================================================================
+
+// Perfect Scrollbar Integration
+@import 'perfect-scrollbar/css/perfect-scrollbar.css';
+
+// Custom Perfect Scrollbar styling for our theme
+.ps {
+  position: relative;
+  
+  &__rail-x,
+  &__rail-y {
+    position: absolute;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+    
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+  
+  &__rail-y {
+    right: 0;
+    width: 8px;
+    
+    .ps__thumb-y {
+      background-color: var(--bp-border-color, rgba(0, 0, 0, 0.2));
+      border-radius: 4px;
+      width: 6px;
+      right: 1px;
+      
+      &:hover {
+        background-color: var(--bp-text-color-muted, rgba(0, 0, 0, 0.4));
+        width: 8px;
+        right: 0;
+      }
+    }
+  }
+  
+  &__rail-x {
+    bottom: 0;
+    height: 8px;
+    
+    .ps__thumb-x {
+      background-color: var(--bp-border-color, rgba(0, 0, 0, 0.2));
+      border-radius: 4px;
+      height: 6px;
+      bottom: 1px;
+      
+      &:hover {
+        background-color: var(--bp-text-color-muted, rgba(0, 0, 0, 0.4));
+        height: 8px;
+        bottom: 0;
+      }
+    }
+  }
+}
+
+// Dark theme perfect-scrollbar
+.bp5-dark {
+  .ps {
+    &__rail-y .ps__thumb-y {
+      background-color: var(--bp-border-color, rgba(255, 255, 255, 0.2));
+      
+      &:hover {
+        background-color: var(--bp-text-color-muted, rgba(255, 255, 255, 0.4));
+      }
+    }
+    
+    &__rail-x .ps__thumb-x {
+      background-color: var(--bp-border-color, rgba(255, 255, 255, 0.2));
+      
+      &:hover {
+        background-color: var(--bp-text-color-muted, rgba(255, 255, 255, 0.4));
+      }
+    }
+  }
+}
+
+// Blueprint.js Component Overrides
+// ==========================================================================
+
+// ... existing code ... 

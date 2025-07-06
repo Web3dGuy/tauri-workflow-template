@@ -86,7 +86,7 @@
   }
 }
 
-.chat-attachment-button {
+%chat-attachment-button-base {
   @include button-base;
 
   background-color: transparent;
@@ -103,8 +103,12 @@
   }
 }
 
+.chat-attachment-button {
+  @extend %chat-attachment-button-base;
+}
+
 .chat-emoji-button {
-  @extend .chat-attachment-button;
+  @extend %chat-attachment-button-base;
 }
 
 .chat-action-button {
@@ -173,7 +177,7 @@
   height: 56px;
   border-radius: 50%;
   background-color: $color-primary;
-  color: white;
+  color: #fff;
   border: none;
   box-shadow: $shadow-lg;
   cursor: pointer;
@@ -277,7 +281,7 @@
   &.active {
     background-color: $color-primary;
     border-color: $color-primary;
-    color: white;
+    color: #fff;
     
     &:hover:not(:disabled) {
       background-color: $color-primary-dark;

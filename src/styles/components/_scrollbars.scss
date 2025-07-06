@@ -452,26 +452,26 @@
 
 @media (prefers-contrast: high) {
   * {
-    scrollbar-color: black white;
+    scrollbar-color: #000 #fff;
     
     &::-webkit-scrollbar-thumb {
-      background: black;
+      background: #000;
     }
     
     &::-webkit-scrollbar-track {
-      background: white;
+      background: #fff;
     }
   }
   
   .bp5-dark * {
-    scrollbar-color: white black;
+    scrollbar-color: #fff #000;
     
     &::-webkit-scrollbar-thumb {
-      background: white;
+      background: #fff;
     }
     
     &::-webkit-scrollbar-track {
-      background: black;
+      background: #000;
     }
   }
 } 

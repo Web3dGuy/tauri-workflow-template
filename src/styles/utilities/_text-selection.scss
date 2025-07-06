@@ -13,21 +13,10 @@
   text-shadow: none;
 }
 
-::selection {
-  background-color: rgba($color-primary, 0.2);
-  color: inherit;
-  text-shadow: none;
-}
-
 // Dark Theme Selection
 // ==========================================================================
 
 .bp5-dark {
-  ::selection {
-    background-color: rgba($color-primary, 0.4);
-    color: $color-dark-text;
-  }
-  
   ::selection {
     background-color: rgba($color-primary, 0.4);
     color: $color-dark-text;
@@ -43,20 +32,10 @@
     background-color: rgba($color-primary, 0.15);
     color: inherit;
   }
-  
-  ::selection {
-    background-color: rgba($color-primary, 0.15);
-    color: inherit;
-  }
 }
 
 // Own messages (different selection color)
 .message-own {
-  ::selection {
-    background-color: rgb(white, 0.3);
-    color: inherit;
-  }
-  
   ::selection {
     background-color: rgb(white, 0.3);
     color: inherit;
@@ -69,23 +48,13 @@
     background-color: rgba($color-warning, 0.3);
     color: inherit;
   }
-  
-  ::selection {
-    background-color: rgba($color-warning, 0.3);
-    color: inherit;
-  }
 }
 
 // Links in messages
 .message-link {
   ::selection {
     background-color: rgba($color-info, 0.3);
-    color: white;
-  }
-  
-  ::selection {
-    background-color: rgba($color-info, 0.3);
-    color: white;
+    color: #fff;
   }
 }
 
@@ -93,11 +62,6 @@
 // ==========================================================================
 
 .chat-sidebar {
-  ::selection {
-    background-color: rgba($color-primary, 0.1);
-    color: inherit;
-  }
-  
   ::selection {
     background-color: rgba($color-primary, 0.1);
     color: inherit;
@@ -112,11 +76,6 @@
     background-color: rgba($color-primary, 0.2);
     color: inherit;
   }
-  
-  ::selection {
-    background-color: rgba($color-primary, 0.2);
-    color: inherit;
-  }
 }
 
 // Search Results Selection
@@ -127,23 +86,13 @@
     background-color: rgba($color-warning, 0.2);
     color: inherit;
   }
-  
-  ::selection {
-    background-color: rgba($color-warning, 0.2);
-    color: inherit;
-  }
 }
 
 // Highlighted Search Terms
 .search-highlight {
   ::selection {
     background-color: rgba($color-success, 0.3);
-    color: white;
-  }
-  
-  ::selection {
-    background-color: rgba($color-success, 0.3);
-    color: white;
+    color: #fff;
   }
 }
 
@@ -151,11 +100,6 @@
 // ==========================================================================
 
 .username {
-  ::selection {
-    background-color: rgba($color-info, 0.2);
-    color: inherit;
-  }
-  
   ::selection {
     background-color: rgba($color-info, 0.2);
     color: inherit;
@@ -170,11 +114,6 @@
     background-color: rgba($color-gray-400, 0.3);
     color: inherit;
   }
-  
-  ::selection {
-    background-color: rgba($color-gray-400, 0.3);
-    color: inherit;
-  }
 }
 
 // Utility Classes for Custom Selection
@@ -183,136 +122,54 @@
 .select-primary {
   ::selection {
     background-color: rgba($color-primary, 0.3);
-    color: white;
-  }
-  
-  ::selection {
-    background-color: rgba($color-primary, 0.3);
-    color: white;
+    color: #fff;
   }
 }
 
 .select-success {
   ::selection {
     background-color: rgba($color-success, 0.3);
-    color: white;
-  }
-  
-  ::selection {
-    background-color: rgba($color-success, 0.3);
-    color: white;
+    color: #fff;
   }
 }
 
 .select-warning {
   ::selection {
     background-color: rgba($color-warning, 0.3);
-    color: black;
-  }
-  
-  ::selection {
-    background-color: rgba($color-warning, 0.3);
-    color: black;
+    color: #fff;
   }
 }
 
 .select-danger {
   ::selection {
     background-color: rgba($color-danger, 0.3);
-    color: white;
-  }
-  
-  ::selection {
-    background-color: rgba($color-danger, 0.3);
-    color: white;
+    color: #fff;
   }
 }
+
+.select-info {
+  ::selection {
+    background-color: rgba($color-info, 0.3);
+    color: #fff;
+  }
+}
+
+// Disabled Selection for UI Elements
+// ==========================================================================
 
 .select-none {
   user-select: none;
-  
-  ::selection {
-    background: transparent;
-  }
-  
-  ::selection {
-    background: transparent;
-  }
 }
 
-.select-all {
-  user-select: all;
-}
+// Enabled Selection for Content Areas
+// ==========================================================================
 
 .select-text {
   user-select: text;
 }
 
-// Disable Selection for UI Elements
-// ==========================================================================
-
-button,
-.button,
-.btn,
-.chat-avatar,
-.status-indicator,
-.emoji-reaction,
-.menu-item,
-.toolbar-item {
-  user-select: none;
-  
-  ::selection {
-    background: transparent;
-  }
-  
-  ::selection {
-    background: transparent;
-  }
-}
-
-// Enable Selection for Content Areas
-// ==========================================================================
-
-.message-content,
-.chat-input,
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="search"],
-textarea,
-[contenteditable] {
-  user-select: text;
-}
-
-// Selection Behavior for Different States
-// ==========================================================================
-
-// Disabled elements
-[disabled],
-.disabled {
-  user-select: none;
-  
-  ::selection {
-    background: transparent;
-  }
-  
-  ::selection {
-    background: transparent;
-  }
-}
-
-// Loading elements
-.loading,
-.is-loading {
-  user-select: none;
-  
-  ::selection {
-    background: transparent;
-  }
-  
-  ::selection {
-    background: transparent;
-  }
+.select-all {
+  user-select: all;
 }
 
 // High Contrast Mode Adjustments
@@ -320,25 +177,8 @@ textarea,
 
 @media (prefers-contrast: high) {
   ::selection {
-    background-color: black;
-    color: white;
-  }
-  
-  ::selection {
-    background-color: black;
-    color: white;
-  }
-  
-  .bp5-dark {
-    ::selection {
-      background-color: white;
-      color: black;
-    }
-    
-    ::selection {
-      background-color: white;
-      color: black;
-    }
+    background-color: rgba($color-primary, 0.6);
+    color: #fff;
   }
 }
 
@@ -347,36 +187,15 @@ textarea,
 
 @media print {
   ::selection {
-    background-color: black;
-    color: white;
-  }
-  
-  ::selection {
-    background-color: black;
-    color: white;
+    background-color: transparent;
+    color: inherit;
   }
 }
 
-// Accessibility: Focus and Selection
+// Accessibility - Focus and Selection
 // ==========================================================================
 
-// Ensure selection is visible when element is focused
-*:focus {
-  ::selection {
-    background-color: rgba($color-primary, 0.4);
-  }
-  
-  ::selection {
-    background-color: rgba($color-primary, 0.4);
-  }
-}
-
-// Reduce motion for selection animations
 @media (prefers-reduced-motion: reduce) {
-  ::selection {
-    transition: none;
-  }
-  
   ::selection {
     transition: none;
   }

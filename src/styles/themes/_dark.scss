@@ -131,7 +131,7 @@
   .chat-bubble {
     &.own {
       background: $color-primary;
-      color: white;
+      color: #fff;
     }
     
     &.other {
@@ -355,9 +355,9 @@
 // Print styles for dark theme
 @media print {
   .bp5-dark {
-    --bp-background-color: white;
+    --bp-background-color: #fff;
     --bp-background-color-secondary: #f5f5f5;
-    --bp-text-color: black;
+    --bp-text-color: #000;
     --bp-text-color-muted: #666;
     --bp-border-color: #ccc;
     

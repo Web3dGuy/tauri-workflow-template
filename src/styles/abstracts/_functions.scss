@@ -5,6 +5,8 @@
 @use 'sass:math';
 @use 'sass:color';
 @use 'sass:string';
+@use 'sass:map';
+@use 'sass:meta';
 
 // Color Functions
 // ==========================================================================
@@ -30,7 +32,7 @@
 /// @param {Number} $alpha - alpha value (0-1)
 /// @return {Color}
 @function transparentize-color($color, $alpha) {
-  @return color.adjust($color, $alpha: -$alpha);
+  @return color.adjust($color, $alpha: - $alpha);
 }
 
 // Spacing Functions
@@ -40,7 +42,7 @@
 /// @param {Number} $number - Number to remove unit from
 /// @return {Number} - Unitless number
 @function strip-unit($number) {
-  @if type-of($number) == 'number' and not unitless($number) {
+  @if meta.type-of($number) == 'number' and not math.is-unitless($number) {
     @return math.div($number, $number * 0 + 1);
   }
 
@@ -98,8 +100,8 @@
     'tooltip': 1070,
   );
 
-  @if map-has-key($z-indexes, $layer) {
-    @return map-get($z-indexes, $layer);
+  @if map.has-key($z-indexes, $layer) {
+    @return map.get($z-indexes, $layer);
   }
 
   @warn 'Unknown z-index layer: #{$layer}';

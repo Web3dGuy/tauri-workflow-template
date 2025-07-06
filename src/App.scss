@@ -21,6 +21,14 @@
     background-color: var(--bp-background-color, #1e1e1e);
     color: var(--bp-text-color, #fff);
   }
+  
+  // Focus management for the entire app
+  &:focus-within {
+    // Enhanced focus visibility when any child element is focused
+    // This helps with keyboard navigation awareness
+    border: 1px solid var(--bp-focus-color, transparent);
+    box-shadow: inset 0 0 0 1px var(--bp-focus-shadow, transparent);
+  }
 }
 
 // Chat Layout Override for App Component
@@ -43,22 +51,14 @@
   }
 }
 
-// Scrollbar styles are handled by the main SCSS system
-
-// Focus management for the entire app
-// ==========================================================================
-
-.app {
-  &:focus-within {
-    // Enhanced focus visibility when any child element is focused
-    // This helps with keyboard navigation awareness
-    border: 1px solid var(--bp-focus-color, transparent);
-    box-shadow: inset 0 0 0 1px var(--bp-focus-shadow, transparent);
-  }
-}
-
 // Enhanced focus management for main app container
 .main-app {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--bp-background-color);
+  color: var(--bp-text-color);
+  
   &:focus-within {
     // Subtle glow effect when app has focus
     &::before {
@@ -80,21 +80,13 @@
 @media print {
   .app {
     height: auto;
-    background: white !important;
-    color: black !important;
+    background: #fff !important;
+    color: #000 !important;
   }
   
   .chat-container {
     display: block;
   }
-}
-
-.main-app {
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  background: var(--bp-background-color);
-  color: var(--bp-text-color);
 }
 
 .chat-layout {

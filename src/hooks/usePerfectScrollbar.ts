@@ -86,5 +86,69 @@ export const usePerfectScrollbar = (options: UsePerfectScrollbarOptions = {}) =>
     }
   };
 
-  return { containerRef, update, scrollToTop };
+  const scrollToBottom = (smooth: boolean = true) => {
+    if (containerRef.current) {
+      try {
+        const element = containerRef.current;
+        const targetScrollTop = element.scrollHeight - element.clientHeight;
+        
+        if (smooth) {
+          // Smooth scroll animation
+          const startScrollTop = element.scrollTop;
+          const distance = targetScrollTop - startScrollTop;
+          const duration = 300; // ms
+          const startTime = performance.now();
+
+          const easeInOutCubic = (t: number): number => {
+            return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+          };
+
+          const animateScroll = (currentTime: number) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeInOutCubic(progress);
+            
+            element.scrollTop = startScrollTop + (distance * easedProgress);
+            
+            if (progress < 1) {
+              requestAnimationFrame(animateScroll);
+            } else {
+              // Update Perfect Scrollbar after animation completes
+              if (psRef.current) {
+                (psRef.current as any).update();
+              }
+            }
+          };
+
+          requestAnimationFrame(animateScroll);
+        } else {
+          // Instant scroll
+          element.scrollTop = targetScrollTop;
+          
+          // Update Perfect Scrollbar to reflect the change
+          if (psRef.current) {
+            (psRef.current as any).update();
+          }
+        }
+      } catch (error) {
+        console.warn('Perfect Scrollbar scroll to bottom failed:', error);
+      }
+    }
+  };
+
+  const isAtBottom = (): boolean => {
+    if (!containerRef.current) return true;
+    
+    const element = containerRef.current;
+    const threshold = 5; // pixels
+    return element.scrollTop >= (element.scrollHeight - element.clientHeight - threshold);
+  };
+
+  return { 
+    containerRef, 
+    update, 
+    scrollToTop, 
+    scrollToBottom, 
+    isAtBottom 
+  };
 };
