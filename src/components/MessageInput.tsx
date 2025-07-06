@@ -6,7 +6,7 @@ import {
   Popover, 
   Menu, 
   MenuItem, 
-  FileInput,
+  // FileInput,
   Position,
   Tooltip
 } from '@blueprintjs/core';

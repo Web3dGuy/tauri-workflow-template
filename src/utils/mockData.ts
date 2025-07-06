@@ -136,8 +136,8 @@ export const generateRandomMessage = (
 };
 
 export const simulateTyping = (
-  userId: string,
-  conversationId: string,
+  // userId: string,
+  // conversationId: string,
   onTypingStart: () => void,
   onTypingStop: () => void
 ) => {

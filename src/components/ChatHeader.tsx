@@ -2,7 +2,7 @@ import React from 'react';
 import { 
   Button, 
   Icon, 
-  Text, 
+  // Text, 
   Popover, 
   Menu, 
   MenuItem, 

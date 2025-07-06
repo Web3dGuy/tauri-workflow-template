@@ -31,7 +31,7 @@ export const MessageList: React.FC<MessageListProps> = ({
   onEdit,
   onDelete,
   onForward,
-  onLoadMore,
+ // onLoadMore,
   className = ''
 }) => {
   const scrollableRef = useRef<ScrollableContentRef>(null);
