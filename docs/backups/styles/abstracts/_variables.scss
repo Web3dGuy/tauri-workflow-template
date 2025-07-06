@@ -1,0 +1,336 @@
+// =================================
+// Tauri Workflow Template - Modern CSS Variables & SCSS Variables
+// Updated with latest standards and systematic approach
+// =================================
+
+// ==========================================
+// SCSS MAPS FOR SYSTEMATIC DESIGN
+// ==========================================
+
+// Color System Maps
+$colors: (
+  slate: (
+    50: #f8fafc,
+    100: #f1f5f9,
+    200: #e2e8f0,
+    300: #cbd5e1,
+    400: #94a3b8,
+    500: #64748b,
+    600: #475569,
+    700: #334155,
+    800: #1e293b,
+    900: #0f172a
+  ),
+  primary: (
+    light: #60a5fa,
+    base: #3b82f6,
+    dark: #1e40af
+  ),
+  semantic: (
+    success: #10b981,
+    success-dark: #059669,
+    success-text: #f0fdf4,
+    danger: #ef4444,
+    danger-dark: #dc2626,
+    danger-text: #fef2f2,
+    warning: #f59e0b
+  )
+);
+
+// Spacing System (8px base)
+$spacing: (
+  0: 0,
+  1: 0.25rem,  // 4px
+  2: 0.5rem,   // 8px
+  3: 0.75rem,  // 12px
+  4: 1rem,     // 16px
+  5: 1.25rem,  // 20px
+  6: 1.5rem,   // 24px
+  8: 2rem,     // 32px
+  10: 2.5rem,  // 40px
+  12: 3rem,    // 48px
+  16: 4rem,    // 64px
+  20: 5rem     // 80px
+);
+
+// Typography Scale
+$font-sizes: (
+  xs: 0.75rem,    // 12px
+  sm: 0.875rem,   // 14px
+  base: 1rem,     // 16px
+  lg: 1.125rem,   // 18px
+  xl: 1.25rem,    // 20px
+  2xl: 1.5rem,    // 24px
+  3xl: 1.875rem,  // 30px
+  4xl: 2.25rem,   // 36px
+  5xl: 3rem       // 48px
+);
+
+// Shadow System
+$shadows: (
+  sm: (0 2px 4px rgb(0 0 0 / 10%)),
+  md: (0 4px 8px rgb(0 0 0 / 15%)),
+  lg: (0 8px 24px rgb(0 0 0 / 30%)),
+  xl: (0 12px 32px rgb(0 0 0 / 40%)),
+  2xl: (0 20px 48px rgb(0 0 0 / 60%)),
+  inset: (inset 0 2px 8px rgb(0 0 0 / 30%))
+);
+
+// Border Radius System
+$radius: (
+  none: 0,
+  sm: 0.25rem,   // 4px
+  md: 0.5rem,    // 8px
+  lg: 0.75rem,   // 12px
+  xl: 1rem,      // 16px
+  full: 50%
+);
+
+// Breakpoints
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  2xl: 1536px
+);
+
+// Transition System
+$transitions: (
+  fast: 0.15s ease,
+  normal: 0.3s ease,
+  slow: 0.5s ease,
+  bounce: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)
+);
+
+// Z-Index Scale
+$z-index: (
+  behind: -1,
+  base: 0,
+  console: 1,
+  dropdown: 10,
+  sticky: 20,
+  fixed: 30,
+  sidebar-mobile: 50,
+  navbar: 100,
+  snap-indicator: 999,
+  dragging: 1000,
+  modal: 1050,
+  popover: 1100,
+  tooltip: 1200
+);
+
+// ==========================================
+// CSS CUSTOM PROPERTIES (for runtime access)
+// ==========================================
+:root {
+  /* Color Palette */
+  --color-slate-900: #0f172a;
+  --color-slate-800: #1e293b;
+  --color-slate-700: #334155;
+  --color-slate-600: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-400: #94a3b8;
+  --color-slate-300: #cbd5e1;
+  --color-slate-200: #e2e8f0;
+  --color-slate-100: #f1f5f9;
+  --color-slate-50: #f8fafc;
+  
+  /* Semantic Colors */
+  --color-primary: #3b82f6;
+  --color-primary-light: #60a5fa;
+  --color-primary-dark: #1e40af;
+  --color-success: #10b981;
+  --color-success-dark: #059669;
+  --color-success-text: #f0fdf4;
+  --color-danger: #ef4444;
+  --color-danger-dark: #dc2626;
+  --color-danger-text: #fef2f2;
+  --color-warning: #f59e0b;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--color-slate-800) 0%, var(--color-slate-700) 100%);
+  --gradient-primary-vertical: linear-gradient(180deg, var(--color-slate-800) 0%, var(--color-slate-900) 100%);
+  --gradient-navbar: linear-gradient(90deg, var(--color-slate-800) 0%, var(--color-slate-700) 100%);
+  --gradient-app-bg: linear-gradient(135deg, #1a1d29 0%, #2d3748 100%);
+  --gradient-content: linear-gradient(135deg, var(--color-slate-900) 0%, var(--color-slate-800) 100%);
+  --gradient-card: linear-gradient(135deg, var(--color-slate-800) 0%, var(--color-slate-700) 50%, var(--color-slate-600) 100%);
+  --gradient-connected: linear-gradient(135deg, var(--color-slate-800) 0%, var(--color-success-dark) 20%, var(--color-slate-700) 100%);
+  --gradient-button: linear-gradient(135deg, var(--color-slate-700) 0%, var(--color-slate-600) 100%);
+  --gradient-button-hover: linear-gradient(135deg, var(--color-slate-600) 0%, var(--color-slate-500) 100%);
+  --gradient-button-success: linear-gradient(135deg, var(--color-success-dark) 0%, var(--color-success) 100%);
+  --gradient-button-danger: linear-gradient(135deg, var(--color-danger-dark) 0%, var(--color-danger) 100%);
+  
+  /* Menu & Navigation Gradients */
+  --gradient-menu-hover: linear-gradient(90deg, var(--color-slate-700) 0%, var(--color-slate-600) 100%);
+  --gradient-menu-active: linear-gradient(90deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+  
+  /* Form Controls */
+  --gradient-input: linear-gradient(135deg, var(--color-slate-800) 0%, var(--color-slate-700) 100%);
+  --gradient-control: linear-gradient(135deg, var(--color-slate-800) 0%, var(--color-slate-700) 100%);
+  --gradient-control-checked: linear-gradient(135deg, var(--color-primary) 0%, #2563eb 100%);
+  --gradient-switch-checked: linear-gradient(135deg, var(--color-success) 0%, var(--color-success-dark) 100%);
+  --gradient-slider-track: linear-gradient(90deg, #374151 0%, #4b5563 100%);
+  --gradient-slider-progress: linear-gradient(90deg, var(--color-primary) 0%, #2563eb 100%);
+  --gradient-slider-handle: linear-gradient(135deg, #fff 0%, var(--color-slate-50) 100%);
+  
+  /* Layout Constants */
+  --navbar-height: 50px;
+  --sidebar-width: 240px;
+  
+  /* Spacing Scale */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  
+  /* Typography */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 50%;
+  
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --transition-bounce: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Motion Preferences */
+  --motion-safe: ; /* Empty by default */
+  --motion-reduce: ; /* Will be populated for reduced motion */
+
+  /* High Contrast Support */
+  --border-contrast: 1px;
+  --text-contrast: 1;
+}
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-reduce: 1;
+    --transition-fast: 0s;
+    --transition-normal: 0s;
+    --transition-slow: 0s;
+    --transition-bounce: 0s;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --border-contrast: 2px;
+    --text-contrast: 1.2;
+  }
+}
+
+// ==========================================
+// SCSS VARIABLES (for internal use)
+// ==========================================
+
+// Export maps for use in functions
+$color-map: $colors !default;
+$spacing-map: $spacing !default;
+$shadow-map: $shadows !default;
+$radius-map: $radius !default;
+$breakpoint-map: $breakpoints !default;
+$transition-map: $transitions !default;
+$z-index-map: $z-index !default;
+$font-size-map: $font-sizes !default;
+
+// Legacy variable support (for existing code with static values)
+$color-slate-900: #0f172a;
+$color-slate-800: #1e293b;
+$color-slate-700: #334155;
+$color-slate-600: #475569;
+$color-slate-500: #64748b;
+$color-slate-400: #94a3b8;
+$color-slate-300: #cbd5e1;
+$color-slate-200: #e2e8f0;
+$color-slate-100: #f1f5f9;
+$color-slate-50: #f8fafc;
+$color-primary: #3b82f6;
+$color-primary-light: #60a5fa;
+$color-primary-dark: #1e40af;
+$color-success: #10b981;
+$color-success-dark: #059669;
+$color-success-text: #f0fdf4;
+$color-danger: #ef4444;
+$color-danger-dark: #dc2626;
+$color-danger-text: #fef2f2;
+$color-warning: #f59e0b;
+
+// Layout
+$navbar-height: 50px;
+$sidebar-width: 240px;
+
+// Transitions
+$transition-fast: 0.15s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.5s ease;
+
+// Border Radius
+$border-radius-sm: 0.25rem;
+$border-radius-md: 0.5rem;
+$border-radius-lg: 0.75rem;
+$border-radius-full: 50%;
+
+// Gradients
+$gradient-primary: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+$gradient-primary-vertical: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+$gradient-navbar: linear-gradient(90deg, #1e293b 0%, #334155 100%);
+$gradient-app-bg: linear-gradient(135deg, #1a1d29 0%, #2d3748 100%);
+$gradient-content: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+$gradient-card: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+$gradient-connected: linear-gradient(135deg, #1e293b 0%, #059669 20%, #334155 100%);
+$gradient-button: linear-gradient(135deg, #334155 0%, #475569 100%);
+$gradient-button-hover: linear-gradient(135deg, #475569 0%, #64748b 100%);
+$gradient-button-success: linear-gradient(135deg, #059669 0%, #10b981 100%);
+$gradient-button-danger: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+
+// Menu & Navigation
+$gradient-menu-hover: linear-gradient(90deg, #334155 0%, #475569 100%);
+$gradient-menu-active: linear-gradient(90deg, #1e40af 0%, #3b82f6 100%);
+
+// Form Controls
+$gradient-input: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+$gradient-control: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+$gradient-control-checked: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+$gradient-switch-checked: linear-gradient(135deg, #10b981 0%, #059669 100%);
+$gradient-slider-track: linear-gradient(90deg, #374151 0%, #4b5563 100%);
+$gradient-slider-progress: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+$gradient-slider-handle: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+
+// Legacy shadow support
+$shadow-sm: 0 2px 4px rgb(0 0 0 / 10%);
+$shadow-md: 0 4px 8px rgb(0 0 0 / 15%);
+$shadow-lg: 0 8px 24px rgb(0 0 0 / 30%);
+$shadow-xl: 0 12px 32px rgb(0 0 0 / 40%);
+$shadow-2xl: 0 20px 48px rgb(0 0 0 / 60%);
+$shadow-inset: inset 0 2px 8px rgb(0 0 0 / 30%);
+
+// Z-Index legacy support
+$z-index-console: 1;
+$z-index-snap-indicator: 999;
+$z-index-dragging: 1000;
+$z-index-sidebar-mobile: 50;
+$z-index-navbar: 100;
+
+// Breakpoints legacy support
+$breakpoint-mobile: 768px; 

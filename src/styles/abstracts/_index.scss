@@ -1,8 +1,9 @@
-// =================================
-// Tauri Workflow Template - Abstracts Index
-// Central hub for forwarding all abstracts (variables, functions, mixins)
-// =================================
+// ==========================================================================
+// ABSTRACTS INDEX
+// ==========================================================================
 
+// Forward all abstracts modules
 @forward 'variables';
 @forward 'functions';
-@forward 'mixins'; 
+@forward 'mixins';
+@forward 'breakpoints'; 

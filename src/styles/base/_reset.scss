@@ -1,68 +1,234 @@
+// ==========================================================================
+// RESET
+// ==========================================================================
+
 @use '../abstracts' as *;
 
-// =================================
-// Tauri Workflow Template - Base Reset & Global Styles
-// Extracted from: App.css (global element styles, scrollbar fallbacks)
-// =================================
+// Modern CSS Reset
+// Based on Josh Comeau's CSS reset with adaptations for Blueprint.js
+// ==========================================================================
 
-// Global layout fixes - Using higher specificity instead of !important
-html, 
-body, 
-#root {
-  height: 100vh;
-  overflow: hidden;
-  background: #0f172a;
+/* 
+  1. Use a more-intuitive box-sizing model.
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-// Force global background
-body, 
-html {
-  background-color: #0f172a;
-}
-
-// Modern CSS scrollbar fallback for browsers that support it
+/*
+  2. Remove default margin and padding
+*/
 * {
-  scrollbar-color: #475569 transparent;
-  scrollbar-width: thin;
+  margin: 0;
+  padding: 0;
 }
 
-// Legacy webkit scrollbar fallback for non-perfect-scrollbar elements
-.sidebar::-webkit-scrollbar {
-  width: 8px;
+/*
+  3. Add accessible line-height
+  4. Improve text rendering
+*/
+html {
+  line-height: $line-height-normal;
+  text-size-adjust: 100%;
 }
 
-.sidebar::-webkit-scrollbar-track {
-  background: transparent;
+/*
+  5. Improve media defaults
+*/
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
-.sidebar::-webkit-scrollbar-thumb {
-  background: #475569;
-  border-radius: 4px;
-  border: 1px solid #334155;
+/*
+  6. Remove built-in form typography styles
+*/
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
 }
 
-.sidebar::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+/*
+  7. Avoid text overflows
+*/
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
-// Global input field styling - Blueprint.js overrides with specificity
-.main-app .bp6-dark input, 
-.main-app .bp6-dark select, 
-.main-app .bp6-dark .bp6-input, 
-.main-app .bp6-dark .bp6-html-select select {
-  @include input-base;
+/*
+  8. Create a root stacking context
+*/
+#root {
+  isolation: isolate;
+  height: 100%;
+}
+
+/*
+  9. Set up document defaults
+*/
+html,
+body {
+  height: 100%;
+  font-family: $font-family-base;
+
+  @include font-smoothing;
+}
+
+/*
+  10. Remove list styles on ul, ol elements with a list role,
+      which suggests default styling will be removed
+*/
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/*
+  11. Set core body defaults
+*/
+body {
+  min-height: 100vh;
+  text-rendering: optimizespeed;
+  line-height: $line-height-normal;
+  color: var(--bp-text-color, $color-gray-900);
+  background-color: var(--bp-background-color, white);
+  overflow-x: hidden;
+}
+
+/*
+  12. A elements that don't have a class get default styles
+*/
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+  color: $color-primary;
   
   &:hover {
-    border-color: $color-slate-500;
-    box-shadow: $shadow-md;
+    text-decoration: underline;
   }
+}
+
+/*
+  13. Make images easier to work with
+*/
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/*
+  14. Inherit fonts for inputs and buttons
+*/
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/*
+  15. Remove all animations, transitions and smooth scroll for people that prefer not to see them
+*/
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+   scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+  16. Blueprint.js specific resets
+*/
+
+// Remove default button styling
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
   
   &:focus {
-    @include input-focus($color-primary);
+    outline: none;
   }
+}
+
+// Remove default input styling
+input,
+textarea {
+  border: none;
+  outline: none;
+  background: transparent;
   
-  &::placeholder {
-    color: $color-slate-400;
-    opacity: 0.7;
+  &:focus {
+    outline: none;
   }
+}
+
+// Remove default select styling
+select {
+  background: transparent;
+  border: none;
+  outline: none;
+  appearance: none;
+}
+
+// Table reset for better Blueprint table styling
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+// Remove default fieldset styling
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+// Remove default legend styling
+legend {
+  display: table;
+  max-width: 100%;
+  padding: 0;
+  color: inherit;
+  white-space: normal;
+}
+
+// Better focus management for accessibility
+*:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+*:focus-visible {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+}
+
+// Scrollbar defaults
+* {
+  @include custom-scrollbar;
 } 

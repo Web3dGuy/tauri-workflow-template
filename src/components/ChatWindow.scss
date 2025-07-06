@@ -1,0 +1,88 @@
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bp-background-color);
+
+  &--empty {
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__header {
+    flex-shrink: 0;
+    z-index: 10;
+  }
+
+  &__messages {
+    flex: 1;
+    min-height: 0; // Important for flex child to be scrollable
+    position: relative;
+  }
+
+  &__message-list {
+    height: 100%;
+  }
+
+  &__input {
+    flex-shrink: 0;
+    z-index: 10;
+  }
+
+  &__message-input {
+    // Additional styles can be added here if needed
+  }
+
+  &__empty-state {
+    text-align: center;
+    max-width: 400px;
+    padding: 40px 20px;
+  }
+
+  &__empty-icon {
+    font-size: 64px;
+    margin-bottom: 24px;
+    opacity: 0.5;
+  }
+
+  &__empty-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--bp-text-color);
+    margin-bottom: 8px;
+  }
+
+  &__empty-subtitle {
+    font-size: 16px;
+    color: var(--bp-text-color-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+}
+
+// Dark theme adjustments
+.bp5-dark .chat-window {
+  background: var(--bp-background-color);
+}
+
+// Responsive design
+@media (width <= 768px) {
+  .chat-window {
+    &__empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    &__empty-title {
+      font-size: 20px;
+    }
+
+    &__empty-subtitle {
+      font-size: 14px;
+    }
+
+    &__empty-state {
+      padding: 24px 16px;
+    }
+  }
+} 

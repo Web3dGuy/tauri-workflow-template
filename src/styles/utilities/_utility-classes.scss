@@ -1,59 +1,393 @@
+// ==========================================================================
+// UTILITY CLASSES
+// ==========================================================================
+
 @use '../abstracts' as *;
 
-// =================================
-// Tauri Workflow Template - Utility Classes
-// Extracted from: App.css (utility classes, icon colors, gradient utilities, etc.)
-// =================================
+// Background Utilities
+// ==========================================================================
 
-// Gradient Utility Classes
-.twt-gradient-primary {
-  @include gradient-bg($gradient-button);
+.bg-transparent { background-color: transparent; }
+.bg-white { background-color: white; }
+.bg-gray-50 { background-color: $color-gray-50; }
+.bg-gray-100 { background-color: $color-gray-100; }
+.bg-gray-200 { background-color: $color-gray-200; }
+.bg-primary { background-color: $color-primary; }
+.bg-success { background-color: $color-success; }
+.bg-warning { background-color: $color-warning; }
+.bg-danger { background-color: $color-danger; }
+
+// Border Utilities
+// ==========================================================================
+
+.border { border: 1px solid var(--bp-border-color, $color-gray-200); }
+.border-0 { border: 0; }
+.border-t { border-top: 1px solid var(--bp-border-color, $color-gray-200); }
+.border-b { border-bottom: 1px solid var(--bp-border-color, $color-gray-200); }
+.border-l { border-left: 1px solid var(--bp-border-color, $color-gray-200); }
+.border-r { border-right: 1px solid var(--bp-border-color, $color-gray-200); }
+
+// Border Radius Utilities
+// ==========================================================================
+
+.rounded-none { border-radius: 0; }
+.rounded-sm { border-radius: $border-radius-sm; }
+.rounded { border-radius: $border-radius-base; }
+.rounded-md { border-radius: $border-radius-md; }
+.rounded-lg { border-radius: $border-radius-lg; }
+.rounded-xl { border-radius: $border-radius-xl; }
+.rounded-2xl { border-radius: $border-radius-2xl; }
+.rounded-full { border-radius: $border-radius-full; }
+
+// Shadow Utilities
+// ==========================================================================
+
+.shadow-none { box-shadow: none; }
+.shadow-sm { box-shadow: $shadow-sm; }
+.shadow { box-shadow: $shadow-base; }
+.shadow-md { box-shadow: $shadow-md; }
+.shadow-lg { box-shadow: $shadow-lg; }
+.shadow-xl { box-shadow: $shadow-xl; }
+
+// Opacity Utilities
+// ==========================================================================
+
+.opacity-0 { opacity: 0; }
+.opacity-25 { opacity: 0.25; }
+.opacity-50 { opacity: 0.5; }
+.opacity-75 { opacity: 0.75; }
+.opacity-100 { opacity: 1; }
+
+// Cursor Utilities
+// ==========================================================================
+
+.cursor-auto { cursor: auto; }
+.cursor-default { cursor: default; }
+.cursor-pointer { cursor: pointer; }
+.cursor-wait { cursor: wait; }
+.cursor-text { cursor: text; }
+.cursor-move { cursor: move; }
+.cursor-help { cursor: help; }
+.cursor-not-allowed { cursor: not-allowed; }
+
+// User Select Utilities
+// ==========================================================================
+
+.select-none { user-select: none; }
+.select-text { user-select: text; }
+.select-all { user-select: all; }
+.select-auto { user-select: auto; }
+
+// Pointer Events Utilities
+// ==========================================================================
+
+.pointer-events-none { pointer-events: none; }
+.pointer-events-auto { pointer-events: auto; }
+
+// Resize Utilities
+// ==========================================================================
+
+.resize-none { resize: none; }
+.resize { resize: both; }
+.resize-y { resize: vertical; }
+.resize-x { resize: horizontal; }
+
+// Transform Utilities
+// ==========================================================================
+
+.transform { transform: translatevar(--tw-translate-x, 0) translateY(var(--tw-translate-y, 0)) rotate(var(--tw-rotate, 0)) skewX(var(--tw-skew-x, 0)) skewY(var(--tw-skew-y, 0)) scaleX(var(--tw-scale-x, 1)) scaleY(var(--tw-scale-y, 1)); }
+.transform-none { transform: none; }
+
+.scale-0 { transform: scale(0); }
+.scale-50 { transform: scale(0.5); }
+.scale-75 { transform: scale(0.75); }
+.scale-90 { transform: scale(0.9); }
+.scale-95 { transform: scale(0.95); }
+.scale-100 { transform: scale(1); }
+.scale-105 { transform: scale(1.05); }
+.scale-110 { transform: scale(1.1); }
+.scale-125 { transform: scale(1.25); }
+.scale-150 { transform: scale(1.5); }
+
+.rotate-0 { transform: rotate(0deg); }
+.rotate-1 { transform: rotate(1deg); }
+.rotate-2 { transform: rotate(2deg); }
+.rotate-3 { transform: rotate(3deg); }
+.rotate-6 { transform: rotate(6deg); }
+.rotate-12 { transform: rotate(12deg); }
+.rotate-45 { transform: rotate(45deg); }
+.rotate-90 { transform: rotate(90deg); }
+.rotate-180 { transform: rotate(180deg); }
+
+// Interactive Utilities
+// ==========================================================================
+
+.hover\\:bg-gray-50:hover { background-color: $color-gray-50; }
+.hover\\:bg-gray-100:hover { background-color: $color-gray-100; }
+.hover\\:bg-primary:hover { background-color: $color-primary; }
+.hover\\:text-primary:hover { color: $color-primary; }
+.hover\\:scale-105:hover { transform: scale(1.05); }
+.hover\\:shadow-md:hover { box-shadow: $shadow-md; }
+
+.focus\\:outline-none:focus { outline: none; }
+.focus\\:ring:focus { box-shadow: 0 0 0 3px rgba($color-primary, 0.1); }
+.focus\\:ring-primary:focus { box-shadow: 0 0 0 3px rgba($color-primary, 0.3); }
+
+.active\\:scale-95:active { transform: scale(0.95); }
+
+.disabled\\:opacity-50:disabled { opacity: 0.5; }
+.disabled\\:cursor-not-allowed:disabled { cursor: not-allowed; }
+
+// State Utilities
+// ==========================================================================
+
+.sr-only {
+  @include visually-hidden;
 }
 
-.twt-gradient-success {
-  @include gradient-bg($gradient-button-success);
+.not-sr-only {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
 }
 
-.twt-gradient-danger {
-  @include gradient-bg($gradient-button-danger);
+// Chat-specific Utilities
+// ==========================================================================
+
+.chat-online { color: $color-online; }
+.chat-away { color: $color-away; }
+.chat-busy { color: $color-busy; }
+.chat-offline { color: $color-offline; }
+
+.message-own {
+  margin-left: auto;
+  margin-right: 0;
 }
 
-// Icon Color Utility Classes
-.main-app .twt-icon-primary {
+.message-other {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Loading State Utilities
+// ==========================================================================
+
+.loading {
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(255 255 255 / 40%),
+      transparent
+    );
+    transform: translateX(-100%);
+    animation: loading-shimmer 1.5s infinite;
+  }
+}
+
+@keyframes loading-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+// Glass Effect Utilities
+// ==========================================================================
+
+.glass {
+  background: rgb(255 255 255 / 10%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgb(255 255 255 / 20%);
+}
+
+.glass-dark {
+  background: rgb(0 0 0 / 10%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgb(255 255 255 / 10%);
+}
+
+// Scrollbar Utilities
+// ==========================================================================
+
+.scrollbar-thin {
+  @include custom-scrollbar(4px);
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// Gradient Utilities
+// ==========================================================================
+
+.gradient-primary {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+}
+
+.gradient-success {
+  background: linear-gradient(135deg, $color-success 0%, #34d399 100%);
+}
+
+.gradient-warning {
+  background: linear-gradient(135deg, $color-warning 0%, #fbbf24 100%);
+}
+
+.gradient-danger {
+  background: linear-gradient(135deg, $color-danger 0%, #f87171 100%);
+}
+
+// Avatar Gradient Utilities
+// ==========================================================================
+
+.avatar-gradient-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.avatar-gradient-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.avatar-gradient-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.avatar-gradient-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+.avatar-gradient-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+.avatar-gradient-6 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+.avatar-gradient-7 { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+.avatar-gradient-8 { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
+
+// Print Utilities
+// ==========================================================================
+
+@media print {
+  .print\\:hidden { display: none !important; }
+  .print\\:block { display: block !important; }
+  .print\\:inline { display: inline !important; }
+  
+  .print\\:text-black { color: black !important; }
+  .print\\:bg-white { background-color: white !important; }
+  .print\\:border-black { border-color: black !important; }
+}
+
+// Dark Mode Utilities
+// ==========================================================================
+
+.bp5-dark {
+  .dark\\:bg-gray-800 { background-color: $color-gray-800; }
+  .dark\\:bg-gray-900 { background-color: $color-gray-900; }
+  .dark\\:text-white { color: white; }
+  .dark\\:text-gray-300 { color: $color-gray-300; }
+  .dark\\:border-gray-600 { border-color: $color-gray-600; }
+  .dark\\:border-gray-700 { border-color: $color-gray-700; }
+}
+
+// Component State Utilities
+// ==========================================================================
+
+.is-active {
+  background-color: rgba($color-primary, 0.1);
   color: $color-primary;
 }
 
-.main-app .twt-icon-success {
-  color: $color-success;
+.is-selected {
+  background-color: rgba($color-primary, 0.2);
+  color: $color-primary;
 }
 
-.main-app .twt-icon-warning {
-  color: $color-warning;
+.is-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
-.main-app .twt-icon-danger {
-  color: $color-danger;
+.is-loading {
+  position: relative;
+  pointer-events: none;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top-color: $color-primary;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 1;
+  }
 }
 
-.main-app .twt-icon-muted {
-  color: $color-slate-400;
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-// Quality Indicator Colors
-.main-app .twt-quality-success {
-  color: $color-success;
+// Aspect Ratio Utilities
+// ==========================================================================
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
 }
 
-.main-app .twt-quality-warning {
-  color: $color-warning;
+.aspect-video {
+  aspect-ratio: 16 / 9;
 }
 
-.main-app .twt-quality-danger {
-  color: $color-danger;
+.aspect-4-3 {
+  aspect-ratio: 4 / 3;
 }
 
-.main-app .twt-quality-minimal {
-  color: $color-slate-400;
+// Container Queries (Modern CSS)
+// ==========================================================================
+
+@container (min-width: 320px) {
+  .container\\:text-sm { font-size: $font-size-sm; }
 }
 
-// Layout utility classes are in layout/_content.scss 
+@container (min-width: 768px) {
+  .container\\:text-base { font-size: $font-size-base; }
+}
+
+// Accessibility Utilities
+// ==========================================================================
+
+.focus-visible\\:ring:focus-visible {
+  box-shadow: 0 0 0 3px rgba($color-primary, 0.3);
+}
+
+.motion-safe\\:animate-pulse {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: pulse 2s ease-in-out infinite;
+  }
+}
+
+.motion-reduce\\:animate-none {
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+  }
+} 

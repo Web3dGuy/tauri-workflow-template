@@ -1,0 +1,70 @@
+@use '../abstracts' as *;
+
+// =================================
+// Tauri Workflow Template - Typography
+// Extracted from: App.css (heading colors, text utilities)
+// =================================
+
+// Global heading styles - Enhanced Visibility
+.main-app .bp6-dark .bp6-heading,
+.main-app .bp6-dark h4.bp6-heading,
+.main-app .bp6-dark h5.bp6-heading {
+  color: $color-slate-50;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 30%);
+}
+
+// Text color utilities
+.main-app .bp6-dark .bp6-text {
+  color: $color-slate-200;
+  
+  strong {
+    color: $color-slate-50;
+    font-weight: 600;
+  }
+}
+
+// Text utility classes  
+.main-app .twt-text-primary {
+  color: $color-slate-200;
+}
+
+.main-app .twt-text-secondary {
+  color: $color-slate-300;
+}
+
+.main-app .twt-text-muted {
+  color: $color-slate-400;
+}
+
+// Form labels and helper text
+.main-app .bp6-dark .bp6-form-group .bp6-label {
+  color: $color-slate-200;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.main-app .bp6-dark .bp6-form-helper-text {
+  color: $color-slate-400;
+  font-size: 12px;
+  margin-top: 4px;
+  
+  &.bp6-intent-danger {
+    color: #f87171;
+  }
+  
+  &.bp6-intent-success {
+    color: #34d399;
+  }
+  
+  &.bp6-intent-warning {
+    color: #fbbf24;
+  }
+}
+
+// Label info styling
+.main-app .bp6-dark .bp6-label .bp6-text-muted {
+  color: $color-slate-400;
+  font-weight: 400;
+  font-size: 12px;
+} 

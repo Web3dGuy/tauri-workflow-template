@@ -1,0 +1,324 @@
+// ==========================================================================
+// BLUEPRINT.JS OVERRIDES
+// ==========================================================================
+
+@use '../abstracts' as *;
+
+// Global Blueprint Overrides
+// ==========================================================================
+
+// Fix Blueprint CSS custom properties for consistent theming
+.bp5-dark {
+  // Background colors
+  --bp-background-color: #{$color-dark-bg};
+  --bp-background-color-secondary: #{$color-dark-bg-secondary};
+  
+  // Text colors
+  --bp-text-color: #{$color-dark-text};
+  --bp-text-color-muted: #{$color-dark-text-muted};
+  --bp-text-color-disabled: #{rgba($color-dark-text, 0.4)};
+  
+  // Border colors
+  --bp-border-color: #{$color-dark-border};
+  
+  // Component specific colors
+  --bp-input-background-color: #{$color-dark-bg-secondary};
+  --bp-button-background-color: #{$color-dark-bg-secondary};
+}
+
+// Portal Components (Overlays, Popovers, etc.)
+// ==========================================================================
+
+// Popovers and Tooltips
+.bp5-popover,
+.bp5-tooltip {
+  .bp5-popover-content,
+  .bp5-tooltip-content {
+    background: var(--bp-background-color) !important;
+    color: var(--bp-text-color) !important;
+    border: 1px solid var(--bp-border-color) !important;
+    box-shadow: $shadow-lg !important;
+    border-radius: $border-radius-lg !important;
+  }
+  
+  .bp5-popover-arrow-fill,
+  .bp5-tooltip-arrow-fill {
+    fill: var(--bp-background-color) !important;
+  }
+  
+  .bp5-popover-arrow,
+  .bp5-tooltip-arrow {
+    fill: var(--bp-border-color) !important;
+  }
+}
+
+// Menu Components
+.bp5-menu {
+  background: var(--bp-background-color) !important;
+  border: 1px solid var(--bp-border-color) !important;
+  border-radius: $border-radius-lg !important;
+  box-shadow: $shadow-lg !important;
+  padding: $spacing-1 !important;
+  
+  .bp5-menu-item {
+    border-radius: $border-radius-md !important;
+    margin: 2px 0 !important;
+    padding: $spacing-2 $spacing-3 !important;
+    color: var(--bp-text-color) !important;
+    transition: $transition-colors !important;
+    
+    &:hover,
+    &.bp5-active {
+      background: var(--bp-background-color-secondary) !important;
+      color: var(--bp-text-color) !important;
+    }
+    
+    &.bp5-intent-danger {
+      &:hover,
+      &.bp5-active {
+        background: rgba($color-danger, 0.1) !important;
+        color: $color-danger !important;
+      }
+    }
+  }
+  
+  .bp5-menu-divider {
+    border-color: var(--bp-border-color) !important;
+    margin: $spacing-1 0 !important;
+  }
+}
+
+// Dialog Components
+.bp5-dialog-container {
+  .bp5-dialog {
+    background: var(--bp-background-color) !important;
+    border-radius: $border-radius-xl !important;
+    box-shadow: $shadow-xl !important;
+    
+    .bp5-dialog-header {
+      background: transparent !important;
+      border-bottom: 1px solid var(--bp-border-color) !important;
+      color: var(--bp-text-color) !important;
+    }
+    
+    .bp5-dialog-body {
+      color: var(--bp-text-color) !important;
+    }
+    
+    .bp5-dialog-footer {
+      background: transparent !important;
+      border-top: 1px solid var(--bp-border-color) !important;
+    }
+  }
+  
+  .bp5-overlay-backdrop {
+    background: rgba(0, 0, 0, 0.7) !important;
+    backdrop-filter: blur(4px);
+  }
+}
+
+// Input Components
+// ==========================================================================
+
+.bp5-input-group {
+  .bp5-input {
+    background: var(--bp-background-color-secondary) !important;
+    border: 1px solid var(--bp-border-color) !important;
+    color: var(--bp-text-color) !important;
+    border-radius: $border-radius-lg !important;
+    transition: $transition-colors !important;
+    
+    &::placeholder {
+      color: var(--bp-text-color-muted) !important;
+    }
+    
+    &:focus {
+      border-color: $color-primary !important;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.1) !important;
+    }
+    
+    &:disabled {
+      background: var(--bp-background-color) !important;
+      color: var(--bp-text-color-disabled) !important;
+    }
+  }
+  
+  .bp5-input-left-container,
+  .bp5-input-action {
+    .bp5-icon {
+      color: var(--bp-text-color-muted) !important;
+    }
+  }
+}
+
+// Button Components
+// ==========================================================================
+
+.bp5-button {
+  border-radius: $border-radius-lg !important;
+  font-weight: $font-weight-medium !important;
+  transition: $transition-all !important;
+  
+  // Minimal buttons
+  &.bp5-minimal {
+    background: transparent !important;
+    color: var(--bp-text-color) !important;
+    
+    &:hover:not(:disabled) {
+      background: var(--bp-background-color-secondary) !important;
+    }
+    
+    &:active:not(:disabled) {
+      background: var(--bp-border-color) !important;
+    }
+  }
+  
+  // Primary intent
+  &.bp5-intent-primary {
+    @include button-variant($color-primary, white);
+  }
+  
+  // Success intent
+  &.bp5-intent-success {
+    @include button-variant($color-success, white);
+  }
+  
+  // Warning intent
+  &.bp5-intent-warning {
+    @include button-variant($color-warning, white);
+  }
+  
+  // Danger intent
+  &.bp5-intent-danger {
+    @include button-variant($color-danger, white);
+  }
+  
+  // Disabled state
+  &:disabled {
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+  }
+}
+
+// Icon Components
+// ==========================================================================
+
+.bp5-icon {
+  color: var(--bp-text-color-muted);
+  transition: $transition-colors;
+  
+  // Icon hover states
+  .bp5-button:hover &,
+  .bp5-menu-item:hover & {
+    color: var(--bp-text-color);
+  }
+}
+
+// Tag Components
+// ==========================================================================
+
+.bp5-tag {
+  background: var(--bp-background-color-secondary) !important;
+  color: var(--bp-text-color) !important;
+  border: 1px solid var(--bp-border-color) !important;
+  border-radius: $border-radius-full !important;
+  font-size: $font-size-xs !important;
+  
+  &.bp5-minimal {
+    background: transparent !important;
+  }
+  
+  &.bp5-interactive {
+    cursor: pointer;
+    transition: $transition-colors !important;
+    
+    &:hover {
+      background: var(--bp-border-color) !important;
+    }
+  }
+}
+
+// Card Components
+// ==========================================================================
+
+.bp5-card {
+  background: var(--bp-background-color) !important;
+  border: 1px solid var(--bp-border-color) !important;
+  border-radius: $border-radius-xl !important;
+  box-shadow: $shadow-sm !important;
+  color: var(--bp-text-color) !important;
+  
+  &.bp5-elevation-1 { box-shadow: $shadow-md !important; }
+  &.bp5-elevation-2 { box-shadow: $shadow-lg !important; }
+  &.bp5-elevation-3 { box-shadow: $shadow-xl !important; }
+}
+
+// Divider Components
+// ==========================================================================
+
+.bp5-divider {
+  border-color: var(--bp-border-color) !important;
+}
+
+// Text Components
+// ==========================================================================
+
+.bp5-text {
+  color: var(--bp-text-color) !important;
+  
+  &.bp5-text-muted {
+    color: var(--bp-text-color-muted) !important;
+  }
+  
+  &.bp5-text-disabled {
+    color: var(--bp-text-color-disabled) !important;
+  }
+}
+
+// Spinner Components
+// ==========================================================================
+
+.bp5-spinner {
+  .bp5-spinner-svg-container {
+    color: $color-primary !important;
+  }
+}
+
+// Custom Chat Overrides
+// ==========================================================================
+
+// Custom scrollbar for Blueprint components
+.bp5-menu,
+.bp5-select-popover .bp5-menu,
+.bp5-multi-select .bp5-menu {
+  @include custom-scrollbar();
+}
+
+// Fix z-index issues with chat components
+.bp5-portal {
+  z-index: $z-index-popover !important;
+  
+  &.bp5-overlay-container {
+    z-index: $z-index-modal !important;
+  }
+}
+
+// Ensure proper theming for dynamically created elements
+.bp5-portal,
+.bp5-overlay-container {
+  .bp5-dark & {
+    color-scheme: dark;
+  }
+}
+
+// File input overrides for modern styling
+.bp5-file-input {
+  .bp5-file-input-input {
+    @include input-base;
+  }
+  
+  .bp5-file-upload-input {
+    @include button-base;
+    @include button-variant(var(--bp-background-color-secondary), var(--bp-text-color));
+  }
+} 

@@ -1,0 +1,129 @@
+@use '../abstracts' as *;
+
+// =================================
+// Tauri Workflow Template - Scrollbar Components
+// Refactored: Minimal !important for third-party overrides
+// =================================
+
+// =================================
+// DESIGN TOKENS (Scrollbar-specific)
+// =================================
+$scrollbar-bg-base: $color-slate-600;
+$scrollbar-bg-hover: $color-slate-500;
+$scrollbar-bg-active: $color-slate-400;
+$scrollbar-border-base: $color-slate-700;
+$scrollbar-border-hover: $color-slate-600;
+$scrollbar-border-active: $color-slate-500;
+
+// =================================
+// PERFECT SCROLLBAR BASE
+// Ultra-specific selectors with maximum specificity instead of !important
+// =================================
+.main-app .ps,
+.main-app [class*="main-app"] .ps,
+.main-app .sidebar .ps,
+.main-app .content .ps {
+  position: relative; // Perfect Scrollbar positioning with maximum specificity
+}
+
+// =================================
+// SCROLLBAR RAILS (Hidden by default)
+// =================================
+.main-app .ps .ps__rail-x,
+.main-app [class*="main-app"] .ps .ps__rail-x,
+.main-app .sidebar .ps .ps__rail-x,
+.main-app .content .ps .ps__rail-x {
+  background-color: transparent; // Override with specificity
+  height: 10px; // Override with specificity
+  bottom: 0; // Override with specificity
+  opacity: 0;
+  transition: opacity $transition-fast ease;
+}
+
+.main-app .ps .ps__rail-y,
+.main-app [class*="main-app"] .ps .ps__rail-y,
+.main-app .sidebar .ps .ps__rail-y,
+.main-app .content .ps .ps__rail-y {
+  background-color: transparent; // Override with specificity
+  width: 10px; // Override with specificity
+  right: 0; // Override with specificity
+  opacity: 0;
+  transition: opacity $transition-fast ease;
+}
+
+// Show rails on hover
+.main-app .ps:hover .ps__rail-x,
+.main-app .ps:hover .ps__rail-y,
+[class*="main-app"] .ps:hover .ps__rail-x,
+[class*="main-app"] .ps:hover .ps__rail-y,
+.sidebar .ps:hover .ps__rail-x,
+.sidebar .ps:hover .ps__rail-y,
+.content .ps:hover .ps__rail-x,
+.content .ps:hover .ps__rail-y {
+  opacity: 1;
+}
+
+// =================================
+// SCROLLBAR THUMBS (Base State)
+// =================================
+.main-app .ps .ps__thumb-x,
+.main-app [class*="main-app"] .ps .ps__thumb-x,
+.main-app .sidebar .ps .ps__thumb-x,
+.main-app .content .ps .ps__thumb-x {
+  background: $scrollbar-bg-base; // Override with specificity
+  border-radius: 6px; // Override with specificity
+  height: 6px; // Override with specificity
+  bottom: 2px; // Override with specificity
+  transition: all $transition-fast ease;
+  border: 1px solid $scrollbar-border-base;
+}
+
+.main-app .ps .ps__thumb-y,
+.main-app [class*="main-app"] .ps .ps__thumb-y,
+.main-app .sidebar .ps .ps__thumb-y,
+.main-app .content .ps .ps__thumb-y {
+  background: $scrollbar-bg-base; // Override with specificity
+  border-radius: 6px; // Override with specificity
+  width: 6px; // Override with specificity
+  right: 2px; // Override with specificity
+  transition: all $transition-fast ease;
+  border: 1px solid $scrollbar-border-base;
+}
+
+// =================================
+// SCROLLBAR THUMBS (Hover State)
+// =================================
+.main-app .ps .ps__thumb-x:hover,
+.main-app [class*="main-app"] .ps .ps__thumb-x:hover,
+.main-app .sidebar .ps .ps__thumb-x:hover,
+.main-app .content .ps .ps__thumb-x:hover {
+  background: $scrollbar-bg-hover; // Override with specificity
+  border-color: $scrollbar-border-hover;
+  height: 8px; // Override with specificity
+  bottom: 1px; // Override with specificity
+}
+
+.main-app .ps .ps__thumb-y:hover,
+.main-app [class*="main-app"] .ps .ps__thumb-y:hover,
+.main-app .sidebar .ps .ps__thumb-y:hover,
+.main-app .content .ps .ps__thumb-y:hover {
+  background: $scrollbar-bg-hover; // Override with specificity
+  border-color: $scrollbar-border-hover;
+  width: 8px; // Override with specificity
+  right: 1px; // Override with specificity
+}
+
+// =================================
+// SCROLLBAR THUMBS (Active/Dragging State)
+// =================================
+.main-app .ps .ps__thumb-x:active,
+.main-app .ps .ps__thumb-y:active,
+.main-app [class*="main-app"] .ps .ps__thumb-x:active,
+.main-app [class*="main-app"] .ps .ps__thumb-y:active,
+.main-app .sidebar .ps .ps__thumb-x:active,
+.main-app .sidebar .ps .ps__thumb-y:active,
+.main-app .content .ps .ps__thumb-x:active,
+.main-app .content .ps .ps__thumb-y:active {
+  background: $scrollbar-bg-active; // Override with specificity
+  border-color: $scrollbar-border-active;
+} 

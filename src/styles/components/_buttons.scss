@@ -1,281 +1,371 @@
-@use '../abstracts/variables' as *;
-@use '../abstracts/mixins' as *;
-@use '../abstracts/functions' as *;
+// ==========================================================================
+// BUTTONS
+// ==========================================================================
 
-// =================================
-// Tauri Workflow Template - Button Components
-// Extracted from: App.css (button styling, Blueprint.js overrides, custom buttons)
-// =================================
+@use '../abstracts' as *;
 
-// Button Group Styling
-.bp6-button-group .bp6-button {
-  margin-right: 0;
-}
+// Custom Button Base
+// ==========================================================================
 
-// Blueprint.js Button Overrides - Glass Morphism System
-.main-app .bp6-button:not([class*="custom"]) {
-  border-radius: $border-radius-md;
-  color: $color-slate-200;
-  box-shadow: 0 2px 8px alpha($color-slate-900, 0.2);
-  transition: all $transition-fast;
+.btn-custom {
+  @include button-base;
   
-  @include glass-morphism(8px, 0.4);
+  // Size variations
+  &.btn-sm {
+    padding: $spacing-1 $spacing-3;
+    font-size: $font-size-xs;
+  }
   
-  &:hover {
-    @include gradient-bg($gradient-button-hover);
-
-    box-shadow: $shadow-md;
-
-    @include button-hover-transform;
+  &.btn-md {
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-sm;
+  }
+  
+  &.btn-lg {
+    padding: $spacing-3 $spacing-6;
+    font-size: $font-size-base;
+  }
+  
+  // Style variations
+  &.btn-primary {
+    @include button-variant($color-primary, white);
+  }
+  
+  &.btn-secondary {
+    @include button-variant(var(--bp-background-color-secondary, $color-gray-100), var(--bp-text-color, $color-gray-900));
+  }
+  
+  &.btn-success {
+    @include button-variant($color-success, white);
+  }
+  
+  &.btn-warning {
+    @include button-variant($color-warning, white);
+  }
+  
+  &.btn-danger {
+    @include button-variant($color-danger, white);
+  }
+  
+  &.btn-ghost {
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--bp-text-color-muted, $color-gray-600);
+    
+    &:hover:not(:disabled) {
+      background-color: var(--bp-background-color-secondary, $color-gray-50);
+    }
+  }
+  
+  &.btn-outline {
+    background-color: transparent;
+    border-color: var(--bp-border-color, $color-gray-300);
+    color: var(--bp-text-color, $color-gray-900);
+    
+    &:hover:not(:disabled) {
+      background-color: var(--bp-background-color-secondary, $color-gray-50);
+    }
   }
 }
 
-// Tauri Workflow Template App Specific Button Styling - More Specific Selectors
-.main-app .bp6-dark .bp6-button {
-  @include gradient-bg($gradient-button);
+// Chat-specific Buttons
+// ==========================================================================
 
-  border: 1px solid $color-slate-500;
-  color: $color-slate-200;
-  box-shadow: $shadow-sm;
-  
-  &:hover {
-    @include gradient-bg($gradient-button-hover);
+.chat-send-button {
+  @include button-base;
+  @include button-variant($color-primary, white);
 
-    box-shadow: $shadow-md;
-
-    @include button-hover-transform;
-  }
-  
-  &.bp6-intent-success {
-    @include gradient-bg($gradient-button-success);
-
-    border-color: $color-success;
-  }
-  
-  &.bp6-intent-danger {
-    @include gradient-bg($gradient-button-danger);
-
-    border-color: $color-danger;
-  }
-  
-  .bp6-icon {
-    color: inherit;
-  }
-}
-
-// Custom Button System
-.custom-button {
-  border: none;
-  border-radius: $border-radius-md;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-family: inherit;
-  font-weight: 500;
-  transition: all $transition-fast;
-  backdrop-filter: blur(8px);
-  outline: none;
-  position: relative;
-  overflow: hidden;
-  text-decoration: none;
-
-  @include no-select;
+  border-radius: $border-radius-full;
+  width: 40px;
+  height: 40px;
+  padding: 0;
   
   &:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
+    background-color: var(--bp-background-color-secondary, $color-gray-100);
+    color: var(--bp-text-color-muted, $color-gray-400);
+  }
+}
+
+.chat-attachment-button {
+  @include button-base;
+
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--bp-text-color-muted, $color-gray-500);
+  border-radius: $border-radius-full;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  
+  &:hover:not(:disabled) {
+    background-color: var(--bp-background-color-secondary, $color-gray-100);
+    color: var(--bp-text-color, $color-gray-700);
+  }
+}
+
+.chat-emoji-button {
+  @extend .chat-attachment-button;
+}
+
+.chat-action-button {
+  @include button-base;
+
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--bp-text-color-muted, $color-gray-500);
+  padding: $spacing-2;
+  border-radius: $border-radius-md;
+  
+  &:hover:not(:disabled) {
+    background-color: var(--bp-background-color-secondary, $color-gray-100);
+    color: var(--bp-text-color, $color-gray-700);
+  }
+}
+
+// Message Reaction Buttons
+// ==========================================================================
+
+.message-reaction {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-1;
+  padding: 2px $spacing-2;
+  border: 1px solid var(--bp-border-color, $color-gray-200);
+  border-radius: $border-radius-full;
+  background-color: var(--bp-background-color, white);
+  color: var(--bp-text-color-muted, $color-gray-600);
+  font-size: $font-size-xs;
+  cursor: pointer;
+  transition: $transition-all;
+  user-select: none;
+  
+  &:hover {
+    background-color: var(--bp-background-color-secondary, $color-gray-50);
+    border-color: var(--bp-border-color, $color-gray-300);
   }
   
-  // Size Variants
-  &.size-small {
-    padding: 6px 12px;
-    font-size: 12px;
+  &.active {
+    background-color: rgba($color-primary, 0.1);
+    border-color: rgba($color-primary, 0.3);
+    color: $color-primary;
   }
   
-  &.size-normal {
-    padding: 8px 16px;
+  .reaction-emoji {
     font-size: 14px;
+    line-height: 1;
   }
   
-  &.size-large {
-    padding: 12px 24px;
-    font-size: 16px;
-  }
-  
-  // Primary Variant
-  &.variant-primary {
-    color: $color-slate-200;
-    box-shadow: $shadow-sm;
-
-    @include glass-morphism(8px, 0.4);
-    
-    &:hover:not(:disabled) {
-      background: alpha($color-primary, 0.4);
-      border-color: alpha($color-primary, 0.6);
-      color: $color-primary-light;
-      box-shadow: 0 4px 16px alpha($color-primary, 0.4);
-
-      @include button-hover-transform;
-    }
-    
-    &.active {
-      background: alpha($color-primary, 0.3);
-      border-color: alpha($color-primary, 0.5);
-      color: $color-primary-light;
-      box-shadow: 0 3px 12px alpha($color-primary, 0.3);
-    }
-  }
-  
-  // Success Variant
-  &.variant-success {
-    color: $color-slate-200;
-    box-shadow: $shadow-sm;
-
-    @include glass-morphism(8px, 0.4);
-    
-    &:hover:not(:disabled) {
-      background: alpha($color-success, 0.4);
-      border-color: alpha($color-success, 0.6);
-      color: #34d399;
-      box-shadow: 0 4px 16px alpha($color-success, 0.4);
-
-      @include button-hover-transform;
-    }
-    
-    &.active {
-      background: alpha($color-success, 0.3);
-      border-color: alpha($color-success, 0.5);
-      color: #34d399;
-      box-shadow: 0 3px 12px alpha($color-success, 0.3);
-    }
-  }
-  
-  // Warning Variant
-  &.variant-warning {
-    color: $color-slate-200;
-    box-shadow: $shadow-sm;
-
-    @include glass-morphism(8px, 0.4);
-    
-    &:hover:not(:disabled) {
-      background: alpha($color-warning, 0.4);
-      border-color: alpha($color-warning, 0.6);
-      color: #fbbf24;
-      box-shadow: 0 4px 16px alpha($color-warning, 0.4);
-
-      @include button-hover-transform;
-    }
-    
-    &.active {
-      background: alpha($color-warning, 0.3);
-      border-color: alpha($color-warning, 0.5);
-      color: #fbbf24;
-      box-shadow: 0 3px 12px alpha($color-warning, 0.3);
-    }
-  }
-  
-  // Danger Variant
-  &.variant-danger {
-    color: $color-slate-200;
-    box-shadow: $shadow-sm;
-
-    @include glass-morphism(8px, 0.4);
-    
-    &:hover:not(:disabled) {
-      background: alpha($color-danger, 0.4);
-      border-color: alpha($color-danger, 0.6);
-      color: #f87171;
-      box-shadow: 0 4px 16px alpha($color-danger, 0.4);
-
-      @include button-hover-transform;
-    }
-    
-    &.active {
-      background: alpha($color-danger, 0.3);
-      border-color: alpha($color-danger, 0.5);
-      color: #f87171;
-      box-shadow: 0 3px 12px alpha($color-danger, 0.3);
-    }
-  }
-  
-  // Minimal Variant
-  &.variant-minimal {
-    background: transparent;
-    border: 1px solid transparent;
-    color: $color-slate-400;
-    box-shadow: none;
-    
-    &:hover:not(:disabled) {
-      background: alpha($color-slate-700, 0.3);
-      border-color: alpha($color-slate-400, 0.4);
-      color: $color-slate-200;
-      box-shadow: $shadow-sm;
-
-      @include button-hover-transform;
-    }
-    
-    &.active {
-      background: alpha($color-slate-700, 0.2);
-      border-color: alpha($color-slate-400, 0.3);
-      color: $color-slate-200;
-      box-shadow: 0 1px 6px alpha($color-slate-900, 0.15);
-    }
-  }
-  
-}
-
-// Button Utility Classes
-.main-app .twt-button-primary {
-  @include gradient-bg($gradient-button);
-
-  border: 1px solid $color-slate-500;
-  color: $color-slate-200;
-  box-shadow: $shadow-sm;
-  
-  &:hover {
-    @include gradient-bg($gradient-button-hover);
-
-    box-shadow: $shadow-md;
-
-    @include button-hover-transform;
+  .reaction-count {
+    font-weight: $font-weight-medium;
+    min-width: 14px;
+    text-align: center;
   }
 }
 
-.main-app .twt-button-success {
-  @include gradient-bg($gradient-button-success);
+// Floating Action Button
+// ==========================================================================
 
-  border: 1px solid $color-success;
-  color: #f0fdf4;
-}
-
-.main-app .twt-button-danger {
-  @include gradient-bg($gradient-button-danger);
-
-  border: 1px solid $color-danger;
-  color: #fef2f2;
-}
-
-.main-app .twt-button-minimal {
-  background: transparent;
+.fab {
+  position: fixed;
+  bottom: $spacing-6;
+  right: $spacing-6;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: $color-primary;
+  color: white;
   border: none;
-  color: $color-slate-200;
-}
-
-// Smooth Session Button Styling
-.main-app .sessions-button-control {
-  transition: all $transition-fast;
-  box-shadow: 0 2px 4px alpha($color-slate-900, 0.2);
+  box-shadow: $shadow-lg;
+  cursor: pointer;
+  transition: $transition-all;
+  z-index: 100;
+  
+  @include center-flex;
   
   &:hover {
-    box-shadow: 0 4px 8px alpha($color-slate-900, 0.3);
-
-    @include button-hover-transform;
+    background-color: $color-primary-dark;
+    box-shadow: $shadow-xl;
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(0);
   }
 }
 
-// Focus States for Accessibility
-.bp6-button:focus {
-  @include focus-ring($color-primary, 2px);
+// Icon Buttons
+// ==========================================================================
+
+.icon-button {
+  @include button-base;
+  @include center-flex;
+
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--bp-text-color-muted, $color-gray-500);
+  padding: $spacing-2;
+  border-radius: $border-radius-md;
+  
+  &:hover:not(:disabled) {
+    background-color: var(--bp-background-color-secondary, $color-gray-100);
+    color: var(--bp-text-color, $color-gray-700);
+  }
+  
+  &.icon-button-sm {
+    width: 32px;
+    height: 32px;
+    padding: $spacing-1;
+  }
+  
+  &.icon-button-md {
+    width: 40px;
+    height: 40px;
+    padding: $spacing-2;
+  }
+  
+  &.icon-button-lg {
+    width: 48px;
+    height: 48px;
+    padding: $spacing-3;
+  }
+}
+
+// Button Groups
+// ==========================================================================
+
+.button-group {
+  display: inline-flex;
+  
+  .btn-custom {
+    border-radius: 0;
+    
+    &:first-child {
+      border-top-left-radius: $border-radius-md;
+      border-bottom-left-radius: $border-radius-md;
+    }
+    
+    &:last-child {
+      border-top-right-radius: $border-radius-md;
+      border-bottom-right-radius: $border-radius-md;
+    }
+    
+    &:not(:last-child) {
+      border-right-width: 0;
+    }
+    
+    &:hover {
+      z-index: 1;
+      border-right-width: 1px;
+    }
+  }
+}
+
+// Toggle Buttons
+// ==========================================================================
+
+.toggle-button {
+  @include button-base;
+
+  background-color: var(--bp-background-color-secondary, $color-gray-100);
+  border-color: var(--bp-border-color, $color-gray-300);
+  color: var(--bp-text-color, $color-gray-700);
+  
+  &:hover:not(:disabled) {
+    background-color: var(--bp-background-color-tertiary, $color-gray-200);
+  }
+  
+  &.active {
+    background-color: $color-primary;
+    border-color: $color-primary;
+    color: white;
+    
+    &:hover:not(:disabled) {
+      background-color: $color-primary-dark;
+    }
+  }
+}
+
+// Loading Buttons
+// ==========================================================================
+
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border: 2px solid transparent;
+    border-top-color: currentcolor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  .btn-text {
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Dark Theme Adjustments
+// ==========================================================================
+
+.bp5-dark {
+  .btn-custom {
+    &.btn-secondary {
+      background-color: var(--bp-background-color-secondary, $color-dark-bg-secondary);
+      color: var(--bp-text-color, $color-dark-text);
+      
+      &:hover:not(:disabled) {
+        background-color: var(--bp-background-color-tertiary, $color-dark-bg-tertiary);
+      }
+    }
+    
+    &.btn-ghost {
+      color: var(--bp-text-color-muted, $color-dark-text-muted);
+      
+      &:hover:not(:disabled) {
+        background-color: var(--bp-background-color-secondary, $color-dark-bg-secondary);
+      }
+    }
+    
+    &.btn-outline {
+      border-color: var(--bp-border-color, $color-dark-border);
+      color: var(--bp-text-color, $color-dark-text);
+      
+      &:hover:not(:disabled) {
+        background-color: var(--bp-background-color-secondary, $color-dark-bg-secondary);
+      }
+    }
+  }
+  
+  .message-reaction {
+    background-color: var(--bp-background-color-secondary, $color-dark-bg-secondary);
+    border-color: var(--bp-border-color, $color-dark-border);
+    color: var(--bp-text-color-muted, $color-dark-text-muted);
+    
+    &:hover {
+      background-color: var(--bp-background-color-tertiary, $color-dark-bg-tertiary);
+    }
+  }
+  
+  .toggle-button {
+    background-color: var(--bp-background-color-secondary, $color-dark-bg-secondary);
+    border-color: var(--bp-border-color, $color-dark-border);
+    color: var(--bp-text-color, $color-dark-text);
+    
+    &:hover:not(:disabled) {
+      background-color: var(--bp-background-color-tertiary, $color-dark-bg-tertiary);
+    }
+  }
 } 

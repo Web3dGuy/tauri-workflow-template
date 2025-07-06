@@ -1,129 +1,477 @@
+// ==========================================================================
+// SCROLLBARS
+// ==========================================================================
+
 @use '../abstracts' as *;
 
-// =================================
-// Tauri Workflow Template - Scrollbar Components
-// Refactored: Minimal !important for third-party overrides
-// =================================
+// Default Scrollbar Styles
+// ==========================================================================
 
-// =================================
-// DESIGN TOKENS (Scrollbar-specific)
-// =================================
-$scrollbar-bg-base: $color-slate-600;
-$scrollbar-bg-hover: $color-slate-500;
-$scrollbar-bg-active: $color-slate-400;
-$scrollbar-border-base: $color-slate-700;
-$scrollbar-border-hover: $color-slate-600;
-$scrollbar-border-active: $color-slate-500;
-
-// =================================
-// PERFECT SCROLLBAR BASE
-// Ultra-specific selectors with maximum specificity instead of !important
-// =================================
-.main-app .ps,
-.main-app [class*="main-app"] .ps,
-.main-app .sidebar .ps,
-.main-app .content .ps {
-  position: relative; // Perfect Scrollbar positioning with maximum specificity
+.scrollable {
+  @include custom-scrollbar;
 }
 
-// =================================
-// SCROLLBAR RAILS (Hidden by default)
-// =================================
-.main-app .ps .ps__rail-x,
-.main-app [class*="main-app"] .ps .ps__rail-x,
-.main-app .sidebar .ps .ps__rail-x,
-.main-app .content .ps .ps__rail-x {
-  background-color: transparent; // Override with specificity
-  height: 10px; // Override with specificity
-  bottom: 0; // Override with specificity
-  opacity: 0;
-  transition: opacity $transition-fast ease;
+.scrollable-thin {
+  @include custom-scrollbar(4px);
 }
 
-.main-app .ps .ps__rail-y,
-.main-app [class*="main-app"] .ps .ps__rail-y,
-.main-app .sidebar .ps .ps__rail-y,
-.main-app .content .ps .ps__rail-y {
-  background-color: transparent; // Override with specificity
-  width: 10px; // Override with specificity
-  right: 0; // Override with specificity
-  opacity: 0;
-  transition: opacity $transition-fast ease;
+.scrollable-thick {
+  @include custom-scrollbar(12px);
 }
 
-// Show rails on hover
-.main-app .ps:hover .ps__rail-x,
-.main-app .ps:hover .ps__rail-y,
-[class*="main-app"] .ps:hover .ps__rail-x,
-[class*="main-app"] .ps:hover .ps__rail-y,
-.sidebar .ps:hover .ps__rail-x,
-.sidebar .ps:hover .ps__rail-y,
-.content .ps:hover .ps__rail-x,
-.content .ps:hover .ps__rail-y {
-  opacity: 1;
+// Chat-specific Scrollbars
+// ==========================================================================
+
+.chat-messages-scroll {
+  @include custom-scrollbar(
+    8px,
+    transparent,
+    rgba(0, 0, 0, 0.1)
+  );
+  
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    
+    &:hover {
+      background: rgb(0 0 0 / 20%);
+    }
+  }
 }
 
-// =================================
-// SCROLLBAR THUMBS (Base State)
-// =================================
-.main-app .ps .ps__thumb-x,
-.main-app [class*="main-app"] .ps .ps__thumb-x,
-.main-app .sidebar .ps .ps__thumb-x,
-.main-app .content .ps .ps__thumb-x {
-  background: $scrollbar-bg-base; // Override with specificity
-  border-radius: 6px; // Override with specificity
-  height: 6px; // Override with specificity
-  bottom: 2px; // Override with specificity
-  transition: all $transition-fast ease;
-  border: 1px solid $scrollbar-border-base;
+.chat-sidebar-scroll {
+  @include custom-scrollbar(
+    6px,
+    transparent,
+    rgba(0, 0, 0, 0.1)
+  );
 }
 
-.main-app .ps .ps__thumb-y,
-.main-app [class*="main-app"] .ps .ps__thumb-y,
-.main-app .sidebar .ps .ps__thumb-y,
-.main-app .content .ps .ps__thumb-y {
-  background: $scrollbar-bg-base; // Override with specificity
-  border-radius: 6px; // Override with specificity
-  width: 6px; // Override with specificity
-  right: 2px; // Override with specificity
-  transition: all $transition-fast ease;
-  border: 1px solid $scrollbar-border-base;
+// Message List Scrollbar
+// ==========================================================================
+
+.message-list {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(0 0 0 / 20%) transparent;
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgb(0 0 0 / 10%);
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+    
+    &:hover {
+      background: rgb(0 0 0 / 20%);
+      background-clip: content-box;
+    }
+  }
+  
+  // Auto-hide scrollbar when not hovering
+  &:not(:hover)::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
 }
 
-// =================================
-// SCROLLBAR THUMBS (Hover State)
-// =================================
-.main-app .ps .ps__thumb-x:hover,
-.main-app [class*="main-app"] .ps .ps__thumb-x:hover,
-.main-app .sidebar .ps .ps__thumb-x:hover,
-.main-app .content .ps .ps__thumb-x:hover {
-  background: $scrollbar-bg-hover; // Override with specificity
-  border-color: $scrollbar-border-hover;
-  height: 8px; // Override with specificity
-  bottom: 1px; // Override with specificity
+// Conversation List Scrollbar
+// ==========================================================================
+
+.conversation-list {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(0 0 0 / 10%) transparent;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgb(0 0 0 / 10%);
+    border-radius: 3px;
+    
+    &:hover {
+      background: rgb(0 0 0 / 20%);
+    }
+  }
 }
 
-.main-app .ps .ps__thumb-y:hover,
-.main-app [class*="main-app"] .ps .ps__thumb-y:hover,
-.main-app .sidebar .ps .ps__thumb-y:hover,
-.main-app .content .ps .ps__thumb-y:hover {
-  background: $scrollbar-bg-hover; // Override with specificity
-  border-color: $scrollbar-border-hover;
-  width: 8px; // Override with specificity
-  right: 1px; // Override with specificity
+// Emoji Picker Scrollbar
+// ==========================================================================
+
+.emoji-picker-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(0 0 0 / 15%) transparent;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: var(--bp-background-color-secondary, $color-gray-50);
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgb(0 0 0 / 15%);
+    border-radius: 3px;
+    
+    &:hover {
+      background: rgb(0 0 0 / 25%);
+    }
+  }
+  
+  &::-webkit-scrollbar-corner {
+    background: var(--bp-background-color-secondary, $color-gray-50);
+  }
 }
 
-// =================================
-// SCROLLBAR THUMBS (Active/Dragging State)
-// =================================
-.main-app .ps .ps__thumb-x:active,
-.main-app .ps .ps__thumb-y:active,
-.main-app [class*="main-app"] .ps .ps__thumb-x:active,
-.main-app [class*="main-app"] .ps .ps__thumb-y:active,
-.main-app .sidebar .ps .ps__thumb-x:active,
-.main-app .sidebar .ps .ps__thumb-y:active,
-.main-app .content .ps .ps__thumb-x:active,
-.main-app .content .ps .ps__thumb-y:active {
-  background: $scrollbar-bg-active; // Override with specificity
-  border-color: $scrollbar-border-active;
+// Modal/Overlay Scrollbars
+// ==========================================================================
+
+.modal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(0 0 0 / 30%) transparent;
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    margin: $spacing-2 0;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgb(0 0 0 / 30%);
+    border-radius: 4px;
+    
+    &:hover {
+      background: rgb(0 0 0 / 40%);
+    }
+  }
+}
+
+// Search Results Scrollbar
+// ==========================================================================
+
+.search-results-scroll {
+  @include custom-scrollbar(
+    6px,
+    var(--bp-background-color-secondary, $color-gray-50),
+    rgba(0, 0, 0, 0.2)
+  );
+  
+  &::-webkit-scrollbar-track {
+    margin: $spacing-1 0;
+  }
+}
+
+// File List Scrollbar
+// ==========================================================================
+
+.file-list-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(0 0 0 / 20%) var(--bp-background-color-secondary, $color-gray-50);
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: var(--bp-background-color-secondary, $color-gray-50);
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgb(0 0 0 / 20%);
+    border-radius: 4px;
+    border: 1px solid var(--bp-background-color-secondary, $color-gray-50);
+    
+    &:hover {
+      background: rgb(0 0 0 / 30%);
+    }
+  }
+}
+
+// Dark Theme Scrollbars
+// ==========================================================================
+
+.bp5-dark {
+  .chat-messages-scroll {
+    scrollbar-color: rgb(255 255 255 / 20%) transparent;
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgb(255 255 255 / 20%);
+      
+      &:hover {
+        background: rgb(255 255 255 / 30%);
+      }
+    }
+  }
+  
+  .chat-sidebar-scroll {
+    scrollbar-color: rgb(255 255 255 / 15%) transparent;
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgb(255 255 255 / 15%);
+      
+      &:hover {
+        background: rgb(255 255 255 / 25%);
+      }
+    }
+  }
+  
+  .message-list {
+    scrollbar-color: rgb(255 255 255 / 20%) transparent;
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgb(255 255 255 / 20%);
+      background-clip: content-box;
+      
+      &:hover {
+        background: rgb(255 255 255 / 30%);
+        background-clip: content-box;
+      }
+    }
+  }
+  
+  .conversation-list {
+    scrollbar-color: rgb(255 255 255 / 15%) transparent;
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgb(255 255 255 / 15%);
+      
+      &:hover {
+        background: rgb(255 255 255 / 25%);
+      }
+    }
+  }
+  
+  .emoji-picker-scroll {
+    scrollbar-color: rgb(255 255 255 / 20%) var(--bp-background-color-secondary, $color-dark-bg-secondary);
+    
+    &::-webkit-scrollbar-track {
+      background: var(--bp-background-color-secondary, $color-dark-bg-secondary);
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgb(255 255 255 / 20%);
+      
+      &:hover {
+        background: rgb(255 255 255 / 30%);
+      }
+    }
+    
+    &::-webkit-scrollbar-corner {
+      background: var(--bp-background-color-secondary, $color-dark-bg-secondary);
+    }
+  }
+  
+  .modal-scroll {
+    scrollbar-color: rgb(255 255 255 / 30%) transparent;
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgb(255 255 255 / 30%);
+      
+      &:hover {
+        background: rgb(255 255 255 / 40%);
+      }
+    }
+  }
+  
+  .search-results-scroll {
+    scrollbar-color: rgb(255 255 255 / 20%) var(--bp-background-color-secondary, $color-dark-bg-secondary);
+    
+    &::-webkit-scrollbar-track {
+      background: var(--bp-background-color-secondary, $color-dark-bg-secondary);
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgb(255 255 255 / 20%);
+      
+      &:hover {
+        background: rgb(255 255 255 / 30%);
+      }
+    }
+  }
+  
+  .file-list-scroll {
+    scrollbar-color: rgb(255 255 255 / 20%) var(--bp-background-color-secondary, $color-dark-bg-secondary);
+    
+    &::-webkit-scrollbar-track {
+      background: var(--bp-background-color-secondary, $color-dark-bg-secondary);
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgb(255 255 255 / 20%);
+      border-color: var(--bp-background-color-secondary, $color-dark-bg-secondary);
+      
+      &:hover {
+        background: rgb(255 255 255 / 30%);
+      }
+    }
+  }
+}
+
+// Utility Classes
+// ==========================================================================
+
+.scrollbar-none {
+  scrollbar-width: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.scrollbar-auto {
+  scrollbar-width: auto;
+  
+  &::-webkit-scrollbar {
+    width: auto;
+    height: auto;
+  }
+}
+
+// Smooth Scrolling
+// ==========================================================================
+
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+.scroll-snap-y {
+  scroll-snap-type: y mandatory;
+  
+  > * {
+    scroll-snap-align: start;
+  }
+}
+
+.scroll-snap-x {
+  scroll-snap-type: x mandatory;
+  
+  > * {
+    scroll-snap-align: start;
+  }
+}
+
+// Scroll Padding
+// ==========================================================================
+
+.scroll-pt-0 { scroll-padding-top: 0; }
+.scroll-pt-4 { scroll-padding-top: $spacing-4; }
+.scroll-pt-8 { scroll-padding-top: $spacing-8; }
+
+.scroll-pb-0 { scroll-padding-bottom: 0; }
+.scroll-pb-4 { scroll-padding-bottom: $spacing-4; }
+.scroll-pb-8 { scroll-padding-bottom: $spacing-8; }
+
+// Auto-scroll to Bottom Behavior
+// ==========================================================================
+
+.auto-scroll-bottom {
+  overflow-anchor: none;
+  
+  &::after {
+    content: '';
+    display: block;
+    height: 1px;
+    overflow-anchor: auto;
+  }
+}
+
+// Custom Scrollbar for Specific Components
+// ==========================================================================
+
+.perfect-scrollbar-container {
+  position: relative;
+  
+  .ps__rail-x,
+  .ps__rail-y {
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+  }
+  
+  &:hover {
+    .ps__rail-x,
+    .ps__rail-y {
+      opacity: 1;
+    }
+  }
+  
+  .ps__thumb-x,
+  .ps__thumb-y {
+    background-color: rgb(0 0 0 / 20%);
+    border-radius: 3px;
+  }
+  
+  &:hover {
+    .ps__thumb-x,
+    .ps__thumb-y {
+      background-color: rgb(0 0 0 / 30%);
+    }
+  }
+}
+
+.bp5-dark .perfect-scrollbar-container {
+  .ps__thumb-x,
+  .ps__thumb-y {
+    background-color: rgb(255 255 255 / 30%);
+  }
+  
+  &:hover {
+    .ps__thumb-x,
+    .ps__thumb-y {
+      background-color: rgb(255 255 255 / 40%);
+    }
+  }
+}
+
+// Accessibility
+// ==========================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .smooth-scroll {
+    scroll-behavior: auto;
+  }
+}
+
+// High Contrast Mode
+// ==========================================================================
+
+@media (prefers-contrast: high) {
+  * {
+    scrollbar-color: black white;
+    
+    &::-webkit-scrollbar-thumb {
+      background: black;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: white;
+    }
+  }
+  
+  .bp5-dark * {
+    scrollbar-color: white black;
+    
+    &::-webkit-scrollbar-thumb {
+      background: white;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: black;
+    }
+  }
 } 

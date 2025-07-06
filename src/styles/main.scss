@@ -1,37 +1,38 @@
-// =================================
-// Tauri Template - Main SCSS Entry Point  
-// Modular SCSS architecture for maintainable styling
-// =================================
+// ==========================================================================
+// MAIN STYLESHEET
+// ==========================================================================
 
-// 1. Abstracts - Variables, functions, mixins (automatically available to all modules)
-@use 'abstracts';
+// 1. ABSTRACTS
+// Configuration and helpers
+@use 'abstracts' as *;
 
-// 2. Base - Reset, typography, global styles
+// 2. VENDORS
+// Third-party styles and overrides
+@use 'vendors/blueprint-overrides';
+
+// 3. BASE
+// Default styles for basic HTML elements
 @use 'base/reset';
 @use 'base/typography';
 @use 'base/animations';
 
-// 3. Layout - Main layout components
+// 4. LAYOUT
+// Major layout components
 @use 'layout/app';
-@use 'layout/navbar';
-@use 'layout/sidebar';
-@use 'layout/content';
-@use 'layout/workspace';
+@use 'layout/chat-layout';
 
-// 4. Components - UI components
+// 5. COMPONENTS
+// Reusable UI components
 @use 'components/buttons';
-@use 'components/forms';
-@use 'components/cards';
-@use 'components/console';
-@use 'components/screen-cards';
-@use 'components/dropdowns';
 @use 'components/scrollbars';
-@use 'components/chat';
 
-// 5. Themes - Third-party library overrides
-@use 'themes/blueprint-overrides';
+// 6. THEMES
+// Theme-specific styles
+@use 'themes/light';
+@use 'themes/dark';
 
-// 6. Utilities - Helper classes and responsive design
+// 7. UTILITIES
+// Utility classes and helpers
 @use 'utilities/utility-classes';
 @use 'utilities/responsive';
 @use 'utilities/text-selection'; 

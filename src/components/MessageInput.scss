@@ -1,0 +1,241 @@
+.message-input {
+  padding: 16px;
+  background: var(--bp-background-color);
+  border-top: 1px solid var(--bp-border-color);
+
+  &__reply-preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    background: var(--bp-background-color-secondary);
+    border-radius: 8px;
+    border-left: 3px solid #0084ff;
+    position: relative;
+  }
+
+  &__reply-line {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #0084ff;
+    border-radius: 0 2px 2px 0;
+  }
+
+  &__reply-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  &__reply-text {
+    color: var(--bp-text-color-muted);
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__reply-cancel {
+    flex-shrink: 0;
+  }
+
+  &__attachments {
+    margin-bottom: 12px;
+  }
+
+  &__attachment {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bp-background-color-secondary);
+    border: 1px solid var(--bp-border-color);
+    border-radius: 8px;
+    margin-bottom: 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__attachment-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__attachment-name {
+    display: block;
+    font-weight: 500;
+    color: var(--bp-text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 13px;
+  }
+
+  &__attachment-size {
+    display: block;
+    font-size: 11px;
+    color: var(--bp-text-color-muted);
+  }
+
+  &__attachment-remove {
+    flex-shrink: 0;
+  }
+
+  &__main {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  &__action-button {
+    border-radius: 50% !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    
+    &:hover {
+      background: var(--bp-background-color-secondary) !important;
+    }
+  }
+
+  &__input-container {
+    flex: 1;
+    position: relative;
+  }
+
+  &__input {
+    .bp5-input {
+      border-radius: 20px !important;
+      padding-right: 60px !important;
+      font-size: 14px;
+      
+      &:focus {
+        box-shadow: 0 0 0 2px rgb(0 132 255 / 30%) !important;
+        border-color: #0084ff !important;
+      }
+    }
+  }
+
+  &__counter {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: var(--bp-text-color-muted);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  &__send-button {
+    border-radius: 50% !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    transition: all 0.2s ease !important;
+
+    &:not(:disabled) {
+      background: #0084ff !important;
+      border-color: #0084ff !important;
+      
+      &:hover {
+        background: #06c !important;
+        border-color: #06c !important;
+        transform: scale(1.05);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  &__emoji-menu {
+    padding: 8px;
+    max-width: 280px;
+  }
+
+  &__emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+  }
+
+  &__emoji-item {
+    min-height: 36px !important;
+    padding: 8px !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 18px !important;
+    
+    &:hover {
+      background: var(--bp-background-color-secondary) !important;
+    }
+
+    .bp5-menu-item-label {
+      margin: 0 !important;
+    }
+  }
+}
+
+// Dark theme adjustments
+.bp5-dark .message-input {
+  background: var(--bp-background-color);
+  border-top-color: var(--bp-border-color);
+
+  &__reply-preview {
+    background: #2d3748;
+  }
+
+  &__attachment {
+    background: #2d3748;
+    border-color: #4a5568;
+  }
+
+  &__action-button:hover {
+    background: #374151 !important;
+  }
+}
+
+// Responsive design
+@media (width <= 768px) {
+  .message-input {
+    padding: 12px;
+
+    &__main {
+      gap: 6px;
+    }
+
+    &__actions {
+      gap: 2px;
+    }
+
+    &__action-button {
+      min-width: 32px !important;
+      min-height: 32px !important;
+    }
+
+    &__send-button {
+      min-width: 36px !important;
+      min-height: 36px !important;
+    }
+  }
+} 

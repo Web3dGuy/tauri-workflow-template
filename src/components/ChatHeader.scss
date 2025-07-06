@@ -1,0 +1,142 @@
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--bp-background-color);
+  border-bottom: 1px solid var(--bp-border-color);
+  min-height: 64px;
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &__avatar {
+    flex-shrink: 0;
+  }
+
+  &__group-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  &__details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--bp-text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+  }
+
+  &__pin-icon {
+    color: var(--bp-text-color-muted);
+    flex-shrink: 0;
+  }
+
+  &__subtitle {
+    font-size: 13px;
+    color: var(--bp-text-color-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.2s ease;
+
+    &--typing {
+      color: #0084ff;
+      font-style: italic;
+      animation: typingPulse 2s infinite;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  &__action-button {
+    border-radius: 50% !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    
+    &:hover {
+      background: var(--bp-background-color-secondary) !important;
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+// Dark theme adjustments
+.bp5-dark .chat-header {
+  background: var(--bp-background-color);
+  border-bottom-color: var(--bp-border-color);
+
+  &__action-button:hover {
+    background: #374151 !important;
+  }
+}
+
+// Responsive design
+@media (width <= 768px) {
+  .chat-header {
+    padding: 8px 12px;
+    min-height: 56px;
+
+    &__title {
+      font-size: 15px;
+    }
+
+    &__subtitle {
+      font-size: 12px;
+    }
+
+    &__actions {
+      gap: 2px;
+    }
+
+    &__action-button {
+      min-width: 32px !important;
+      min-height: 32px !important;
+    }
+  }
+}
+
+@keyframes typingPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+} 

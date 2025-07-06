@@ -1,0 +1,404 @@
+// ==========================================================================
+// LIGHT THEME
+// ==========================================================================
+
+@use '../abstracts' as *;
+
+// Light Theme Root
+// ==========================================================================
+
+:root,
+.bp5-light {
+  // CSS Custom Properties for Light Theme
+  --bp-background-color: #{$color-white};
+  --bp-background-color-secondary: #{$color-gray-50};
+  --bp-background-color-tertiary: #{$color-gray-100};
+  --bp-text-color: #{$color-gray-900};
+  --bp-text-color-muted: #{$color-gray-600};
+  --bp-text-color-disabled: #{$color-gray-400};
+  --bp-border-color: #{$color-gray-200};
+  
+  // Input colors
+  --bp-input-background-color: #{$color-white};
+  --bp-input-border-color: #{$color-gray-300};
+  
+  // Button colors
+  --bp-button-background-color: #{$color-white};
+  --bp-button-border-color: #{$color-gray-300};
+  
+  // Focus colors
+  --bp-focus-color: #{$color-primary};
+  --bp-focus-shadow: #{rgba($color-primary, 0.3)};
+  
+  // Selection colors
+  --bp-selection-background: #{rgba($color-primary, 0.2)};
+  --bp-selection-color: #{$color-white};
+  
+  // Scrollbar colors
+  --bp-scrollbar-track: transparent;
+  --bp-scrollbar-thumb: #{rgba($color-gray-400, 0.5)};
+  --bp-scrollbar-thumb-hover: #{rgba($color-gray-500, 0.7)};
+  
+  // Shadow values
+  --bp-shadow-sm: #{$shadow-sm};
+  --bp-shadow-base: #{$shadow-base};
+  --bp-shadow-md: #{$shadow-md};
+  --bp-shadow-lg: #{$shadow-lg};
+  --bp-shadow-xl: #{$shadow-xl};
+  
+  // Color scheme
+  color-scheme: light;
+}
+
+// Global Light Theme Overrides
+// ==========================================================================
+
+.bp5-light {
+  // Body and root elements
+  body,
+  html {
+    background-color: var(--bp-background-color);
+    color: var(--bp-text-color);
+  }
+  
+  // Links
+  a {
+    color: $color-primary;
+    
+    &:hover {
+      color: $color-primary-dark;
+    }
+  }
+  
+  // Code blocks
+  code {
+    background-color: var(--bp-background-color-secondary);
+    color: var(--bp-text-color);
+  }
+  
+  pre {
+    background-color: var(--bp-background-color-secondary);
+    color: var(--bp-text-color);
+    border: 1px solid var(--bp-border-color);
+  }
+  
+  // Blockquotes
+  blockquote {
+    background-color: var(--bp-background-color-secondary);
+    border-left-color: var(--bp-border-color);
+    color: var(--bp-text-color-muted);
+  }
+  
+  // Horizontal rules
+  hr {
+    background-color: var(--bp-border-color);
+  }
+  
+  // Form elements
+  input,
+  textarea,
+  select {
+    background-color: var(--bp-input-background-color);
+    border-color: var(--bp-input-border-color);
+    color: var(--bp-text-color);
+    
+    &::placeholder {
+      color: var(--bp-text-color-muted);
+    }
+    
+    &:focus {
+      border-color: var(--bp-focus-color);
+      box-shadow: 0 0 0 3px var(--bp-focus-shadow);
+    }
+  }
+  
+  // Buttons
+  button {
+    background-color: var(--bp-button-background-color);
+    border-color: var(--bp-button-border-color);
+    color: var(--bp-text-color);
+    
+    &:hover:not(:disabled) {
+      background-color: var(--bp-background-color-secondary);
+    }
+  }
+}
+
+// Chat-specific Light Theme Styles
+// ==========================================================================
+
+.bp5-light {
+  // Chat bubbles
+  .chat-bubble {
+    &.own {
+      background: $color-primary;
+      color: white;
+    }
+    
+    &.other {
+      background: var(--bp-background-color-secondary);
+      color: var(--bp-text-color);
+    }
+  }
+  
+  // Message items
+  .message-item {
+    &:hover {
+      background-color: rgba($color-gray-500, 0.05);
+    }
+  }
+  
+  // Typing indicator
+  .typing-indicator {
+    background-color: var(--bp-background-color-secondary);
+    color: var(--bp-text-color-muted);
+  }
+  
+  // User avatars
+  .user-avatar {
+    border-color: var(--bp-border-color);
+  }
+  
+  // Status indicators
+  .status-indicator {
+    border-color: var(--bp-background-color);
+  }
+  
+  // Sidebar items
+  .sidebar-item {
+    &:hover {
+      background-color: rgba($color-gray-500, 0.05);
+    }
+    
+    &.active {
+      background-color: rgba($color-primary, 0.1);
+      color: $color-primary-dark;
+    }
+  }
+  
+  // Message input
+  .message-input {
+    background-color: var(--bp-background-color);
+    border-color: var(--bp-border-color);
+    color: var(--bp-text-color);
+    
+    &:focus {
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+    }
+  }
+  
+  // Emoji picker
+  .emoji-picker {
+    background-color: var(--bp-background-color);
+    border-color: var(--bp-border-color);
+    box-shadow: var(--bp-shadow-lg);
+    
+    .emoji-category {
+      background-color: var(--bp-background-color-secondary);
+      color: var(--bp-text-color);
+    }
+    
+    .emoji-item {
+      &:hover {
+        background-color: rgba($color-primary, 0.1);
+      }
+    }
+  }
+  
+  // File attachments
+  .file-attachment {
+    background-color: var(--bp-background-color-secondary);
+    border-color: var(--bp-border-color);
+    color: var(--bp-text-color);
+  }
+  
+  // Reactions
+  .message-reaction {
+    background-color: var(--bp-background-color-secondary);
+    border-color: var(--bp-border-color);
+    color: var(--bp-text-color);
+    
+    &.active {
+      background-color: rgba($color-primary, 0.1);
+      color: $color-primary-dark;
+    }
+  }
+  
+  // Context menus
+  .context-menu {
+    background-color: var(--bp-background-color);
+    border-color: var(--bp-border-color);
+    box-shadow: var(--bp-shadow-lg);
+  }
+  
+  // Search results
+  .search-result {
+    background-color: var(--bp-background-color-secondary);
+    
+    &:hover {
+      background-color: var(--bp-background-color-tertiary);
+    }
+    
+    .search-highlight {
+      background-color: rgba($color-warning, 0.3);
+      color: var(--bp-text-color);
+    }
+  }
+  
+  // Notifications
+  .notification {
+    background-color: var(--bp-background-color);
+    border-color: var(--bp-border-color);
+    color: var(--bp-text-color);
+    box-shadow: var(--bp-shadow-lg);
+  }
+  
+  // Loading states
+  .loading-skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--bp-background-color-secondary) 25%,
+      var(--bp-background-color-tertiary) 50%,
+      var(--bp-background-color-secondary) 75%
+    );
+    background-size: 200% 100%;
+    animation: loading-shimmer 1.5s infinite;
+  }
+  
+  @keyframes loading-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+}
+
+// Scrollbar Theming
+// ==========================================================================
+
+.bp5-light {
+  * {
+    scrollbar-color: var(--bp-scrollbar-thumb) var(--bp-scrollbar-track);
+    
+    &::-webkit-scrollbar-track {
+      background: var(--bp-scrollbar-track);
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: var(--bp-scrollbar-thumb);
+      
+      &:hover {
+        background: var(--bp-scrollbar-thumb-hover);
+      }
+    }
+  }
+}
+
+// Selection Theming
+// ==========================================================================
+
+.bp5-light {
+  ::selection {
+    background: var(--bp-selection-background);
+    color: var(--bp-selection-color);
+  }
+  
+  ::selection {
+    background: var(--bp-selection-background);
+    color: var(--bp-selection-color);
+  }
+}
+
+// Focus Theming
+// ==========================================================================
+
+.bp5-light {
+  *:focus-visible {
+    outline: 2px solid var(--bp-focus-color);
+    outline-offset: 2px;
+  }
+  
+  .focus-ring:focus {
+    box-shadow: 0 0 0 3px var(--bp-focus-shadow);
+  }
+}
+
+// Seasonal Theme Variations
+// ==========================================================================
+
+// Spring theme (soft greens)
+.bp5-light.theme-spring {
+  --bp-background-color-secondary: #f0f9f0;
+  --bp-border-color: #d1e7dd;
+  --bp-focus-color: #{$color-success};
+  --bp-focus-shadow: #{rgba($color-success, 0.3)};
+}
+
+// Summer theme (warm yellows)
+.bp5-light.theme-summer {
+  --bp-background-color-secondary: #fef9e7;
+  --bp-border-color: #ffeaa7;
+  --bp-focus-color: #{$color-warning};
+  --bp-focus-shadow: #{rgba($color-warning, 0.3)};
+}
+
+// Autumn theme (warm oranges)
+.bp5-light.theme-autumn {
+  --bp-background-color-secondary: #fff5f0;
+  --bp-border-color: #ffccbc;
+  --bp-focus-color: #ff7043;
+  --bp-focus-shadow: rgb(255 112 67 / 30%);
+}
+
+// Winter theme (cool blues)
+.bp5-light.theme-winter {
+  --bp-background-color-secondary: #f0f6ff;
+  --bp-border-color: #c2d9ff;
+  --bp-focus-color: #{$color-info};
+  --bp-focus-shadow: #{rgba($color-info, 0.3)};
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .bp5-light {
+    --bp-border-color: #{$color-gray-600};
+    --bp-text-color-muted: #{$color-gray-800};
+    --bp-background-color-secondary: #{$color-gray-200};
+  }
+}
+
+// Reduced motion adjustments
+@media (prefers-reduced-motion: reduce) {
+  .bp5-light {
+    .loading-skeleton {
+      animation: none;
+    }
+  }
+}
+
+// Print styles for light theme
+@media print {
+  .bp5-light {
+    --bp-background-color: white;
+    --bp-background-color-secondary: white;
+    --bp-text-color: black;
+    --bp-text-color-muted: #666;
+    --bp-border-color: #ccc;
+    
+    // Hide decorative elements
+    .status-indicator,
+    .typing-indicator,
+    .emoji-picker {
+      display: none !important;
+    }
+    
+    // Ensure good contrast for printing
+    .chat-bubble {
+      border: 1px solid #ccc !important;
+      
+      &.own {
+        background: #f0f0f0 !important;
+        color: black !important;
+      }
+    }
+  }
+} 

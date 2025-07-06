@@ -1,0 +1,371 @@
+// ==========================================================================
+// DARK THEME
+// ==========================================================================
+
+@use '../abstracts' as *;
+
+// Dark Theme Root
+// ==========================================================================
+
+.bp5-dark {
+  // CSS Custom Properties for Dark Theme
+  --bp-background-color: #{$color-dark-bg};
+  --bp-background-color-secondary: #{$color-dark-bg-secondary};
+  --bp-background-color-tertiary: #{$color-dark-bg-tertiary};
+  --bp-text-color: #{$color-dark-text};
+  --bp-text-color-muted: #{$color-dark-text-muted};
+  --bp-text-color-disabled: #{rgba($color-dark-text, 0.4)};
+  --bp-border-color: #{$color-dark-border};
+  
+  // Input colors
+  --bp-input-background-color: #{$color-dark-bg-secondary};
+  --bp-input-border-color: #{$color-dark-border};
+  
+  // Button colors
+  --bp-button-background-color: #{$color-dark-bg-secondary};
+  --bp-button-border-color: #{$color-dark-border};
+  
+  // Focus colors
+  --bp-focus-color: #{$color-primary};
+  --bp-focus-shadow: #{rgba($color-primary, 0.3)};
+  
+  // Selection colors
+  --bp-selection-background: #{rgba($color-primary, 0.3)};
+  --bp-selection-color: #{$color-dark-text};
+  
+  // Scrollbar colors
+  --bp-scrollbar-track: transparent;
+  --bp-scrollbar-thumb: #{rgba($color-dark-text-muted, 0.3)};
+  --bp-scrollbar-thumb-hover: #{rgba($color-dark-text-muted, 0.5)};
+  
+  // Shadow adjustments for dark theme
+  --bp-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 30%);
+  --bp-shadow-base: 0 1px 3px 0 rgb(0 0 0 / 40%), 0 1px 2px 0 rgb(0 0 0 / 20%);
+  --bp-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 40%), 0 2px 4px -1px rgb(0 0 0 / 20%);
+  --bp-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 40%), 0 4px 6px -2px rgb(0 0 0 / 20%);
+  --bp-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 40%), 0 10px 10px -5px rgb(0 0 0 / 15%);
+  
+  // Color scheme
+  color-scheme: dark;
+}
+
+// Global Dark Theme Overrides
+// ==========================================================================
+
+.bp5-dark {
+  // Body and root elements
+  body,
+  html {
+    background-color: var(--bp-background-color);
+    color: var(--bp-text-color);
+  }
+  
+  // Links
+  a {
+    color: $color-primary-light;
+    
+    &:hover {
+      color: $color-primary;
+    }
+  }
+  
+  // Code blocks
+  code {
+    background-color: var(--bp-background-color-secondary);
+    color: var(--bp-text-color);
+  }
+  
+  pre {
+    background-color: var(--bp-background-color-secondary);
+    color: var(--bp-text-color);
+    border: 1px solid var(--bp-border-color);
+  }
+  
+  // Blockquotes
+  blockquote {
+    background-color: var(--bp-background-color-secondary);
+    border-left-color: var(--bp-border-color);
+    color: var(--bp-text-color-muted);
+  }
+  
+  // Horizontal rules
+  hr {
+    background-color: var(--bp-border-color);
+  }
+  
+  // Form elements
+  input,
+  textarea,
+  select {
+    background-color: var(--bp-input-background-color);
+    border-color: var(--bp-input-border-color);
+    color: var(--bp-text-color);
+    
+    &::placeholder {
+      color: var(--bp-text-color-muted);
+    }
+    
+    &:focus {
+      border-color: var(--bp-focus-color);
+      box-shadow: 0 0 0 3px var(--bp-focus-shadow);
+    }
+  }
+  
+  // Buttons
+  button {
+    background-color: var(--bp-button-background-color);
+    border-color: var(--bp-button-border-color);
+    color: var(--bp-text-color);
+    
+    &:hover:not(:disabled) {
+      background-color: var(--bp-background-color-tertiary);
+    }
+  }
+}
+
+// Chat-specific Dark Theme Styles
+// ==========================================================================
+
+.bp5-dark {
+  // Chat bubbles
+  .chat-bubble {
+    &.own {
+      background: $color-primary;
+      color: white;
+    }
+    
+    &.other {
+      background: var(--bp-background-color-secondary);
+      color: var(--bp-text-color);
+    }
+  }
+  
+  // Message items
+  .message-item {
+    &:hover {
+      background-color: rgba($color-dark-text, 0.05);
+    }
+  }
+  
+  // Typing indicator
+  .typing-indicator {
+    background-color: var(--bp-background-color-secondary);
+    color: var(--bp-text-color-muted);
+  }
+  
+  // User avatars
+  .user-avatar {
+    border-color: var(--bp-border-color);
+  }
+  
+  // Status indicators
+  .status-indicator {
+    border-color: var(--bp-background-color);
+  }
+  
+  // Sidebar items
+  .sidebar-item {
+    &:hover {
+      background-color: rgba($color-dark-text, 0.05);
+    }
+    
+    &.active {
+      background-color: rgba($color-primary, 0.2);
+      color: $color-primary-light;
+    }
+  }
+  
+  // Message input
+  .message-input {
+    background-color: var(--bp-background-color-secondary);
+    border-color: var(--bp-border-color);
+    color: var(--bp-text-color);
+    
+    &:focus {
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.3);
+    }
+  }
+  
+  // Emoji picker
+  .emoji-picker {
+    background-color: var(--bp-background-color);
+    border-color: var(--bp-border-color);
+    box-shadow: var(--bp-shadow-lg);
+    
+    .emoji-category {
+      background-color: var(--bp-background-color-secondary);
+      color: var(--bp-text-color);
+    }
+    
+    .emoji-item {
+      &:hover {
+        background-color: rgba($color-primary, 0.1);
+      }
+    }
+  }
+  
+  // File attachments
+  .file-attachment {
+    background-color: var(--bp-background-color-secondary);
+    border-color: var(--bp-border-color);
+    color: var(--bp-text-color);
+  }
+  
+  // Reactions
+  .message-reaction {
+    background-color: var(--bp-background-color-secondary);
+    border-color: var(--bp-border-color);
+    color: var(--bp-text-color);
+    
+    &.active {
+      background-color: rgba($color-primary, 0.2);
+      color: $color-primary-light;
+    }
+  }
+  
+  // Context menus
+  .context-menu {
+    background-color: var(--bp-background-color);
+    border-color: var(--bp-border-color);
+    box-shadow: var(--bp-shadow-lg);
+  }
+  
+  // Search results
+  .search-result {
+    background-color: var(--bp-background-color-secondary);
+    
+    &:hover {
+      background-color: var(--bp-background-color-tertiary);
+    }
+    
+    .search-highlight {
+      background-color: rgba($color-warning, 0.3);
+      color: var(--bp-text-color);
+    }
+  }
+  
+  // Notifications
+  .notification {
+    background-color: var(--bp-background-color);
+    border-color: var(--bp-border-color);
+    color: var(--bp-text-color);
+    box-shadow: var(--bp-shadow-lg);
+  }
+  
+  // Loading states
+  .loading-skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--bp-background-color-secondary) 25%,
+      var(--bp-background-color-tertiary) 50%,
+      var(--bp-background-color-secondary) 75%
+    );
+    background-size: 200% 100%;
+    animation: loading-shimmer 1.5s infinite;
+  }
+  
+  @keyframes loading-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+}
+
+// Scrollbar Theming
+// ==========================================================================
+
+.bp5-dark {
+  * {
+    scrollbar-color: var(--bp-scrollbar-thumb) var(--bp-scrollbar-track);
+    
+    &::-webkit-scrollbar-track {
+      background: var(--bp-scrollbar-track);
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: var(--bp-scrollbar-thumb);
+      
+      &:hover {
+        background: var(--bp-scrollbar-thumb-hover);
+      }
+    }
+  }
+}
+
+// Selection Theming
+// ==========================================================================
+
+.bp5-dark {
+  ::selection {
+    background: var(--bp-selection-background);
+    color: var(--bp-selection-color);
+  }
+  
+  ::selection {
+    background: var(--bp-selection-background);
+    color: var(--bp-selection-color);
+  }
+}
+
+// Focus Theming
+// ==========================================================================
+
+.bp5-dark {
+  *:focus-visible {
+    outline: 2px solid var(--bp-focus-color);
+    outline-offset: 2px;
+  }
+  
+  .focus-ring:focus {
+    box-shadow: 0 0 0 3px var(--bp-focus-shadow);
+  }
+}
+
+// Media Queries for Dark Theme
+// ==========================================================================
+
+// Respect system dark mode preference
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bp-background-color: #{$color-dark-bg};
+    --bp-background-color-secondary: #{$color-dark-bg-secondary};
+    --bp-text-color: #{$color-dark-text};
+    --bp-text-color-muted: #{$color-dark-text-muted};
+    --bp-border-color: #{$color-dark-border};
+  }
+}
+
+// High contrast adjustments
+@media (prefers-contrast: high) {
+  .bp5-dark {
+    --bp-border-color: #{$color-dark-text-muted};
+    --bp-text-color-muted: #{rgba($color-dark-text, 0.8)};
+  }
+}
+
+// Reduced motion adjustments
+@media (prefers-reduced-motion: reduce) {
+  .bp5-dark {
+    .loading-skeleton {
+      animation: none;
+    }
+  }
+}
+
+// Print styles for dark theme
+@media print {
+  .bp5-dark {
+    --bp-background-color: white;
+    --bp-background-color-secondary: #f5f5f5;
+    --bp-text-color: black;
+    --bp-text-color-muted: #666;
+    --bp-border-color: #ccc;
+    
+    // Hide decorative elements
+    .status-indicator,
+    .typing-indicator,
+    .emoji-picker {
+      display: none !important;
+    }
+  }
+} 

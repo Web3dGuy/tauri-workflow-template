@@ -1,0 +1,145 @@
+// ==========================================================================
+// APP STYLES
+// ==========================================================================
+
+// Import the main SCSS system
+@use './styles/main';
+
+// Chat Application Styles
+// ==========================================================================
+
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bp-background-color, white);
+  color: var(--bp-text-color, #2d3748);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  // Apply theme classes
+  &.bp5-dark {
+    background-color: var(--bp-background-color, #1e1e1e);
+    color: var(--bp-text-color, #fff);
+  }
+}
+
+// Chat Layout Override for App Component
+// ==========================================================================
+
+.chat-container {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  min-height: 0;
+}
+
+// Ensure proper theme inheritance
+// ==========================================================================
+
+.bp5-dark {
+  .app {
+    background-color: var(--bp-background-color, #1e1e1e);
+    color: var(--bp-text-color, #fff);
+  }
+}
+
+// Scrollbar styles are handled by the main SCSS system
+
+// Focus management for the entire app
+// ==========================================================================
+
+.app {
+  &:focus-within {
+    // Enhanced focus visibility when any child element is focused
+    // This helps with keyboard navigation awareness
+    border: 1px solid var(--bp-focus-color, transparent);
+    box-shadow: inset 0 0 0 1px var(--bp-focus-shadow, transparent);
+  }
+}
+
+// Enhanced focus management for main app container
+.main-app {
+  &:focus-within {
+    // Subtle glow effect when app has focus
+    &::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      border: 2px solid var(--bp-focus-color, transparent);
+      border-radius: 4px;
+      opacity: 0.1;
+      z-index: 9999;
+    }
+  }
+}
+
+// Print styles
+// ==========================================================================
+
+@media print {
+  .app {
+    height: auto;
+    background: white !important;
+    color: black !important;
+  }
+  
+  .chat-container {
+    display: block;
+  }
+}
+
+.main-app {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--bp-background-color);
+  color: var(--bp-text-color);
+}
+
+.chat-layout {
+  display: flex;
+  height: 100%;
+  width: 100%;
+
+  &__sidebar {
+    flex-shrink: 0;
+    z-index: 20;
+  }
+
+  &__main {
+    flex: 1;
+    min-width: 0;
+    z-index: 10;
+  }
+}
+
+// Component styles are already included via the main SCSS system
+// Individual component imports have been removed to avoid deprecation warnings
+
+// Responsive design
+@media (width <= 768px) {
+  .chat-layout {
+    &__sidebar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      z-index: 30;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+
+      &--open {
+        transform: translateX(0);
+      }
+    }
+
+    &__main {
+      width: 100%;
+    }
+  }
+}
+
+// Theme variables are handled by the main SCSS system
+
+// Scrollbar styles are handled by the main SCSS system 

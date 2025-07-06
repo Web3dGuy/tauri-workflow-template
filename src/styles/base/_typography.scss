@@ -1,70 +1,293 @@
+// ==========================================================================
+// TYPOGRAPHY
+// ==========================================================================
+
 @use '../abstracts' as *;
 
-// =================================
-// Tauri Workflow Template - Typography
-// Extracted from: App.css (heading colors, text utilities)
-// =================================
+// Font Face Declarations
+// ==========================================================================
 
-// Global heading styles - Enhanced Visibility
-.main-app .bp6-dark .bp6-heading,
-.main-app .bp6-dark h4.bp6-heading,
-.main-app .bp6-dark h5.bp6-heading {
-  color: $color-slate-50;
-  font-weight: 600;
-  text-shadow: 0 1px 2px rgb(0 0 0 / 30%);
+// You can add custom font declarations here if needed
+// @font-face {
+//   font-family: 'CustomFont';
+//   src: url('../assets/fonts/custom-font.woff2') format('woff2');
+//   font-weight: 400;
+//   font-style: normal;
+//   font-display: swap;
+// }
+
+// Base Typography
+// ==========================================================================
+
+html {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-normal;
+
+  @include font-smoothing;
 }
 
-// Text color utilities
-.main-app .bp6-dark .bp6-text {
-  color: $color-slate-200;
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-normal;
+  color: var(--bp-text-color, $color-gray-900);
+  text-rendering: optimizelegibility;
+  font-feature-settings: "kern" 1;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+}
+
+// Headings
+// ==========================================================================
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-family-base;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  color: var(--bp-text-color, $color-gray-900);
+  margin: 0 0 $spacing-4;
   
-  strong {
-    color: $color-slate-50;
-    font-weight: 600;
+  &:last-child {
+    margin-bottom: 0;
   }
 }
 
-// Text utility classes  
-.main-app .twt-text-primary {
-  color: $color-slate-200;
-}
-
-.main-app .twt-text-secondary {
-  color: $color-slate-300;
-}
-
-.main-app .twt-text-muted {
-  color: $color-slate-400;
-}
-
-// Form labels and helper text
-.main-app .bp6-dark .bp6-form-group .bp6-label {
-  color: $color-slate-200;
-  font-weight: 500;
-  margin-bottom: 8px;
-}
-
-.main-app .bp6-dark .bp6-form-helper-text {
-  color: $color-slate-400;
-  font-size: 12px;
-  margin-top: 4px;
+h1 {
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
   
-  &.bp6-intent-danger {
-    color: #f87171;
-  }
-  
-  &.bp6-intent-success {
-    color: #34d399;
-  }
-  
-  &.bp6-intent-warning {
-    color: #fbbf24;
+  @include media(md) {
+    font-size: 3rem;
   }
 }
 
-// Label info styling
-.main-app .bp6-dark .bp6-label .bp6-text-muted {
-  color: $color-slate-400;
-  font-weight: 400;
-  font-size: 12px;
+h2 {
+  font-size: $font-size-3xl;
+  
+  @include media(md) {
+    font-size: 2.5rem;
+  }
+}
+
+h3 {
+  font-size: $font-size-2xl;
+  
+  @include media(md) {
+    font-size: 2rem;
+  }
+}
+
+h4 {
+  font-size: $font-size-xl;
+  
+  @include media(md) {
+    font-size: 1.5rem;
+  }
+}
+
+h5 {
+  font-size: $font-size-lg;
+  
+  @include media(md) {
+    font-size: 1.25rem;
+  }
+}
+
+h6 {
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// Body Text
+// ==========================================================================
+
+p {
+  margin: 0 0 $spacing-4;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Links
+// ==========================================================================
+
+a {
+  color: $color-primary;
+  text-decoration: none;
+  transition: $transition-colors;
+  
+  &:hover {
+    color: $color-primary-dark;
+    text-decoration: underline;
+  }
+  
+  &:focus {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+// Lists
+// ==========================================================================
+
+ul, ol {
+  margin: 0 0 $spacing-4;
+  padding-left: $spacing-6;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+li {
+  margin-bottom: $spacing-1;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Code
+// ==========================================================================
+
+code, kbd, pre, samp {
+  font-family: $font-family-mono;
+  font-size: 0.9em;
+}
+
+code {
+  padding: 2px 4px;
+  background-color: var(--bp-background-color-secondary, $color-gray-100);
+  border-radius: $border-radius-sm;
+  color: var(--bp-text-color, $color-gray-900);
+}
+
+pre {
+  padding: $spacing-4;
+  background-color: var(--bp-background-color-secondary, $color-gray-50);
+  border-radius: $border-radius-lg;
+  overflow-x: auto;
+  margin: 0 0 $spacing-4;
+  
+  code {
+    padding: 0;
+    background: none;
+    border-radius: 0;
+  }
+}
+
+// Blockquotes
+// ==========================================================================
+
+blockquote {
+  padding: $spacing-4 $spacing-6;
+  margin: 0 0 $spacing-6;
+  border-left: 4px solid var(--bp-border-color, $color-gray-300);
+  background-color: var(--bp-background-color-secondary, $color-gray-50);
+  font-style: italic;
+  color: var(--bp-text-color-muted, $color-gray-700);
+  
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Horizontal Rules
+// ==========================================================================
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--bp-border-color, $color-gray-200);
+  margin: $spacing-8 0;
+}
+
+// Small Text
+// ==========================================================================
+
+small {
+  font-size: $font-size-sm;
+  color: var(--bp-text-color-muted, $color-gray-600);
+}
+
+// Emphasis
+// ==========================================================================
+
+strong, b {
+  font-weight: $font-weight-bold;
+}
+
+em, i {
+  font-style: italic;
+}
+
+// Mark
+// ==========================================================================
+
+mark {
+  background-color: #ffeb3b;
+  color: $color-gray-900;
+  padding: 2px 4px;
+  border-radius: $border-radius-sm;
+}
+
+// Utility Classes
+// ==========================================================================
+
+.text-xs { font-size: $font-size-xs; }
+.text-sm { font-size: $font-size-sm; }
+.text-base { font-size: $font-size-base; }
+.text-lg { font-size: $font-size-lg; }
+.text-xl { font-size: $font-size-xl; }
+.text-2xl { font-size: $font-size-2xl; }
+.text-3xl { font-size: $font-size-3xl; }
+.text-4xl { font-size: $font-size-4xl; }
+
+.font-light { font-weight: 300; }
+.font-normal { font-weight: $font-weight-normal; }
+.font-medium { font-weight: $font-weight-medium; }
+.font-semibold { font-weight: $font-weight-semibold; }
+.font-bold { font-weight: $font-weight-bold; }
+
+.leading-tight { line-height: $line-height-tight; }
+.leading-normal { line-height: $line-height-normal; }
+.leading-relaxed { line-height: $line-height-relaxed; }
+
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+.text-primary { color: $color-primary; }
+.text-success { color: $color-success; }
+.text-warning { color: $color-warning; }
+.text-danger { color: $color-danger; }
+.text-muted { color: var(--bp-text-color-muted, $color-gray-600); }
+
+.text-truncate { @include text-truncate; }
+
+// Chat-specific Typography
+// ==========================================================================
+
+.chat-message-text {
+  font-size: $font-size-sm;
+  line-height: $line-height-relaxed;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.chat-timestamp {
+  font-size: $font-size-xs;
+  color: var(--bp-text-color-muted, $color-gray-500);
+  font-weight: $font-weight-normal;
+}
+
+.chat-username {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: var(--bp-text-color, $color-gray-900);
 } 

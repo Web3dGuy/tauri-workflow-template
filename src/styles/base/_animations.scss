@@ -1,70 +1,26 @@
+// ==========================================================================
+// ANIMATIONS
+// ==========================================================================
+
 @use '../abstracts' as *;
 
-// =================================
-// Tauri Workflow Template - Modern Animations & Keyframes
-// Central location for all animations with accessibility support
-// =================================
+// Keyframe Animations
+// ==========================================================================
 
-// =================================
-// SCREEN CARD ANIMATIONS
-// =================================
-
-// Connected screen card glow animation
-@keyframes connectedGlow {
+@keyframes fade-in {
   from {
-    box-shadow: 
-      shadow(xl),
-      0 0 0 2px alpha(color(success, base), 0.8),
-      0 0 20px alpha(color(success, base), 0.3),
-      inset 0 1px 0 alpha(#fff, 0.1);
-  }
-
-  to {
-    box-shadow: 
-      shadow(xl),
-      0 0 0 2px color(success, base),
-      0 0 30px alpha(color(success, base), 0.5),
-      inset 0 1px 0 alpha(#fff, 0.2);
-  }
-}
-
-// Snap indicator pulse animation
-@keyframes pulse {
-  from {
-    opacity: 0.7;
-    transform: scale(1);
+    opacity: 0;
   }
 
   to {
     opacity: 1;
-    transform: scale(1.05);
   }
 }
 
-// =================================
-// UI COMPONENT ANIMATIONS
-// =================================
-
-// Button press animation
-@keyframes buttonPress {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(0.98);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-// Card entrance animation
-@keyframes cardSlideIn {
+@keyframes slide-up {
   from {
     opacity: 0;
-    transform: translateY(spacing(4));
+    transform: translateY(20px);
   }
 
   to {
@@ -73,7 +29,89 @@
   }
 }
 
-// Loading spinner animation
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    transform: translateY(0);
+  }
+
+  40%, 43% {
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transform: translateY(-10px);
+  }
+
+  70% {
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transform: translateY(-5px);
+  }
+
+  90% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  75% {
+    transform: translateX(5px);
+  }
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -84,94 +122,273 @@
   }
 }
 
-// Fade in animation
-@keyframes fadeIn {
+@keyframes scale-in {
   from {
     opacity: 0;
+    transform: scale(0.8);
   }
 
   to {
     opacity: 1;
+    transform: scale(1);
   }
 }
 
-// Slide down animation for dropdowns
-@keyframes slideDown {
+@keyframes scale-out {
   from {
-    opacity: 0;
-    transform: translateY(-spacing(2));
+    opacity: 1;
+    transform: scale(1);
   }
 
   to {
-    opacity: 1;
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+// Chat-specific Animations
+// ==========================================================================
+
+@keyframes typing-dots {
+  0%, 60%, 100% {
     transform: translateY(0);
+    opacity: 0.4;
+  }
+
+  30% {
+    transform: translateY(-10px);
+    opacity: 1;
   }
 }
 
-// =================================
-// ACCESSIBILITY SUPPORT
-// =================================
+@keyframes message-appear {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
 
-// Respect user motion preferences for all animations
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes status-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes notification-slide {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+// Utility Classes
+// ==========================================================================
+
+.animate-fade-in {
+  animation: fade-in $animation-duration-fade ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up $animation-duration-slide ease-out;
+}
+
+.animate-slide-down {
+  animation: slide-down $animation-duration-slide ease-out;
+}
+
+.animate-slide-left {
+  animation: slide-left $animation-duration-slide ease-out;
+}
+
+.animate-slide-right {
+  animation: slide-right $animation-duration-slide ease-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-bounce {
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-scale-in {
+  animation: scale-in $animation-duration-fade ease-out;
+}
+
+.animate-scale-out {
+  animation: scale-out $animation-duration-fade ease-out;
+}
+
+// Chat-specific Animation Classes
+// ==========================================================================
+
+.animate-typing {
+  animation: typing-dots $animation-duration-typing ease-in-out infinite;
+}
+
+.animate-message-appear {
+  animation: message-appear $animation-duration-slide ease-out;
+}
+
+.animate-status-pulse {
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+.animate-notification {
+  animation: notification-slide $animation-duration-slide ease-out;
+}
+
+.animate-ripple {
+  animation: ripple 0.6s ease-out;
+}
+
+// Transition Utilities
+// ==========================================================================
+
+.transition-none {
+  transition: none !important;
+}
+
+.transition-all {
+  transition: $transition-all;
+}
+
+.transition-colors {
+  transition: $transition-colors;
+}
+
+.transition-opacity {
+  transition: $transition-opacity;
+}
+
+.transition-transform {
+  transition: $transition-transform;
+}
+
+.transition-fast {
+  transition-duration: $transition-duration-fast;
+}
+
+.transition-slow {
+  transition-duration: $transition-duration-slow;
+}
+
+// Hover Effects
+// ==========================================================================
+
+.hover-lift {
+  transition: $transition-transform;
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.hover-scale {
+  transition: $transition-transform;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.hover-rotate {
+  transition: $transition-transform;
+  
+  &:hover {
+    transform: rotate(5deg);
+  }
+}
+
+// Focus Effects
+// ==========================================================================
+
+.focus-ring {
+  &:focus {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+.focus-ring-inset {
+  &:focus {
+    outline: 2px solid $color-primary;
+    outline-offset: -2px;
+  }
+}
+
+// Reduced Motion
+// ==========================================================================
+
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-slide-down,
+  .animate-slide-left,
+  .animate-slide-right,
+  .animate-pulse,
+  .animate-bounce,
+  .animate-shake,
+  .animate-spin,
+  .animate-scale-in,
+  .animate-scale-out,
+  .animate-typing,
+  .animate-message-appear,
+  .animate-status-pulse,
+  .animate-notification,
+  .animate-ripple {
+    animation: none !important;
   }
   
-  // Disable specific animations that might cause issues
-  @keyframes connectedGlow {
-    from, to {
-      box-shadow: 
-        shadow(xl),
-        0 0 0 2px color(success, base),
-        inset 0 1px 0 alpha(#fff, 0.1);
+  .transition-all,
+  .transition-colors,
+  .transition-opacity,
+  .transition-transform {
+    transition: none !important;
+  }
+  
+  .hover-lift,
+  .hover-scale,
+  .hover-rotate {
+    &:hover {
+      transform: none !important;
     }
-  }
-  
-  @keyframes pulse {
-    from, to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-}
-
-// =================================
-// BLUEPRINT.JS ANIMATIONS
-// =================================
-
-// Smooth transitions for Blueprint.js components
-.bp6-collapse .bp6-collapse-body {
-  transition: 
-    height transition(normal),
-    opacity transition(fast);
-}
-
-// Enhanced Blueprint.js button animations
-.bp6-button {
-  transition: 
-    background-color transition(fast),
-    border-color transition(fast),
-    box-shadow transition(fast),
-    transform transition(fast);
-}
-
-// =================================
-// PERFORMANCE OPTIMIZATIONS
-// =================================
-
-// Use GPU acceleration for animated elements
-.screen-card,
-.custom-button,
-.bp6-button {
-  will-change: transform;
-  
-  &:not(:hover, :focus, .dragging, .connected) {
-    will-change: auto; // Remove when not needed
   }
 } 

@@ -1,0 +1,177 @@
+@use '../abstracts' as *;
+
+// =================================
+// Tauri Workflow Template - Modern Animations & Keyframes
+// Central location for all animations with accessibility support
+// =================================
+
+// =================================
+// SCREEN CARD ANIMATIONS
+// =================================
+
+// Connected screen card glow animation
+@keyframes connectedGlow {
+  from {
+    box-shadow: 
+      shadow(xl),
+      0 0 0 2px alpha(color(success, base), 0.8),
+      0 0 20px alpha(color(success, base), 0.3),
+      inset 0 1px 0 alpha(#fff, 0.1);
+  }
+
+  to {
+    box-shadow: 
+      shadow(xl),
+      0 0 0 2px color(success, base),
+      0 0 30px alpha(color(success, base), 0.5),
+      inset 0 1px 0 alpha(#fff, 0.2);
+  }
+}
+
+// Snap indicator pulse animation
+@keyframes pulse {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+// =================================
+// UI COMPONENT ANIMATIONS
+// =================================
+
+// Button press animation
+@keyframes buttonPress {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.98);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+// Card entrance animation
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(spacing(4));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Loading spinner animation
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Fade in animation
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+// Slide down animation for dropdowns
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-spacing(2));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// =================================
+// ACCESSIBILITY SUPPORT
+// =================================
+
+// Respect user motion preferences for all animations
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  // Disable specific animations that might cause issues
+  @keyframes connectedGlow {
+    from, to {
+      box-shadow: 
+        shadow(xl),
+        0 0 0 2px color(success, base),
+        inset 0 1px 0 alpha(#fff, 0.1);
+    }
+  }
+  
+  @keyframes pulse {
+    from, to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+// =================================
+// BLUEPRINT.JS ANIMATIONS
+// =================================
+
+// Smooth transitions for Blueprint.js components
+.bp6-collapse .bp6-collapse-body {
+  transition: 
+    height transition(normal),
+    opacity transition(fast);
+}
+
+// Enhanced Blueprint.js button animations
+.bp6-button {
+  transition: 
+    background-color transition(fast),
+    border-color transition(fast),
+    box-shadow transition(fast),
+    transform transition(fast);
+}
+
+// =================================
+// PERFORMANCE OPTIMIZATIONS
+// =================================
+
+// Use GPU acceleration for animated elements
+.screen-card,
+.custom-button,
+.bp6-button {
+  will-change: transform;
+  
+  &:not(:hover, :focus, .dragging, .connected) {
+    will-change: auto; // Remove when not needed
+  }
+} 
