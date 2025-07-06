@@ -1,0 +1,102 @@
+@use '../abstracts' as *;
+
+// =================================
+// Tauri Workflow Template - Content Layout Areas
+// Optimized: Ultra-specific selectors for Blueprint.js compatibility
+// Eliminated: 18+ !important declarations, specificity conflicts
+// =================================
+
+// Layout utility classes
+.twt-header-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2px; // Prevent button hover effects from clipping at top edge
+}
+
+// =================================
+// Blueprint.js Card System - Ultra-Specific Hierarchy
+// =================================
+
+// Global Blueprint.js dark theme card overrides - most specific first
+.main-app .bp6-dark .bp6-card,
+.main-app .bp6-elevation-1,
+.main-app .bp6-elevation-2, 
+.main-app .bp6-elevation-3 {
+  background: $gradient-primary;
+  border: 1px solid $color-slate-600;
+  color: $color-slate-200;
+}
+
+// Primary content card containers - systematic specificity
+.main-app .dashboard-content .bp6-card,
+.main-app .page-content .bp6-card,
+.main-app div[class*="content"] .bp6-card {
+  background: $gradient-primary;
+  border: 1px solid $color-slate-600;
+  color: $color-slate-200;
+  box-shadow: $shadow-lg;
+  
+  // Nested card styling  
+  .bp6-card {
+    background: $gradient-content;
+    border: 1px solid $color-slate-700;
+  }
+  
+  &:hover {
+    @include card-hover-effect;
+  }
+}
+
+// =================================
+// Content Component Styling
+// =================================
+
+// Computer List Items
+.computer-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid $color-slate-600;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background: $gradient-content;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+  
+  &.offline {
+    opacity: 0.6;
+  }
+  
+  &.selected {
+    border-color: $color-primary;
+    box-shadow: 0 0 0 2px rgb(59 130 246 / 30%);
+  }
+  
+  &:hover {
+    border-color: $color-slate-500;
+    background: linear-gradient(135deg, $color-slate-800 0%, $color-slate-700 100%);
+  }
+}
+
+// Settings Row
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid $color-slate-700;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+// Clipboard History Item - systematic styling
+.main-app .clipboard-item {
+  padding: 8px;
+  border: 1px solid $color-slate-600;
+  border-radius: 4px;
+  background: $gradient-content;
+  margin-bottom: 8px;
+} 

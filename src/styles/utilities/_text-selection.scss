@@ -1,0 +1,47 @@
+@use '../abstracts' as *;
+
+// =================================
+// Tauri Workflow Template - Text Selection Controls
+// Extracted from: App.css (user-select controls)
+// =================================
+
+// Disable text selection globally except for specific elements
+* {
+  @include no-select;
+}
+
+// Enable text selection for inputs, textareas, and console
+input,
+textarea,
+.bp6-input,
+.bp6-text-area,
+.console-content,
+.console-content *,
+.bp6-code-block,
+.bp6-code-block *,
+pre,
+code,
+[contenteditable="true"],
+[role="textbox"] {
+  @include allow-select;
+}
+
+// Allow selection for specific UI text that should be copyable
+.twt-text-secondary,
+.bp6-form-helper-text,
+.bp6-text-muted {
+  @include allow-select;
+}
+
+// Prevent selection on buttons and interactive elements
+button,
+.bp6-button,
+.bp6-menu-item,
+.custom-button,
+.bp6-navbar,
+.sidebar,
+.console-header,
+h1, h2, h3, h4, h5, h6,
+.bp6-heading {
+  @include no-select;
+} 

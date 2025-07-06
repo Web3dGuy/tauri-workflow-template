@@ -1,0 +1,28 @@
+@use '../abstracts' as *;
+
+// =================================
+// Tauri Workflow Template - Navbar Layout
+// Extracted from: App.css (.twt-navbar, .bp6-navbar styles)
+// =================================
+
+.twt-navbar {
+  z-index: $z-index-navbar;
+
+  @include gradient-bg($gradient-navbar);
+
+  box-shadow: $shadow-lg;
+  border-bottom: 1px solid $color-slate-600;
+}
+
+// Blueprint.js navbar overrides
+.main-app .bp6-dark .bp6-navbar {
+  background: $gradient-navbar;
+  border-color: $color-slate-600;
+}
+
+// Navbar button styling
+.main-app .bp6-dark .bp6-navbar .bp6-button {
+  background: $gradient-button;
+  border: 1px solid $color-slate-500;
+  color: $color-slate-200;
+} 

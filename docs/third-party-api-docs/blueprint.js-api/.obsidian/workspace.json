@@ -1,0 +1,178 @@
+{
+  "main": {
+    "id": "86c3a6d8a52b6830",
+    "type": "split",
+    "children": [
+      {
+        "id": "417624f7f87dee36",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7345491f341494ad",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "docs_blueprint_getting-started.cdn-consumption.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "docs_blueprint_getting-started.cdn-consumption"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "e5d57852d4a5508e",
+    "type": "split",
+    "children": [
+      {
+        "id": "490560fc335442be",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c8b357f1f8e1f680",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "3e36d9c1067244d9",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "button",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": true,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "2d4ac7527744b775",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "51f64373e4760322",
+    "type": "split",
+    "children": [
+      {
+        "id": "0b1c3caa06b9cf86",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b50d8ac4d3d33b2f",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "docs_blueprint_getting-started.cdn-consumption.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for docs_blueprint_getting-started.cdn-consumption"
+            }
+          },
+          {
+            "id": "37f676c6b9dddfe9",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "docs_blueprint_getting-started.cdn-consumption.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from docs_blueprint_getting-started.cdn-consumption"
+            }
+          },
+          {
+            "id": "b8fb39516014d705",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "81cc992870d42e19",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "docs_blueprint_getting-started.cdn-consumption.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of docs_blueprint_getting-started.cdn-consumption"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "7345491f341494ad",
+  "lastOpenFiles": [
+    "index.md",
+    "docs_core_components_dialog.md",
+    "docs_table_api.region.md",
+    "docs_core_components_card-list.bordered.md"
+  ]
+}

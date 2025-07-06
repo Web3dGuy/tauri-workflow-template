@@ -1,0 +1,168 @@
+@use '../abstracts' as *;
+
+// =================================
+// Tauri Workflow Template - Main App Layout
+// Refactored: Systematic approach with minimal !important usage
+// =================================
+
+// =================================
+// MAIN APPLICATION CONTAINER
+// =================================
+.main-app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: $gradient-app-bg;
+  color: $color-slate-200;
+  
+  // Override inline styles - legitimate !important usage
+  .dashboard-content div:not(.bp6-button, .bp6-icon, .bp6-button-group) {
+    background-color: transparent !important; // Required for inline style override
+  }
+  
+  // Force nested card transparency - legitimate !important usage
+  .bp6-card div:not(.bp6-button, .bp6-icon, .bp6-button-group, .computer-item, .clipboard-item, .settings-row) {
+    background-color: transparent !important; // Required for inline style override
+  }
+  
+  // Grid and flex containers - legitimate !important for inline styles
+  [style*="display: grid"],
+  [style*="display: flex"] {
+    background-color: transparent !important; // Required for inline style override
+  }
+}
+
+// =================================
+// LAYOUT CONTAINERS
+// =================================
+.main-layout {
+  display: flex;
+  flex: 1;
+  margin-top: $navbar-height;
+  overflow: hidden;
+  height: calc(100vh - #{$navbar-height});
+}
+
+.content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+
+// =================================
+// PAGE CONTENT STYLING
+// =================================
+.page-content {
+  flex: 1;
+  overflow: hidden;
+  background: $gradient-content;
+  display: flex;
+  flex-direction: column;
+  
+  // Page content wrapper for scrolling
+  &-wrapper {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  // Inner content with padding
+  &-inner {
+    padding: 20px;
+    padding-top: 22px; // Extra top padding to prevent button hover effects from clipping
+  }
+}
+
+// =================================
+// DASHBOARD CONTENT
+// Ultra-specific selectors to minimize !important
+// =================================
+.main-app .dashboard-content,
+[class*="main-app"] .dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  overflow: hidden;
+  padding-top: 2px; // Prevent button hover effects from clipping at top edge
+  background: transparent;
+  
+  // Force all headings to proper colors - ultra-specific selectors
+  h4,
+  h5,
+  .bp6-heading {
+    color: $color-slate-50;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgb(0 0 0 / 30%);
+  }
+  
+  // Card styling within dashboard - ultra-specific selectors
+  .bp6-card,
+  .bp6-card .bp6-card {
+    background: $gradient-primary;
+    border: 1px solid $color-slate-600;
+    color: $color-slate-200;
+  }
+}
+
+// =================================
+// CONFIGURATOR AREA
+// Ultra-specific selectors for Blueprint.js overrides
+// =================================
+.main-app .configurator-area,
+[class*="main-app"] .configurator-area {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow: hidden;
+  background: $gradient-content;
+  border: 1px solid $color-slate-700;
+  
+  // Override card styling for configurator
+  &.bp6-card {
+    background: $gradient-content;
+    border: 1px solid $color-slate-700;
+  }
+}
+
+// =================================
+// PERFECT SCROLLBAR CONTAINERS
+// Using specificity for third-party positioning
+// =================================
+.main-app .scrollable-page-content {
+  position: relative; // Perfect Scrollbar positioning with specificity
+  height: 100%;
+  overflow: hidden; // Perfect Scrollbar handles scrolling
+}
+
+.main-app .scrollable-workspace {
+  position: relative; // Perfect Scrollbar positioning with specificity
+  height: 100%;
+  overflow: hidden; // Perfect Scrollbar handles scrolling
+  
+  // More visible rails for workspace navigation
+  .ps__rail-x,
+  .ps__rail-y {
+    opacity: 0.7;
+  }
+  
+  &:hover {
+    .ps__rail-x,
+    .ps__rail-y {
+      opacity: 1;
+    }
+  }
+}
+
+// =================================
+// GLOBAL LAYOUT FIXES
+// Note: Global resets are handled in base/_reset.scss for better organization
+// These are kept minimal and specific to app layout needs
+// =================================
+
+// App-specific layout fixes (redundant with base/_reset.scss - consider removing)
+// The global resets are already handled in base/_reset.scss with proper specificity 

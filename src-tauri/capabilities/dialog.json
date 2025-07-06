@@ -1,0 +1,15 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "dialog",
+  "description": "Dialog permissions for file and message dialogs",
+  "windows": ["main"],
+  "permissions": [
+    "dialog:default",
+    "dialog:allow-open",
+    "dialog:allow-save",
+    "dialog:allow-message",
+    "dialog:allow-ask",
+    "dialog:allow-confirm"
+  ],
+  "platforms": ["windows", "macOS", "linux"]
+}

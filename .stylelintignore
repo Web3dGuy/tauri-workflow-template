@@ -1,0 +1,28 @@
+# Stylelint ignore patterns
+# =========================
+
+# Third-party CSS (node_modules)
+node_modules/
+
+# Generated CSS files
+dist/
+build/
+
+# Vendor CSS files that we don't control
+**/vendor/
+**/vendors/
+
+# Blueprint.js CSS files (if directly imported)
+**/blueprint*.css
+
+# Legacy CSS that shouldn't be touched
+**/legacy/
+
+# Temporary or backup files
+*.tmp
+*.bak
+*.old
+
+# OS-specific files
+.DS_Store
+Thumbs.db 

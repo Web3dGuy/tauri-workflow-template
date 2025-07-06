@@ -1,0 +1,121 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Tauri Template",
+  "version": "1.0.0",
+  "identifier": "com.example.tauri-template",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Tauri Template",
+        "width": 1200,
+        "height": 800,
+        "minWidth": 800,
+        "minHeight": 600,
+        "center": true,
+        "resizable": true,
+        "maximizable": true,
+        "minimizable": true,
+        "closable": true,
+        "decorations": true,
+        "alwaysOnTop": false,
+        "fullscreen": false,
+        "focus": true,
+        "transparent": false,
+        "maximized": false,
+        "visible": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: http://localhost:* http://127.0.0.1:* data: blob:; img-src 'self' https: http://localhost:* http://127.0.0.1:* data: blob:; media-src 'self' https: http://localhost:* http://127.0.0.1:* data: blob:; connect-src 'self' https: http://localhost:* http://127.0.0.1:* ws://localhost:* wss://localhost:*; font-src 'self' https: data:; style-src 'self' 'unsafe-inline' https:;",
+      "dangerousDisableAssetCspModification": false,
+      "assetProtocol": {
+        "enable": true,
+        "scope": {
+          "allow": ["$APPDATA/**", "$RESOURCE/**"],
+          "deny": []
+        }
+      },
+      "freezePrototype": false
+    },
+    "withGlobalTauri": false
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["deb", "rpm", "dmg", "msi", "nsis"],
+    "category": "Developer Tool",
+    "copyright": "Copyright © 2024 Your Name. All rights reserved.",
+    "shortDescription": "Production-ready Tauri template",
+    "longDescription": "A comprehensive Tauri template with React, TypeScript, Blueprint.js, and professional tooling for building cross-platform desktop applications.",
+    "externalBin": [],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": [],
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "Sha256",
+      "timestampUrl": null,
+      "tsp": false,
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper",
+        "silent": false
+      },
+      "allowDowngrades": true,
+      "wix": null,
+      "nsis": {
+        "compression": "lzma",
+        "displayLanguageSelector": false
+      }
+    },
+    "macOS": {
+      "frameworks": [],
+      "minimumSystemVersion": "10.13",
+      "exceptionDomain": null,
+      "signingIdentity": null,
+      "providerShortName": null,
+      "entitlements": null,
+      "hardenedRuntime": true,
+      "dmg": {
+        "appPosition": {
+          "x": 180,
+          "y": 170
+        },
+        "applicationFolderPosition": {
+          "x": 480,
+          "y": 170
+        },
+        "windowSize": {
+          "width": 660,
+          "height": 400
+        }
+      }
+    },
+    "linux": {
+      "deb": {
+        "depends": [],
+        "files": {},
+        "desktopTemplate": null
+      },
+      "rpm": {
+        "epoch": 0,
+        "files": {},
+        "release": "1",
+        "desktopTemplate": null
+      }
+    },
+    "iOS": {},
+    "android": {}
+  },
+  "plugins": {}
+}

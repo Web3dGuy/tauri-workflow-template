@@ -1,0 +1,137 @@
+@use '../abstracts' as *;
+
+// =================================
+// Tauri Workflow Template - Sidebar Layout & Navigation
+// Refactored: Nested selectors eliminate descending specificity warnings
+// =================================
+
+// =================================
+// DESIGN TOKENS (Blue primary colors)
+// =================================
+// Replace hardcoded rgb(59 130 246 / X%) with systematic tokens
+$sidebar-primary-base: rgb(59 130 246);
+$sidebar-primary-alpha-10: rgb(59 130 246 / 10%);
+$sidebar-primary-alpha-15: rgb(59 130 246 / 15%);
+$sidebar-primary-alpha-20: rgb(59 130 246 / 20%);
+$sidebar-primary-alpha-25: rgb(59 130 246 / 25%);
+$sidebar-primary-alpha-40: rgb(59 130 246 / 40%);
+$sidebar-primary-alpha-60: rgb(59 130 246 / 60%);
+$sidebar-primary-alpha-70: rgb(59 130 246 / 70%);
+
+// Shadow tokens for consistent glow effects
+$sidebar-shadow-base: 0 0 8px $sidebar-primary-alpha-15;
+$sidebar-shadow-hover: 0 0 8px $sidebar-primary-alpha-15;
+$sidebar-shadow-active: 0 0 8px $sidebar-primary-alpha-20;
+$sidebar-shadow-enhanced: 0 0 12px $sidebar-primary-alpha-25;
+
+// =================================
+// SIDEBAR CONTAINER
+// =================================
+.main-app .sidebar {
+  position: relative; // Perfect Scrollbar positioning - using specificity instead of !important
+  width: $sidebar-width;
+  
+  @include gradient-bg($gradient-primary-vertical);
+  
+  border-right: 1px solid $color-slate-600;
+  transition: width $transition-normal ease;
+  overflow: hidden; // Perfect Scrollbar handles scrolling
+  box-shadow: $shadow-sm;
+  
+  // Mobile responsive behavior
+  @include mobile {
+    &:not(.collapsed) {
+      position: absolute;
+      z-index: $z-index-sidebar-mobile;
+      height: calc(100vh - #{$navbar-height});
+      box-shadow: 2px 0 8px rgb(0 0 0 / 15%);
+    }
+  }
+}
+
+// =================================
+// BLUEPRINT.JS MENU SYSTEM - Ultra-Specific Nested Architecture
+// Single high-specificity selector with proper nesting eliminates all specificity conflicts
+// =================================
+.main-app .sidebar .bp6-menu {
+  background: transparent;
+  background-color: transparent;
+  background-image: none;
+  border: none;
+  box-shadow: none;
+  
+  // Menu item base styles
+  .bp6-menu-item {
+    // Base appearance
+    background: transparent;
+    background-color: transparent;
+    background-image: none;
+    color: $color-slate-300;
+    
+    // Layout & spacing
+    border: 1px solid transparent;
+    border-radius: $border-radius-md;
+    margin: 2px 8px;
+    
+    // Interaction
+    transition: all $transition-fast;
+    outline: none; // Prevent double borders
+    
+    // Icon styling - nested properly
+    .bp6-icon {
+      color: $color-slate-400;
+    }
+    
+    // Text styling - nested properly
+    .bp6-menu-item-text {
+      color: inherit;
+    }
+    
+    // Hover state - nested properly
+    &:hover {
+      background: $sidebar-primary-alpha-10;
+      background-color: $sidebar-primary-alpha-10;
+      background-image: none;
+      color: $color-slate-50;
+      border: 1px solid $sidebar-primary-alpha-40;
+      border-radius: $border-radius-md;
+      box-shadow: $sidebar-shadow-hover;
+      
+      .bp6-icon {
+        color: $color-primary;
+      }
+    }
+    
+    // Active state - nested properly
+    &.bp6-active {
+      background: $sidebar-primary-alpha-15;
+      background-color: $sidebar-primary-alpha-15;
+      background-image: none;
+      color: $color-slate-50;
+      border: 1px solid $sidebar-primary-alpha-60;
+      border-radius: $border-radius-md;
+      box-shadow: $sidebar-shadow-active;
+      outline: none;
+      
+      .bp6-icon {
+        color: $color-primary;
+      }
+      
+      // Active hover state (enhanced styling)
+      &:hover {
+        background: $sidebar-primary-alpha-20;
+        background-color: $sidebar-primary-alpha-20;
+        border: 1px solid $sidebar-primary-alpha-70;
+        box-shadow: $sidebar-shadow-enhanced;
+      }
+    }
+    
+    // Focus state - nested properly
+    &:focus {
+      outline: none;
+      box-shadow: none; // Prevent double borders with hover/active states
+    }
+  }
+}
+
+// All Blueprint.js sidebar menu styling consolidated in the nested structure above 

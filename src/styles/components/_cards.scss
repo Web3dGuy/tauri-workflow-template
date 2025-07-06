@@ -1,0 +1,63 @@
+@use '../abstracts' as *;
+
+// =================================
+// Tauri Workflow Template - Card Components
+// Optimized: Ultra-specific selectors for Blueprint.js compatibility
+// Eliminated: 11 !important declarations across Toast, Alert, Tab, Progress components
+// =================================
+
+// Base card styling is handled in layout/_content.scss
+
+// =================================
+// Blueprint.js Component System - Ultra-Specific Hierarchy
+// =================================
+
+// Toast and Alert Styling - systematic specificity
+.main-app .bp6-toast {
+  @include gradient-bg($gradient-primary);
+
+  border: 1px solid $color-slate-600;
+  color: $color-slate-200;
+  box-shadow: $shadow-2xl;
+}
+
+.main-app .bp6-alert {
+  @include gradient-bg($gradient-primary);
+
+  border: 1px solid $color-slate-600;
+  color: $color-slate-200;
+}
+
+// Tab Component Styling - ultra-specific overrides
+.main-app .bp6-tab-list {
+  @include gradient-bg($gradient-navbar);
+
+  border-bottom: 1px solid $color-slate-600;
+}
+
+.main-app .bp6-tab {
+  color: $color-slate-400;
+  
+  &[aria-selected="true"] {
+    @include gradient-bg($gradient-menu-active);
+
+    color: $color-slate-100;
+  }
+}
+
+// Progress Bar and Spinner Styling - systematic approach
+.main-app .bp6-progress-bar {
+  background: $color-slate-800;
+}
+
+.main-app .bp6-progress-meter {
+  @include gradient-bg($gradient-switch-checked);
+}
+
+.main-app .bp6-spinner .bp6-spinner-track {
+  stroke: $color-slate-700;
+}
+
+.main-app .bp6-spinner .bp6-spinner-head {
+  stroke: $color-primary;
+} 

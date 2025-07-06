@@ -1,0 +1,334 @@
+@use '../abstracts' as *;
+
+// =================================
+// Tauri Workflow Template - Form Components
+// Refactored: Systematic approach with minimal !important usage
+// =================================
+
+// =================================
+// DESIGN TOKENS (Form-specific colors)
+// =================================
+$form-shadow-inset: inset 0 1px 3px rgb(0 0 0 / 20%);
+$form-shadow-slider-progress: 0 1px 3px rgb(59 130 246 / 30%);
+$form-shadow-basic: 0 2px 8px rgb(0 0 0 / 20%);
+$form-shadow-hover: 0 4px 12px alpha($color-primary, 0.3);
+$form-shadow-active: 0 6px 16px alpha($color-primary, 0.4);
+$form-shadow-focus: 0 0 0 3px alpha($color-primary, 0.2), 0 4px 12px alpha($color-primary, 0.3);
+$form-bg-label: rgb(0 0 0 / 80%);
+$form-bg-switch-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+$form-bg-control-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+$form-bg-control-hover: 0 4px 8px rgb(0 0 0 / 15%);
+
+// =================================
+// INPUT GROUPS & TEXT INPUTS
+// Ultra-specific selector to override Blueprint.js without !important
+// =================================
+.main-app .bp6-dark .bp6-input-group,
+.main-app .bp6-dark .bp6-input-group .bp6-input,
+[class*="main-app"] .bp6-input-group,
+[class*="main-app"] .bp6-input-group .bp6-input {
+  @include input-base;
+  
+  &:hover {
+    border-color: $color-slate-500;
+    box-shadow: $shadow-md;
+  }
+  
+  &:focus,
+  &.bp6-intent-primary {
+    @include input-focus($color-primary);
+  }
+  
+  &::placeholder {
+    color: $color-slate-400;
+    opacity: 0.7;
+  }
+}
+
+// =================================
+// SELECT DROPDOWNS & HTML SELECTS
+// =================================
+.main-app .bp6-dark .bp6-html-select select,
+.main-app .bp6-dark .bp6-select select,
+[class*="main-app"] .bp6-html-select select,
+[class*="main-app"] .bp6-select select {
+  @include input-base;
+  
+  &:hover {
+    border-color: $color-slate-500;
+    box-shadow: $shadow-md;
+  }
+  
+  &:focus {
+    @include input-focus($color-success);
+  }
+  
+  // Option styling with ultra-specific selector
+  option {
+    background: $color-slate-800;
+    color: $color-slate-200;
+  }
+}
+
+// Select dropdown arrow styling
+.main-app .bp6-html-select .bp6-icon,
+.main-app .bp6-select .bp6-icon {
+  color: $color-slate-400;
+}
+
+// =================================
+// TEXT AREAS
+// =================================
+.main-app .bp6-text-area,
+.main-app .bp6-input[type="textarea"] {
+  @include input-base;
+
+  resize: vertical; // Remove !important - handled by specificity
+  
+  &:hover {
+    border-color: $color-slate-500;
+    box-shadow: $shadow-md;
+  }
+  
+  &:focus {
+    @include input-focus($color-warning);
+  }
+  
+  &::placeholder {
+    color: $color-slate-400;
+    opacity: 0.7;
+  }
+}
+
+// =================================
+// WEBKIT INPUT STYLING
+// Legitimate !important for browser defaults
+// =================================
+.main-app .bp6-input[type="number"]::-webkit-outer-spin-button,
+.main-app .bp6-input[type="number"]::-webkit-inner-spin-button {
+  appearance: none !important; // Required for webkit override
+  margin: 0 !important; // Required for webkit override
+}
+
+.main-app .bp6-input[type="number"] {
+  appearance: textfield !important; // Required for webkit override
+}
+
+// =================================
+// INPUT ICONS & ACCESSORIES
+// =================================
+.main-app .bp6-input-group .bp6-input-left-container .bp6-icon,
+.main-app .bp6-input-group .bp6-input-action .bp6-icon {
+  color: $color-slate-400;
+}
+
+.main-app .bp6-input-group:focus-within .bp6-input-left-container .bp6-icon,
+.main-app .bp6-input-group:focus-within .bp6-input-action .bp6-icon {
+  color: $color-primary;
+}
+
+// =================================
+// SPECIALIZED INPUT FOCUS STATES
+// =================================
+.main-app .bp6-input[type="email"]:focus {
+  @include input-focus($color-primary-light);
+}
+
+.main-app .bp6-input[type="password"]:focus {
+  @include input-focus($color-danger);
+}
+
+.main-app .bp6-input[type="number"]:focus {
+  @include input-focus($color-primary);
+}
+
+// =================================
+// RADIO & CHECKBOX CONTROLS
+// =================================
+.main-app .bp6-control .bp6-control-indicator {
+  background: $gradient-primary;
+  border: 1px solid $color-slate-600;
+  box-shadow: $form-bg-control-shadow;
+}
+
+.main-app .bp6-control:hover .bp6-control-indicator {
+  border-color: $color-slate-500;
+  box-shadow: $form-bg-control-hover;
+}
+
+.main-app .bp6-control input:checked ~ .bp6-control-indicator {
+  background: $gradient-slider-progress;
+  border-color: $color-primary;
+  box-shadow: 0 0 0 2px alpha($color-primary, 0.2);
+}
+
+.main-app .bp6-control input:focus ~ .bp6-control-indicator {
+  box-shadow: 0 0 0 2px alpha($color-primary, 0.2);
+}
+
+.main-app .bp6-control .bp6-control-indicator-child {
+  color: #fff;
+}
+
+// =================================
+// SWITCHES
+// =================================
+.main-app .bp6-switch .bp6-control-indicator {
+  background: $color-slate-600;
+  border: 1px solid $color-slate-500;
+  border-radius: 12px;
+  transition: all $transition-normal;
+}
+
+.main-app .bp6-switch:hover .bp6-control-indicator {
+  box-shadow: $form-bg-switch-shadow;
+}
+
+.main-app .bp6-switch input:checked ~ .bp6-control-indicator {
+  @include gradient-bg($gradient-switch-checked);
+
+  border-color: $color-success;
+  box-shadow: 0 0 0 2px rgb(16 185 129 / 20%);
+}
+
+.main-app .bp6-switch .bp6-control-indicator::before {
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
+  border-radius: $border-radius-full;
+}
+
+// =================================
+// SLIDERS
+// Ultra-specific selector eliminates most !important needs
+// =================================
+.main-app .bp6-slider .bp6-slider-track,
+[class*="main-app"] .bp6-slider .bp6-slider-track {
+  @include gradient-bg($gradient-slider-track);
+
+  border-radius: $border-radius-sm;
+  box-shadow: $form-shadow-inset;
+}
+
+.main-app .bp6-slider .bp6-slider-progress,
+[class*="main-app"] .bp6-slider .bp6-slider-progress {
+  @include gradient-bg($gradient-slider-progress);
+
+  border-radius: $border-radius-sm;
+  box-shadow: $form-shadow-slider-progress;
+}
+
+.main-app .bp6-slider .bp6-slider-handle,
+[class*="main-app"] .bp6-slider .bp6-slider-handle {
+  @include gradient-bg($gradient-slider-handle);
+
+  border: 2px solid $color-primary;
+  box-shadow: $form-shadow-basic;
+  border-radius: $border-radius-full;
+  cursor: pointer;
+  transition: box-shadow $transition-fast, border-color $transition-fast;
+  
+  &:hover:not(:active) {
+    border-color: $color-primary;
+    box-shadow: $form-shadow-hover;
+  }
+  
+  &:active {
+    border-color: $color-primary-dark;
+    box-shadow: $form-shadow-active;
+    transform: none; // Prevent default transform
+  }
+  
+  &:focus {
+    box-shadow: $form-shadow-focus;
+    outline: none;
+  }
+  
+  .bp6-slider-label {
+    background: $form-bg-label;
+    color: #fff;
+    border-radius: $border-radius-sm;
+    padding: 2px 6px;
+    font-size: 11px;
+  }
+}
+
+// =================================
+// DISABLED STATES
+// Ultra-specific selector approach
+// =================================
+.main-app .bp6-input-group.bp6-disabled,
+.main-app .bp6-input-group .bp6-input:disabled,
+.main-app .bp6-html-select select:disabled,
+.main-app .bp6-text-area:disabled {
+  background: $color-slate-700;
+  border-color: $color-slate-600;
+  color: $color-slate-500;
+  cursor: not-allowed;
+  opacity: 0.6;
+  
+  &:hover {
+    border-color: $color-slate-600;
+    box-shadow: none;
+  }
+}
+
+// =================================
+// INTENT/ERROR STATES
+// =================================
+.main-app .bp6-input-group.bp6-intent-danger,
+.main-app .bp6-input-group .bp6-input.bp6-intent-danger {
+  @include input-focus($color-danger);
+}
+
+.main-app .bp6-input-group.bp6-intent-success,
+.main-app .bp6-input-group .bp6-input.bp6-intent-success {
+  @include input-focus($color-success);
+}
+
+.main-app .bp6-input-group.bp6-intent-warning,
+.main-app .bp6-input-group .bp6-input.bp6-intent-warning {
+  @include input-focus($color-warning);
+}
+
+// =================================
+// FORM LAYOUT & SPACING
+// Legitimate !important for utility behavior
+// =================================
+.main-app .bp6-form-group {
+  margin-bottom: 16px !important; // Utility class behavior
+  
+  &:last-child {
+    margin-bottom: 0 !important; // Utility class behavior
+  }
+}
+
+// =================================
+// SPECIALIZED FORM SECTIONS
+// =================================
+.network-settings {
+  .bp6-form-group {
+    margin-bottom: 16px;
+  }
+  
+  .bp6-slider {
+    margin: 8px 0;
+  }
+}
+
+.twt-password-change-section {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  background: $color-slate-900;
+  border-radius: $border-radius-sm;
+  border: 1px solid $color-slate-700;
+  box-shadow: $shadow-inset;
+}
+
+// =================================
+// ACCESSIBILITY FOCUS STATES
+// =================================
+.main-app .bp6-input:focus,
+.main-app .bp6-textarea:focus {
+  @include focus-ring($color-primary, 2px);
+} 

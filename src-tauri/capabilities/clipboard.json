@@ -1,0 +1,15 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "clipboard",
+  "description": "Clipboard access permissions for read/write operations",
+  "windows": ["main"],
+  "permissions": [
+    "clipboard-manager:default",
+    "clipboard-manager:allow-read-text",
+    "clipboard-manager:allow-write-text",
+    "clipboard-manager:allow-read-image",
+    "clipboard-manager:allow-write-image",
+    "clipboard-manager:allow-clear"
+  ],
+  "platforms": ["windows", "macOS", "linux"]
+}

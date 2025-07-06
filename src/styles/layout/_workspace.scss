@@ -1,0 +1,48 @@
+@use '../abstracts' as *;
+
+// =================================
+// Tauri Workflow Template - Workspace Layout
+// Extracted from: App.css (workspace grid, responsive screen cards)
+// =================================
+
+// Workspace grid background (used in screen workspace)
+.workspace-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  background-image: 
+    linear-gradient($color-slate-600 1px, transparent 1px),
+    linear-gradient(90deg, $color-slate-600 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+// Screen placeholder for responsive design
+.screen-placeholder {
+  @include mobile {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+// Display Card Sizing for Different Resolutions
+.screen-card {
+  @include mobile {
+    width: 100px;
+    height: 80px;
+  }
+  
+  .screen-name {
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// Better Grid Background for Layout Designer
+.main-app .screen-workspace {
+  background-color: $color-slate-900;
+  border: 2px solid $color-slate-700;
+  border-radius: $border-radius-md;
+} 
