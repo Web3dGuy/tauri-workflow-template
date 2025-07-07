@@ -6,6 +6,7 @@ set -eu
 
 # Initialize global variables
 QUIET=false
+SHOW_OUTPUT=false
 AUTO_YES=false
 NO_CACHE=false
 CUSTOM_IMAGE=""
@@ -99,17 +100,28 @@ run_logged_command() {
         write_log "DESCRIPTION: $description" "INFO"
     fi
     
-    # Capture both stdout and stderr
+    # Capture both stdout and stderr while also showing in terminal
     local output_file=$(mktemp)
     local exit_code=0
     
-    if "$@" > "$output_file" 2>&1; then
-        exit_code=0
+    # Show output in terminal AND capture to file (behavior depends on quiet mode)
+    if [[ "$QUIET" == "true" ]]; then
+        # Quiet mode - just capture output without showing
+        if "$@" > "$output_file" 2>&1; then
+            exit_code=0
+        else
+            exit_code=$?
+        fi
     else
-        exit_code=$?
+        # Normal mode - show live output in terminal AND capture to file
+        if "$@" 2>&1 | tee "$output_file"; then
+            exit_code=${PIPESTATUS[0]}
+        else
+            exit_code=${PIPESTATUS[0]}
+        fi
     fi
     
-    # Log all output
+    # Log all output (since we already showed it in terminal via tee)
     while IFS= read -r line; do
         write_log "$line" "OUTPUT"
     done < "$output_file"
@@ -170,7 +182,8 @@ COMMANDS:
 
 OPTIONS:
     -h, --help              Show this help message
-    -q, --quiet             Suppress non-error output
+    -q, --quiet             Suppress terminal output (logs only)
+    -s, --show-output       Show live command output (default)
     -y, --yes               Auto-confirm prompts
     --no-cache              Build without Docker cache
     --arch ARCH             Override architecture (x86_64|arm64)
@@ -202,6 +215,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         -q|--quiet)
             QUIET=true
+            shift
+            ;;
+        -s|--show-output)
+            SHOW_OUTPUT=true
             shift
             ;;
         -y|--yes)
@@ -428,11 +445,17 @@ build_docker_image() {
     
     cd "$PROJECT_ROOT"
     
+    # Use ARM64-specific Dockerfile for ARM64 builds
+    local dockerfile="docker/Dockerfile"
+    if [[ "$arch" == "arm64" ]]; then
+        dockerfile="docker/Dockerfile.arm64"
+    fi
+    
     local build_args=(
         "docker" "build"
         "--platform" "$platform"
         "-t" "${IMAGE_BASE}:${image_tag}"
-        "-f" "docker/Dockerfile"
+        "-f" "$dockerfile"
         "--build-arg" "BUILDARCH=$arch"
         "--build-arg" "UID=$(id -u)"
         "--build-arg" "GID=$(id -g)"
@@ -531,9 +554,9 @@ build_tauri_docker() {
     info "\n🔨 Building Tauri app for $arch in Docker..."
     write_log "Starting Tauri application build" "INFO"
     
-    # Prepare Docker command
+    # Prepare Docker command with TTY for better output streaming
     local docker_cmd=(
-        "docker" "run" "--rm"
+        "docker" "run" "--rm" "-t"
         "-v" "$PROJECT_ROOT:/workspace"
         "-v" "$SRC_TAURI_DIR/target:/workspace/src-tauri/target"
         "-v" "$PROJECT_ROOT/node_modules:/workspace/node_modules"
@@ -811,7 +834,16 @@ show_recent_logs() {
     
     if [[ -d "$LOGS_DIR" ]]; then
         local log_files
-        mapfile -t log_files < <(find "$LOGS_DIR" -name "*.log" -type f -printf '%T@ %p\n' | sort -nr | head -n "$count" | cut -d' ' -f2-)
+        
+        # macOS compatible version - use ls with stat instead of find -printf
+        if command -v mapfile >/dev/null 2>&1; then
+            # Linux/newer bash version
+            mapfile -t log_files < <(ls -t "$LOGS_DIR"/*.log 2>/dev/null | head -n "$count")
+        else
+            # macOS compatible - use array assignment
+            local IFS=$'\n'
+            log_files=($(ls -t "$LOGS_DIR"/*.log 2>/dev/null | head -n "$count"))
+        fi
         
         if [[ ${#log_files[@]} -eq 0 ]]; then
             warning "No log files found in $LOGS_DIR"
@@ -819,9 +851,20 @@ show_recent_logs() {
         fi
         
         for log_file in "${log_files[@]}"; do
-            local size=$(du -h "$log_file" 2>/dev/null | cut -f1)
-            local timestamp=$(stat -c '%y' "$log_file" 2>/dev/null | cut -d'.' -f1)
-            echo -e "  ${GRAY}$(basename "$log_file") (${size}) - $timestamp${NC}"
+            local size
+            local timestamp
+            local filename=$(basename "$log_file")
+            
+            # macOS compatible file size and timestamp
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                size=$(du -h "$log_file" 2>/dev/null | awk '{print $1}')
+                timestamp=$(stat -f "%Sm" -t "%Y-%m-%d %H:%M:%S" "$log_file" 2>/dev/null)
+            else
+                size=$(du -h "$log_file" 2>/dev/null | cut -f1)
+                timestamp=$(stat -c '%y' "$log_file" 2>/dev/null | cut -d'.' -f1)
+            fi
+            
+            echo -e "  ${GRAY}$filename ($size) - $timestamp${NC}"
         done
         
         echo ""

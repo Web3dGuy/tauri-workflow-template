@@ -350,73 +350,108 @@ releaseDraft: true       # Manual publish required
 
 ## 🐳 Docker Build System
 
-The template includes a sophisticated Docker build system for cross-platform compilation.
+The template includes a sophisticated Docker build system for cross-platform Linux compilation from any host OS.
 
 ### Features
 
-- **Interactive Menu**: User-friendly CLI interface
-- **Multi-Architecture**: Build for x86_64 and ARM64
-- **Cached Dependencies**: Fast rebuilds
-- **Volume Mounts**: Direct access to build artifacts
-- **Cross-Compilation**: Build for all platforms from any host
+- **🎯 Unified Interface**: Single menu for all Docker operations across platforms
+- **🏗️ Multi-Architecture**: Build for x86_64 and ARM64 Linux targets
+- **🔄 Cross-Platform**: Works on macOS, Linux, and Windows
+- **⚡ Fast Iteration**: Cached dependencies and build artifacts
+- **🎮 Interactive Development**: Shell access to build environment
+- **🤖 AI-Friendly**: Complete CLI interface for automation
 
 ### Quick Start
 
+**Interactive Menu:**
 ```bash
-# Open interactive menu
+# Linux/macOS
 npm run docker:menu
 
-# Or use direct commands
-npm run docker:build-image    # Build Docker image
-npm run docker:build-tauri    # Build app in Docker
-npm run docker:run           # Interactive shell
+# Windows PowerShell  
+npm run docker:menu
 ```
 
-### Docker Menu Options
-
-1. **Build Docker Image**: Creates the build environment
-2. **Build Tauri App**: Compiles for current architecture
-3. **Build All Architectures**: Cross-compiles for all platforms
-4. **Run Interactive Shell**: Debug and explore
-5. **Clean Build Artifacts**: Remove generated files
-6. **Build on Host + Docker**: Complete build pipeline
-7. **Check Image Status**: Verify Docker setup
-
-### Tutorial: Using Docker Menu
-
-1. **First time setup**:
-   ```bash
-   npm run docker:menu
-   # Select: 1) Build Docker Image
-   # Select: 6) Build on Host + All Docker Architectures
-   ```
-
-2. **Regular builds**:
-   ```bash
-   npm run docker:menu
-   # Select: 2) Build Tauri Application
-   ```
-
-3. **Cross-platform build**:
-   ```bash
-   npm run docker:menu
-   # Select: 3) Build for All Architectures
-   ```
-
-### CLI Mode
-
-For automation, use CLI arguments:
-
+**Direct Commands:**
 ```bash
-# Build image
-./docker/docker-menu.sh build-image
-
-# Build for specific architecture
-./docker/docker-menu.sh build --arch amd64
-
-# Clean artifacts
-./docker/docker-menu.sh clean
+npm run docker:build-image    # Build Docker image for native arch
+npm run docker:build-tauri    # Build Tauri app in Docker
+npm run docker:build-all      # Build on host + all Docker architectures
+npm run docker:run           # Interactive Docker shell
+npm run docker:clean         # Clean build artifacts
+npm run docker:check         # Check Docker image status
 ```
+
+### Architecture Support
+
+- **x86_64**: Ubuntu 22.04 + `libwebkit2gtk-4.1-dev`
+- **ARM64**: Ubuntu 20.04 + `libwebkit2gtk-4.0-dev` (optimized for Windows Docker Desktop emulation)
+- **Cross-compilation**: Build any architecture from any host (with performance differences)
+
+### Menu Overview
+
+The interactive menu provides 18 organized options:
+
+**Docker Image Operations (1-4):**
+- Build native architecture image
+- Build both architectures  
+- Build with cache clear
+- Check image status
+
+**Tauri Build Operations (5-9):**
+- Build for x86_64 in Docker
+- Build for ARM64 in Docker  
+- Build both architectures
+- Build on native host
+- Build ALL (comprehensive pipeline)
+
+**Development Operations (10-12):**
+- Interactive shell (native arch)
+- Interactive shell (select arch)
+- Custom Docker image shell
+
+**Maintenance & Utilities (13-18):**
+- Clean build artifacts
+- Deep clean (artifacts + images)
+- Disk usage report
+- Install Docker
+- Start Docker
+- Show recent log files
+
+### CLI Mode (Automation & AI)
+
+**Build Commands:**
+```bash
+# Build specific architecture
+./docker/docker-menu.sh build-image x86_64
+./docker/docker-menu.sh build-tauri arm64
+
+# Build everything
+./docker/docker-menu.sh build-all
+
+# Automated cleanup
+./docker/docker-menu.sh -y clean
+```
+
+**PowerShell (Windows):**
+```powershell
+# Build Docker image
+.\docker\docker-menu.ps1 build-image
+
+# Build Tauri app
+.\docker\docker-menu.ps1 build-tauri x86_64
+
+# Quiet mode for automation
+.\docker\docker-menu.ps1 -Quiet build-all
+```
+
+**Options:**
+- `-h, --help`: Show help
+- `-q, --quiet`: Suppress output (logs only)
+- `-y, --yes`: Auto-confirm prompts  
+- `--no-cache`: Build without Docker cache
+- `--arch ARCH`: Override architecture
+- `--image IMAGE`: Use custom Docker image
 
 ### Build Outputs
 

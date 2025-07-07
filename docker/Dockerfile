@@ -1,6 +1,8 @@
 # Ubuntu 22.04 Docker image for Tauri app building
 # Matches GitHub Actions workflow for Linux builds
 
+# Use different base image for ARM64 to avoid libc-bin issues
+ARG TARGETARCH
 FROM ubuntu:22.04
 
 # Prevent interactive prompts during package installation
@@ -9,26 +11,40 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Set up working directory
 WORKDIR /app
 
-# Install system dependencies (matching GitHub workflow)
-RUN apt-get update -y \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    # Core build tools
-    build-essential \
-    curl \
-    wget \
-    git \
-    pkg-config \
-    # Tauri Linux dependencies (exact match from GitHub workflow)
-    libwebkit2gtk-4.1-dev \
-    libappindicator3-dev \
-    librsvg2-dev \
-    patchelf \
-    # Additional system dependencies
-    ca-certificates \
-    gnupg \
-    lsb-release \
-    sudo \
-    && rm -rf /var/lib/apt/lists/*
+# ARM64-specific workaround for Windows Docker Desktop emulation issues
+RUN if [ "$TARGETARCH" = "arm64" ]; then \
+        # For ARM64, use a more conservative approach to avoid libc-bin crashes
+        apt-get update -y && \
+        apt-get install -y --no-install-recommends \
+            curl wget ca-certificates gnupg lsb-release && \
+        apt-get install -y --no-install-recommends \
+            build-essential git pkg-config && \
+        apt-get install -y --no-install-recommends \
+            libwebkit2gtk-4.1-dev \
+            file \
+            libxdo-dev \
+            libssl-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            sudo && \
+        rm -rf /var/lib/apt/lists/* && \
+        dpkg --configure -a; \
+    else \
+        # For x86_64, use the standard approach
+        apt-get update -y && \
+        DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            build-essential curl wget git pkg-config \
+            libwebkit2gtk-4.1-dev \
+            file \
+            libxdo-dev \
+            libssl-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            ca-certificates gnupg lsb-release sudo && \
+        rm -rf /var/lib/apt/lists/*; \
+    fi
 
 # Install Node.js 20 (matching GitHub workflow)
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
