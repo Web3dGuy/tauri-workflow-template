@@ -145,9 +145,9 @@ The menu provides organized sections:
 
 ## Docker Environment
 
-### Base Image
-- Ubuntu 22.04 LTS (matches GitHub Actions)
-- Multi-architecture support (linux/amd64, linux/arm64)
+### Base Images
+- **x86_64**: Ubuntu 22.04 LTS + `libwebkit2gtk-4.1-dev` (matches GitHub Actions)
+- **ARM64**: Ubuntu 20.04 LTS + `libwebkit2gtk-4.0-dev` (optimized for Windows Docker Desktop emulation)
 
 ### Pre-installed Tools
 - Node.js 20.x LTS
@@ -251,7 +251,8 @@ wait
 docker/
 ├── docker-menu.sh      # Linux/macOS unified script
 ├── docker-menu.ps1     # Windows PowerShell script
-├── Dockerfile          # Multi-arch Ubuntu 22.04 image
+├── Dockerfile          # x86_64 Ubuntu 22.04 image
+├── Dockerfile.arm64    # ARM64 Ubuntu 20.04 image (emulation-optimized)
 └── README.md          # This documentation
 ```
 

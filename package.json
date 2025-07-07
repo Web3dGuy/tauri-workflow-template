@@ -25,7 +25,9 @@
     "docker:run": "npm run docker -- run",
     "docker:clean": "npm run docker -- clean",
     "docker:check": "npm run docker -- check",
-    "docker:help": "npm run docker -- --help"
+    "docker:help": "npm run docker -- --help",
+    "docker:quiet": "npm run docker -- --quiet",
+    "docker:show-logs": "npm run docker -- show-logs"
   },
   "dependencies": {
     "@blueprintjs/core": "^6.0.0",

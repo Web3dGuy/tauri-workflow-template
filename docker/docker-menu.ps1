@@ -14,6 +14,8 @@ param(
     [switch]$h,
     [switch]$Quiet,
     [switch]$q,
+    [switch]$ShowOutput,
+    [switch]$s,
     [switch]$Yes,
     [switch]$y,
     [switch]$NoCache,
@@ -25,6 +27,7 @@ $ErrorActionPreference = "Stop"
 
 # Global variables
 $Global:Quiet = $Quiet -or $q
+$Global:ShowOutput = $ShowOutput -or $s
 $Global:AutoYes = $Yes -or $y
 $Global:UseNoCache = $NoCache
 $Global:CustomImage = $Image
@@ -118,29 +121,81 @@ function Invoke-LoggedCommand {
     }
     
     try {
-        $oldPref = $ErrorActionPreference
-        $ErrorActionPreference = 'Continue'
-        if ($Arguments.Count -gt 0) {
-            $output = & $Command @Arguments 2>&1
-        } else {
-            $output = & $Command 2>&1
-        }
-        $ErrorActionPreference = $oldPref
+        # Create process for real-time output streaming
+        $psi = New-Object System.Diagnostics.ProcessStartInfo
+        $psi.FileName = $Command
+        $psi.Arguments = $Arguments -join ' '
+        $psi.UseShellExecute = $false
+        $psi.RedirectStandardOutput = $true
+        $psi.RedirectStandardError = $true
+        $psi.CreateNoWindow = $true
         
-        $output | ForEach-Object {
-            Write-Log $_.ToString() "OUTPUT"
+        $process = New-Object System.Diagnostics.Process
+        $process.StartInfo = $psi
+        
+        # Script blocks for handling output
+        $outputDataReceived = {
+            param($sender, $e)
+            if ($null -ne $e.Data -and $e.Data -ne "") {
+                $line = $e.Data
+                Write-Log $line "OUTPUT"
+                if (-not $Global:Quiet) {
+                    Write-Host $line -ForegroundColor Gray
+                }
+            }
         }
         
-        if ($LASTEXITCODE -eq 0) {
-            Write-Log "Command completed successfully (Exit Code: $LASTEXITCODE)" "SUCCESS"
+        $errorDataReceived = {
+            param($sender, $e)
+            if ($null -ne $e.Data -and $e.Data -ne "") {
+                $line = $e.Data
+                Write-Log $line "OUTPUT"
+                if (-not $Global:Quiet) {
+                    Write-Host $line -ForegroundColor Yellow
+                }
+            }
+        }
+        
+        # Register event handlers
+        $outputEvent = Register-ObjectEvent -InputObject $process -EventName OutputDataReceived -Action $outputDataReceived
+        $errorEvent = Register-ObjectEvent -InputObject $process -EventName ErrorDataReceived -Action $errorDataReceived
+        
+        # Start process and begin reading output
+        $process.Start() | Out-Null
+        $process.BeginOutputReadLine()
+        $process.BeginErrorReadLine()
+        
+        # Wait for process to exit
+        $process.WaitForExit()
+        $exitCode = $process.ExitCode
+        
+        # Clean up
+        Unregister-Event -SourceIdentifier $outputEvent.Name
+        Unregister-Event -SourceIdentifier $errorEvent.Name
+        $process.Dispose()
+        
+        if ($exitCode -eq 0) {
+            Write-Log "Command completed successfully (Exit Code: $exitCode)" "SUCCESS"
             return $true
         } else {
-            Write-Log "Command failed (Exit Code: $LASTEXITCODE)" "ERROR"
+            Write-Log "Command failed (Exit Code: $exitCode)" "ERROR"
             return $false
         }
     } catch {
         Write-Log "Command exception: $($_.Exception.Message)" "ERROR"
-        return $false
+        # Fallback to simple execution
+        Write-Warning "Falling back to simple command execution"
+        try {
+            if ($Arguments.Count -gt 0) {
+                & $Command @Arguments
+            } else {
+                & $Command
+            }
+            $exitCode = $LASTEXITCODE
+            return $exitCode -eq 0
+        } catch {
+            return $false
+        }
     }
 }
 
@@ -204,15 +259,27 @@ function Build-DockerImage {
     
     Push-Location $PROJECT_ROOT
     try {
+        # Use ARM64-specific Dockerfile for ARM64 builds
+        $dockerFile = if ($Architecture -eq "arm64") { "docker/Dockerfile.arm64" } else { "docker/Dockerfile" }
+        
         $buildArgs = @(
             "build",
             "--platform", $platform,
             "-t", $dockerImage,
-            "-f", "docker/Dockerfile",
+            "-f", $dockerFile,
             "--build-arg", "BUILDARCH=$Architecture",
             "--build-arg", "UID=1000",
             "--build-arg", "GID=1000"
         )
+        
+        # Add architecture-specific build arguments for better compatibility
+        if ($Architecture -eq "arm64") {
+            $buildArgs += "--build-arg", "TARGETARCH=arm64"
+            $buildArgs += "--build-arg", "TARGETOS=linux"
+        } else {
+            $buildArgs += "--build-arg", "TARGETARCH=amd64"
+            $buildArgs += "--build-arg", "TARGETOS=linux"
+        }
         
         if ($Clean -or $Global:UseNoCache) {
             $buildArgs += "--no-cache"
@@ -232,7 +299,12 @@ function Build-DockerImage {
         # Ensure QEMU binfmt handlers are installed for cross-architecture builds on Windows
         if ($Architecture -eq "arm64" -and $IsWindows) {
             Write-Info "Ensuring QEMU binfmt handlers are installed (once-off)…"
-            Invoke-LoggedCommand -Command "docker" -Arguments @("run","--privileged","--rm","tonistiigi/binfmt","--install","all") -Description "Register binfmt handlers" | Out-Null
+            if (-not (Invoke-LoggedCommand -Command "docker" -Arguments @("run","--privileged","--rm","tonistiigi/binfmt","--install","all") -Description "Register binfmt handlers")) {
+                Write-Warning "Failed to install QEMU binfmt handlers. ARM64 build may fail."
+            }
+            
+            # Wait a moment for the handlers to be ready
+            Start-Sleep -Seconds 2
         }
         
         if (Invoke-LoggedCommand -Command "docker" -Arguments $buildArgs -Description "Building Docker image") {
@@ -285,9 +357,9 @@ function Build-TauriDocker {
     Write-Info "Building Tauri app for $Architecture in Docker..."
     Write-Log "Starting Tauri application build" "INFO"
     
-    # Create command for Docker
+    # Create command for Docker with TTY for better output streaming
     $dockerCmd = @(
-        "run", "--rm",
+        "run", "--rm", "-t",
         "-v", "${PROJECT_ROOT}:/workspace",
         "-v", "${SRC_TAURI_DIR}/target:/workspace/src-tauri/target",
         "-v", "${PROJECT_ROOT}/node_modules:/workspace/node_modules",
@@ -354,6 +426,15 @@ function Build-TauriNative {
             return
         }
         Write-Log "npm command found" "INFO"
+        
+        # Check if cargo is available
+        if (-not (Get-Command cargo -ErrorAction SilentlyContinue)) {
+            Write-ErrorMsg "cargo not found. Please install Rust first."
+            Write-Log "cargo command not found" "ERROR"
+            Stop-Logging "FAILED"
+            return
+        }
+        Write-Log "cargo command found" "INFO"
         
         Write-Info "Installing dependencies..."
         Write-Log "Starting npm ci" "INFO"
@@ -567,11 +648,15 @@ COMMANDS:
 
 OPTIONS:
     -Help, -h               Show this help message
-    -Quiet, -q              Suppress non-error output
+    -Quiet, -q              Suppress terminal output (logs only)
+    -ShowOutput, -s         Show live command output (default)
     -Yes, -y                Auto-confirm prompts
     -NoCache                Build without Docker cache
     -Arch ARCH              Override architecture (x86_64|arm64)
     -Image IMAGE            Use custom Docker image
+
+NOTE:
+    Live command output is shown by default. Use -q/-Quiet to suppress.
 
 LOGGING:
     All operations are automatically logged to timestamped files in the logs/ directory.
@@ -600,7 +685,8 @@ if ($Command) {
                 "native" { Build-DockerImage -Architecture $ARCH }
                 "x86_64" { Build-DockerImage -Architecture "x86_64" }
                 "arm64" { 
-                    Write-Warning "ARM64 builds may not work properly on Windows Docker Desktop."
+                    Write-Warning "ARM64 builds on Windows require Docker Desktop with proper QEMU emulation."
+                    Write-Warning "If the build fails, try: docker run --privileged --rm tonistiigi/binfmt --install all"
                     Build-DockerImage -Architecture "arm64"
                 }
                 "both" { Build-DockerBoth }
