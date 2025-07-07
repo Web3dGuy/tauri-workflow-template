@@ -4,46 +4,66 @@ This document explains the language patterns you can use to trigger different Gi
 
 ## Overview
 
-Our CI/CD system uses a **two-tier approach** with smart triggering based on the language you use when requesting code changes or commits. Claude analyzes your request to determine the optimal workflow strategy.
+Our CI/CD system uses a **streamlined approach** with smart triggering based on the language you use when requesting code changes or commits. Claude analyzes your request to determine the optimal workflow strategy.
 
 ## Workflow Summary
 
-| Trigger Method | CI Time | Release | Use Case |
-|---------------|---------|---------|----------|
-| **Direct Push to Dev** | 8-10 min | ❌ | Quick fixes, docs |
-| **PR to Dev** | 2-3 min | ❌ | Major features |
-| **PR to Main** | 2-3 min | ❌ | Release prep |
-| **Direct Push to Main** | 15-20 min | ✅ | Releases, hotfixes |
-| **Manual Trigger** | 15-20 min | ✅ | Scheduled releases |
+| Trigger Method | CI Time | Tauri Build | Release | Use Case |
+|---------------|---------|-------------|---------|----------|
+| **Direct Push to Dev** | 2-3 min | ❌ | ❌ | Quick fixes, docs, frontend work |
+| **PR to Dev** | 2-3 min | ❌ | ❌ | Feature development, review |
+| **PR to Main** | 2-3 min + 8-10 min | ✅ (validation) | ❌ | Release prep, validation |
+| **Direct Push to Main** | 15-20 min | ✅ (full) | ✅ | Releases, hotfixes |
+| **Manual Trigger** | 15-20 min | ✅ (full) | ✅ | Scheduled releases |
+
+## Docker Build Alternative
+
+For local development and testing, use the **Docker build system**:
+
+| Docker Command | Build Time | Architectures | Use Case |
+|---------------|------------|---------------|----------|
+| `npm run docker:build-tauri` | 5-15 min | x86_64, ARM64 | Local testing |
+| `npm run docker:build-all` | 10-20 min | Host + Docker | Complete validation |
+| `npm run docker` | Interactive | Any | Development shell |
 
 ## Language Patterns for Different Workflows
 
 ### 🚀 Quick Development (Direct Push to Dev)
 
-**When to Use**: Small changes, documentation, minor fixes that you want tested with full Tauri build.
+**When to Use**: Frontend changes, documentation, styles, small fixes that don't need Tauri validation.
+
+**What Happens**: 
+- Frontend build (`npm run build`)
+- CSS linting
+- **No Tauri build** (fast feedback)
 
 **Language Patterns**:
 - "commit and push this change"
 - "just commit this directly"
 - "push this fix to dev"
 - "commit this small change"
-- "quick commit for this docs update"
+- "quick commit for this frontend update"
 
 **Examples**:
 ```
 User: "Fix the typo in the README and commit it"
-Claude: → Direct push to dev (8-10 min build)
+Claude: → Direct push to dev (2-3 min, frontend only)
 
 User: "Update the color scheme and push the changes"  
-Claude: → Direct push to dev (8-10 min build)
+Claude: → Direct push to dev (2-3 min, frontend only)
 
-User: "Just commit this documentation update"
-Claude: → Direct push to dev (8-10 min build)
+User: "Just commit this component styling fix"
+Claude: → Direct push to dev (2-3 min, frontend only)
 ```
 
 ### 🔄 Feature Development (PR to Dev)
 
-**When to Use**: Major features, backend changes, anything that needs review or you want to avoid expensive Tauri builds.
+**When to Use**: New features, component development, collaborative work that needs review.
+
+**What Happens**:
+- Frontend build (`npm run build`)
+- CSS linting
+- **No Tauri build** (fast iteration)
 
 **Language Patterns**:
 - "create a PR for this feature"
@@ -55,39 +75,51 @@ Claude: → Direct push to dev (8-10 min build)
 
 **Examples**:
 ```
-User: "Implement the new input capture system and create a PR"
-Claude: → PR to dev (2-3 min build)
+User: "Implement the new settings panel and create a PR"
+Claude: → PR to dev (2-3 min, frontend only)
 
-User: "Add authentication to the backend"
-Claude: → PR to dev (2-3 min build, major feature)
+User: "Add the network topology component"
+Claude: → PR to dev (2-3 min, frontend only)
 
-User: "Build the settings page component"
-Claude: → PR to dev (2-3 min build, significant work)
+User: "Build the console interface"
+Claude: → PR to dev (2-3 min, frontend only)
 ```
 
 ### 📦 Release Preparation (PR to Main)
 
-**When to Use**: Preparing releases, final testing before deployment.
+**When to Use**: Preparing releases, final validation before deployment.
+
+**What Happens**:
+- Frontend build (`npm run build`)
+- CSS linting
+- **Tauri validation build** (Linux only, 8-10 min)
 
 **Language Patterns**:
 - "prepare this for release"
 - "create a PR to main"
 - "ready for main branch"
 - "prep for release"
-- "merge this to main"
+- "validate with Tauri build"
 
 **Examples**:
 ```
 User: "This feature is ready, create a PR to main"
-Claude: → PR to main (2-3 min build)
+Claude: → PR to main (2-3 min + 8-10 min Tauri validation)
 
-User: "Prepare v0.2.0 for release"
-Claude: → PR to main (2-3 min build)
+User: "Prepare v0.2.0 for release validation"
+Claude: → PR to main (2-3 min + 8-10 min Tauri validation)
 ```
 
 ### 🚨 Release Deployment (Direct Push to Main)
 
 **When to Use**: Immediate releases, urgent hotfixes, final deployment.
+
+**What Happens**:
+- Full cross-platform Tauri build
+- macOS (ARM64 + x86_64)
+- Linux (x86_64)
+- Windows (x86_64)
+- **GitHub release creation**
 
 **Language Patterns**:
 - "deploy this now"
@@ -100,33 +132,84 @@ Claude: → PR to main (2-3 min build)
 **Examples**:
 ```
 User: "This security fix needs to be released immediately"
-Claude: → Direct push to main (15-20 min, full release)
+Claude: → Direct push to main (15-20 min, full cross-platform release)
 
 User: "Deploy version 0.2.0 now"
-Claude: → Direct push to main (15-20 min, full release)
+Claude: → Direct push to main (15-20 min, full cross-platform release)
 
 User: "Create a release with these changes"
-Claude: → Direct push to main (15-20 min, full release)
+Claude: → Direct push to main (15-20 min, full cross-platform release)
 ```
 
-### 🎯 Manual Release Trigger
+### 🐳 Docker Development (Local Testing)
 
-**When to Use**: Scheduled releases without new commits, version bumps.
+**When to Use**: Local Tauri testing, cross-platform validation, development without CI/CD.
+
+**What Happens**:
+- Local Docker build
+- Linux x86_64 and/or ARM64
+- No GitHub release
+- Faster iteration than full CI
 
 **Language Patterns**:
-- "trigger a manual release"
-- "run the release workflow manually"
-- "create a release without new commits"
-- "manual deployment"
+- "test this with Docker"
+- "build locally with Docker"
+- "validate with Docker build"
+- "test Linux build"
+- "build for both architectures"
 
 **Examples**:
 ```
-User: "The main branch is ready, trigger a manual release"
-Claude: → Manual workflow trigger (15-20 min, full release)
+User: "Test this backend change with Docker"
+Claude: → npm run docker:build-tauri (5-15 min, Linux)
 
-User: "Run a release build manually"
-Claude: → Manual workflow trigger (15-20 min, full release)
+User: "Build for both architectures to test"
+Claude: → npm run docker:build-all (10-20 min, all targets)
+
+User: "I need to debug the Linux build"
+Claude: → npm run docker (interactive development shell)
 ```
+
+## Docker Build System
+
+### Available Commands
+
+**Via npm scripts:**
+```bash
+npm run docker              # Interactive menu
+npm run docker:build-image  # Build Docker image
+npm run docker:build-tauri  # Build Tauri app in Docker
+npm run docker:build-all    # Build everything locally
+npm run docker:run          # Interactive Docker shell
+npm run docker:clean        # Clean build artifacts
+npm run docker:check        # Check Docker status
+npm run docker:help         # Show help
+```
+
+**Direct script access:**
+```bash
+# Linux/macOS
+./docker/docker-menu.sh [command]
+
+# Windows
+.\docker\docker-menu.ps1 [command]
+```
+
+### Architecture Support
+
+- **Native builds**: Maximum performance
+- **Cross-architecture**: ARM64 ↔ x86_64 (slower due to emulation)
+- **Multi-platform**: Build both architectures sequentially
+
+### When to Use Docker vs CI/CD
+
+| Scenario | Recommendation |
+|----------|---------------|
+| Frontend-only changes | Direct push to dev (2-3 min) |
+| Backend changes needing validation | Docker build (5-15 min) |
+| Cross-platform testing | Docker build all (10-20 min) |
+| Release preparation | PR to main (validation) |
+| Production deployment | Push to main (full release) |
 
 ## Claude's Decision Matrix
 
@@ -135,29 +218,36 @@ Claude: → Manual workflow trigger (15-20 min, full release)
 Claude analyzes your request using these factors:
 
 1. **Change Scope**:
-   - Minor (docs, styles, small fixes) → Direct push to dev
-   - Major (features, backend, architecture) → PR to dev
+   - Frontend only (styles, components, docs) → Direct push to dev
+   - Backend/Tauri changes → PR to dev or Docker build
+   - Cross-platform needs → Docker build
 
 2. **Urgency Indicators**:
    - "quick", "small", "just" → Direct push to dev
-   - "implement", "add", "build" → PR to dev
+   - "test", "validate", "build" → Docker build
    - "release", "deploy", "hotfix" → Push to main
 
-3. **Review Requirements**:
-   - Explicit PR request → PR workflow
-   - No mention of review → Direct push (if appropriate)
+3. **Tauri Build Requirements**:
+   - Frontend changes → No Tauri build needed
+   - Backend changes → Docker build for testing
+   - Release prep → PR to main for validation
+   - Production → Push to main for full release
 
-4. **Release Intent**:
-   - "release", "deploy", "publish" → Main branch workflow
+4. **Development vs Production**:
    - Development work → Dev branch workflow
+   - Testing/validation → Docker build
+   - Release intent → Main branch workflow
 
 ### Override Patterns
 
 You can explicitly override Claude's decision:
 
 ```
-User: "This is a major feature, but just commit it directly to dev"
-Claude: → Direct push to dev (respects explicit instruction)
+User: "This is a backend change, but just commit it directly to dev"
+Claude: → Direct push to dev (respects instruction, frontend-only CI)
+
+User: "Frontend change, but test with Docker first"
+Claude: → Docker build (respects explicit instruction)
 
 User: "Small docs fix, but create a PR"
 Claude: → PR to dev (respects explicit instruction)
@@ -165,248 +255,188 @@ Claude: → PR to dev (respects explicit instruction)
 
 ## Best Practices
 
-### For Development Work
-- **Use natural language**: "Add X feature" or "Fix Y bug"
-- **Specify PR when needed**: "Create a PR for this backend change"
-- **Let Claude decide**: For most cases, Claude will choose optimally
+### For Frontend Development
+- **Use direct commits**: "Update the sidebar styling"
+- **Fast iteration**: Direct push to dev (2-3 min)
+- **No Tauri overhead**: Frontend changes don't need Tauri validation
 
-### For Releases
-- **Be explicit**: "Deploy this" or "Create a release"
-- **Use urgency indicators**: "hotfix", "emergency", "immediately"
-- **Mention version numbers**: "Release v0.2.0"
+### For Backend Development
+- **Test locally first**: "Build this with Docker"
+- **Validate before PR**: Use Docker builds for testing
+- **PR for review**: "Create a PR for this backend change"
 
-### For Code Reviews
-- **Request PR explicitly**: "Make this a pull request"
-- **Mention review needs**: "This needs review"
-- **Use collaborative language**: "Let's create a PR"
+### For Release Management
+- **Validate with PR to main**: Gets Tauri validation build
+- **Deploy with push to main**: Full cross-platform release
+- **Use Docker for testing**: Local validation before release
+
+### For Cross-Platform Development
+- **Use Docker builds**: "Build for both architectures"
+- **Test locally**: Docker builds are faster than CI for testing
+- **Validate before release**: Docker → PR to main → Push to main
 
 ## Common Scenarios
 
-### Scenario 1: Documentation Update
+### Scenario 1: Frontend Component Update
 ```
-User: "Fix the installation instructions in the README"
+User: "Update the network topology component styling"
 Claude Decision: Direct push to dev
-Reasoning: Documentation change, quick fix
-Result: 8-10 min build with Tauri test
+Reasoning: Frontend change, no Tauri build needed
+Result: 2-3 min build (frontend only)
 ```
 
-### Scenario 2: New Component
+### Scenario 2: Backend Input System Change
 ```
-User: "Build a user settings panel component"
-Claude Decision: PR to dev  
-Reasoning: Major feature, benefits from review
-Result: 2-3 min build, avoids expensive Tauri build
-```
-
-### Scenario 3: Bug Fix
-```
-User: "There's a memory leak in the input handler, fix it"
-Claude Decision: PR to dev
-Reasoning: Backend change, complex fix
-Result: 2-3 min build for quick feedback
+User: "Fix the input capture system"
+Claude Decision: Docker build first, then PR
+Reasoning: Backend change, needs Tauri validation
+Result: 5-15 min Docker build, then PR to dev
 ```
 
-### Scenario 4: Security Hotfix
+### Scenario 3: Cross-Platform Feature
 ```
-User: "Critical security vulnerability found, fix and deploy immediately"
+User: "Implement clipboard integration for all platforms"
+Claude Decision: Docker build for testing
+Reasoning: Cross-platform feature, needs validation
+Result: 10-20 min Docker build with both architectures
+```
+
+### Scenario 4: Release Preparation
+```
+User: "The authentication feature is complete, prepare for release"
+Claude Decision: PR to main
+Reasoning: Release prep, needs validation build
+Result: 2-3 min + 8-10 min Tauri validation
+```
+
+### Scenario 5: Security Hotfix
+```
+User: "Critical security vulnerability, fix and deploy immediately"
 Claude Decision: Direct push to main
-Reasoning: Urgency indicators, deployment request
+Reasoning: Emergency, bypass normal validation
 Result: 15-20 min full cross-platform release
 ```
 
-### Scenario 5: Feature Complete
-```
-User: "The authentication system is done, prepare it for release"
-Claude Decision: PR to main
-Reasoning: Release preparation, controlled process
-Result: 2-3 min build, ready for merge to main
-```
+## Advanced Docker Workflows
 
-## Advanced Workflows
+### Interactive Development
+```bash
+# Start development environment
+npm run docker
 
-### 🎯 Manual Release Triggers
-
-**When to Use Manual Triggers:**
-- Scheduled releases without new commits
-- Version bumps from package.json changes
-- Re-running failed releases
-- Demo or showcase deployments
-
-**Language Patterns:**
-```
-"Trigger a manual release of the current main branch"
-"Run the release workflow manually for v0.3.0"
-"Create a release build without new commits"
-"Deploy the current state of main"
+# In Docker container:
+# - Full Linux environment
+# - Pre-installed dependencies
+# - Mounted project files
+# - Direct access to Tauri build tools
 ```
 
-**Process:**
-1. Go to GitHub Actions tab
-2. Select "Release" workflow
-3. Click "Run workflow"
-4. Choose branch (usually main)
-5. Optionally specify version or notes
+### Architecture-Specific Builds
+```bash
+# Build for specific architecture
+npm run docker -- build-tauri x86_64
+npm run docker -- build-tauri arm64
 
-### 📋 Version Bumping Strategies
-
-**Semantic Versioning Approach:**
-```
-User: "Bump version to 0.3.0 and create a release"
-Claude: → Update package.json → Commit → Push to main → Release
-
-User: "Patch release for the bug fixes"
-Claude: → Bump patch version → Release workflow
-
-User: "Major version release with breaking changes"
-Claude: → Update to 1.0.0 → Full release cycle
+# Build for both architectures
+npm run docker -- build-tauri both
 ```
 
-**Version Update Process:**
-1. Update `package.json` version
-2. Update `src-tauri/tauri.conf.json` version
-3. Commit version changes
-4. Create git tag
-5. Push to main (triggers release)
+### Development Shell Access
+```bash
+# Interactive shell in Docker
+npm run docker -- run
 
-### 🚨 Hotfix Deployment Procedures
-
-**Critical Bug Hotfix:**
-```
-User: "Emergency: Users can't login, fix and deploy ASAP"
-Claude Strategy:
-1. Create hotfix branch from main
-2. Apply minimal fix
-3. Test locally if possible
-4. Direct push to main (bypass normal process)
-5. Monitor release deployment
-6. Backport fix to dev if needed
+# Architecture-specific shell
+npm run docker -- run x86_64
+npm run docker -- run arm64
 ```
 
-**Security Vulnerability Hotfix:**
-```
-User: "Security patch needed for production immediately"
-Claude Strategy:
-1. Apply security fix
-2. Minimal testing (security over features)
-3. Direct push to main
-4. Force immediate release
-5. Coordinate with team on disclosure
-```
+### Build Optimization
+```bash
+# Clean build (remove cache)
+npm run docker -- --no-cache build-image
 
-**Hotfix Language Patterns:**
-- "Emergency deployment needed"
-- "Critical security fix, deploy immediately"
-- "Production is down, hotfix required"
-- "Bypass normal process, this is urgent"
+# Quiet mode for scripts
+npm run docker -- -q build-tauri
 
-### 🔄 Multi-Environment Workflows
-
-**Development → Staging → Production:**
-```
-1. Feature work: PR to dev
-2. Integration testing: Merge to dev
-3. Release candidate: PR dev → main
-4. Production release: Merge to main
+# Force specific architecture
+npm run docker -- --arch x86_64 build-tauri
 ```
 
-**Environment-Specific Language:**
-```
-"Deploy to staging for testing" → Merge to dev branch
-"Release to production" → Merge to main branch
-"Create release candidate" → PR from dev to main
-```
+## Integration Examples
 
-### 📊 Release Planning Workflows
-
-**Planned Release Cycle:**
+### Development Workflow
 ```
-Week 1-2: Development (multiple PRs to dev)
-Week 3: Integration testing (merge PRs to dev)
-Week 4: Release prep (PR dev → main, final testing)
-Week 5: Production deployment (merge to main)
+1. Make frontend changes → Direct push to dev (2-3 min)
+2. Make backend changes → Docker build test (5-15 min)
+3. Feature complete → PR to dev (2-3 min)
+4. Ready for release → PR to main (validation)
+5. Deploy to production → Push to main (full release)
 ```
 
-**Language for Release Planning:**
+### Testing Workflow
 ```
-"Prepare release candidate for next week's deployment"
-→ Claude: Creates PR dev → main with release notes
-
-"Schedule release for Friday at 2 PM"
-→ Claude: Prepares everything, waits for manual trigger
-
-"Bundle all recent features into release v0.4.0"
-→ Claude: Reviews recent changes, prepares comprehensive release
+1. Local development → Docker interactive shell
+2. Feature testing → Docker build specific architecture
+3. Cross-platform validation → Docker build all
+4. Release validation → PR to main
+5. Production deployment → Push to main
 ```
 
-### 🎛️ Workflow Customization
-
-**Custom Build Targets:**
+### Hotfix Workflow
 ```
-"Build only for macOS this time"
-"Create Windows-only release for testing"
-"Full cross-platform release with all architectures"
+1. Identify issue → Docker build for testing
+2. Develop fix → Docker validation
+3. Emergency deployment → Direct push to main
+4. Post-deployment → Backport to dev if needed
 ```
-
-**Draft vs Published Releases:**
-```
-"Create draft release for review" → All releases are drafts by default
-"Publish the draft release now" → Manual publish action
-"Skip draft, publish immediately" → Custom workflow needed
-```
-
-**Build Optimization:**
-```
-"Fast build for testing" → PR workflow (2-3 min)
-"Full validation build" → Push to dev (8-10 min)
-"Production build with signing" → Release workflow (15-20 min)
-```
-
-### 🚀 Advanced Language Patterns
-
-**Complex Scenarios:**
-```
-"Fix the authentication bug, create a PR, but also prepare a hotfix branch in case we need emergency deployment"
-
-"Implement feature X, but if it works well, fast-track it to production"
-
-"Update dependencies and test thoroughly before any release consideration"
-
-"Create experimental build for the new input system - don't merge yet"
-```
-
-**Claude's Advanced Responses:**
-- Recognizes multi-step requirements
-- Creates appropriate branching strategies
-- Balances speed vs safety based on context
-- Suggests alternative approaches when appropriate
 
 ## Troubleshooting
 
 ### If Claude Chooses Wrong Strategy
 Simply clarify your intent:
 ```
-User: "Actually, make that a PR instead"
+User: "Actually, test this with Docker first"
 User: "Just commit it directly"
 User: "This should trigger a release"
+User: "Build locally with Docker"
 ```
 
 ### If Build Takes Too Long
-- Use PR workflows for development (2-3 min vs 8-10 min)
-- Save direct pushes to dev for small changes
-- Batch multiple changes into single commits
+- Use **dev pushes** for frontend work (2-3 min)
+- Use **Docker builds** for backend testing (5-15 min)
+- Use **PR to main** only when ready for release validation
+- Save **main pushes** for actual releases
 
-### If You Need Different Behavior
-You can always specify explicitly:
-```
-User: "Implement X, Y, and Z features, but create separate PRs for each"
-User: "Make these changes and commit directly, even though it's a big change"
-```
+### If You Need Local Testing
+- Use **Docker builds** for local validation
+- Use **interactive Docker shell** for development
+- Use **architecture-specific builds** for targeted testing
+
+## Performance Comparison
+
+| Build Type | Time | Tauri Build | Architectures | Use Case |
+|------------|------|-------------|---------------|----------|
+| Dev Push | 2-3 min | ❌ | N/A | Frontend development |
+| PR to Dev | 2-3 min | ❌ | N/A | Code review |
+| PR to Main | 2-3 min + 8-10 min | ✅ (Linux) | Linux x86_64 | Release validation |
+| Main Push | 15-20 min | ✅ (Full) | All platforms | Production release |
+| Docker Build | 5-15 min | ✅ (Linux) | x86_64, ARM64 | Local testing |
+| Docker All | 10-20 min | ✅ (All) | Host + Docker | Complete validation |
 
 ## Summary
 
-The key is to **use natural language** that reflects your intent. Claude will analyze:
-- **What** you're changing (scope)
-- **How** you want it committed (process)
-- **When** you need it deployed (urgency)
+The system now optimizes for **maximum development velocity** with these key principles:
 
-This system optimizes for **development velocity** while maintaining **release quality** and **resource efficiency**.
+1. **Frontend changes** → Fast CI (2-3 min, no Tauri)
+2. **Backend changes** → Docker testing (5-15 min, local validation)
+3. **Release prep** → PR to main (includes Tauri validation)
+4. **Production** → Push to main (full cross-platform release)
+
+**Key advantages:**
+- ⚡ **Fast feedback** for frontend development
+- 🐳 **Local testing** with Docker for backend changes
+- 🔍 **Validation builds** only when needed (PR to main)
+- 🚀 **Full releases** only for production deployments
+
+This approach **maximizes development velocity** while maintaining **release quality** and **resource efficiency**.

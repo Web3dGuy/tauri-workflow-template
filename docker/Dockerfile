@@ -10,7 +10,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /app
 
 # Install system dependencies (matching GitHub workflow)
-RUN apt-get update && apt-get install -y \
+RUN apt-get update -y \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     # Core build tools
     build-essential \
     curl \
