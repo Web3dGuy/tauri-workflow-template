@@ -121,58 +121,25 @@ function Invoke-LoggedCommand {
     }
     
     try {
-        # Create process for real-time output streaming
-        $psi = New-Object System.Diagnostics.ProcessStartInfo
-        $psi.FileName = $Command
-        $psi.Arguments = $Arguments -join ' '
-        $psi.UseShellExecute = $false
-        $psi.RedirectStandardOutput = $true
-        $psi.RedirectStandardError = $true
-        $psi.CreateNoWindow = $true
+        # Try using Invoke-Expression for better console output streaming
+        # This sometimes bypasses PowerShell's output buffering issues
         
-        $process = New-Object System.Diagnostics.Process
-        $process.StartInfo = $psi
-        
-        # Script blocks for handling output
-        $outputDataReceived = {
-            param($sender, $e)
-            if ($null -ne $e.Data -and $e.Data -ne "") {
-                $line = $e.Data
-                Write-Log $line "OUTPUT"
-                if (-not $Global:Quiet) {
-                    Write-Host $line -ForegroundColor Gray
-                }
-            }
+        if ($Arguments.Count -gt 0) {
+            $argString = $Arguments -join ' '
+            $commandLine = "$Command $argString"
+            Write-Log "Executing: $commandLine" "CMD"
+        } else {
+            $commandLine = $Command
+            Write-Log "Executing: $commandLine" "CMD"
         }
         
-        $errorDataReceived = {
-            param($sender, $e)
-            if ($null -ne $e.Data -and $e.Data -ne "") {
-                $line = $e.Data
-                Write-Log $line "OUTPUT"
-                if (-not $Global:Quiet) {
-                    Write-Host $line -ForegroundColor Yellow
-                }
-            }
-        }
+        # Use Invoke-Expression which can provide better real-time output
+        Invoke-Expression $commandLine
+        $exitCode = $LASTEXITCODE
         
-        # Register event handlers
-        $outputEvent = Register-ObjectEvent -InputObject $process -EventName OutputDataReceived -Action $outputDataReceived
-        $errorEvent = Register-ObjectEvent -InputObject $process -EventName ErrorDataReceived -Action $errorDataReceived
+        Write-Log "Command finished with exit code: $exitCode" "INFO"
         
-        # Start process and begin reading output
-        $process.Start() | Out-Null
-        $process.BeginOutputReadLine()
-        $process.BeginErrorReadLine()
-        
-        # Wait for process to exit
-        $process.WaitForExit()
-        $exitCode = $process.ExitCode
-        
-        # Clean up
-        Unregister-Event -SourceIdentifier $outputEvent.Name
-        Unregister-Event -SourceIdentifier $errorEvent.Name
-        $process.Dispose()
+        if ($null -eq $exitCode) { $exitCode = 0 }
         
         if ($exitCode -eq 0) {
             Write-Log "Command completed successfully (Exit Code: $exitCode)" "SUCCESS"
@@ -183,19 +150,9 @@ function Invoke-LoggedCommand {
         }
     } catch {
         Write-Log "Command exception: $($_.Exception.Message)" "ERROR"
-        # Fallback to simple execution
-        Write-Warning "Falling back to simple command execution"
-        try {
-            if ($Arguments.Count -gt 0) {
-                & $Command @Arguments
-            } else {
-                & $Command
-            }
-            $exitCode = $LASTEXITCODE
-            return $exitCode -eq 0
-        } catch {
-            return $false
-        }
+        Write-ErrorMsg "Failed to execute command: $fullCommand"
+        Write-ErrorMsg "Exception: $($_.Exception.Message)"
+        return $false
     }
 }
 
@@ -264,6 +221,7 @@ function Build-DockerImage {
         
         $buildArgs = @(
             "build",
+            "--progress=plain",
             "--platform", $platform,
             "-t", $dockerImage,
             "-f", $dockerFile,
